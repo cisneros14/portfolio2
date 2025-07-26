@@ -181,9 +181,9 @@ export default function HeroGeometric() {
             borderColor: "border-purple-200/20 dark:border-purple-800/20",
         },
         {
-            category: "Database",
+            category: "CMS",
             icon: Database,
-            skills: ["PostgreSQL", "MongoDB", "Redis", "Supabase"],
+            skills: ["WordPress", "Elementor", "WooCommerce", "Custom Themes"],
             gradient: "from-pink-500 to-rose-600",
             bgGradient: "from-pink-50 to-rose-50 dark:from-pink-950/50 dark:to-rose-950/50",
             borderColor: "border-pink-200/20 dark:border-pink-800/20",
@@ -191,7 +191,7 @@ export default function HeroGeometric() {
         {
             category: "E-commerce",
             icon: ShoppingBag,
-            skills: ["Shopify", "Hydrogen", "Oxygen", "Stripe"],
+            skills: ["Shopify", "Hydrogen", "Oxygen"],
             gradient: "from-rose-500 to-orange-600",
             bgGradient: "from-rose-50 to-orange-50 dark:from-rose-950/50 dark:to-orange-950/50",
             borderColor: "border-rose-200/20 dark:border-rose-800/20",
@@ -199,7 +199,7 @@ export default function HeroGeometric() {
         {
             category: "Automation",
             icon: Zap,
-            skills: ["n8n", "Make", "Zapier", "Workflows"],
+            skills: ["n8n", "Make", "Workflows"],
             gradient: "from-orange-500 to-yellow-600",
             bgGradient: "from-orange-50 to-yellow-50 dark:from-orange-950/50 dark:to-yellow-950/50",
             borderColor: "border-orange-200/20 dark:border-orange-800/20",
@@ -207,7 +207,7 @@ export default function HeroGeometric() {
         {
             category: "Deployment",
             icon: Globe,
-            skills: ["Vercel", "AWS", "Docker", "CI/CD"],
+            skills: ["Vercel"],
             gradient: "from-yellow-500 to-green-600",
             bgGradient: "from-yellow-50 to-green-50 dark:from-yellow-950/50 dark:to-green-950/50",
             borderColor: "border-yellow-200/20 dark:border-yellow-800/20",
@@ -283,7 +283,7 @@ export default function HeroGeometric() {
                             <motion.div variants={itemVariants} className="mb-6 sm:mb-8">
                                 <Badge
                                     variant="outline"
-                                    className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-purple-200/60 dark:border-purple-800/60 shadow-sm text-slate-600 dark:text-white"
+                                    className="inline-flex items-center gap-2 px-4 py-2 text-xs font-medium bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-purple-200/60 dark:border-purple-800/60 shadow-sm text-slate-600 dark:text-white"
                                 >
                                     <Sparkles className="w-4 h-4 text-purple-600 dark:text-purple-400" />
                                     Available for new projects
@@ -292,7 +292,7 @@ export default function HeroGeometric() {
 
                             {/* Name & Title */}
                             <motion.div variants={itemVariants} className="mb-6 sm:mb-8">
-                                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight mb-4 sm:mb-6">
+                                <h1 className="text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight mb-4 sm:mb-6">
                                     <span className="bg-gradient-to-r from-slate-900 via-purple-900 to-violet-900 dark:from-white dark:via-purple-100 dark:to-violet-100 bg-clip-text text-transparent">
                                         Carlos
                                     </span>

@@ -23,7 +23,7 @@ export default function ThemeToggle({ className, children }: { className?: strin
       tabIndex={0}
       onClick={toggleTheme}
       aria-label="Cambiar tema"
-      className={`fixed top-4 border dark:border-white/20 border-gray-200 bg-white dark:bg-black right-4 z-50 cursor-pointer flex items-center justify-center gap-3 rounded-md p-3 transition-colors ${className || ""}`}
+      className={`fixed bottom-5 border dark:border-white/20 border-gray-200 bg-white dark:bg-black right-5 z-50 cursor-pointer flex items-center justify-center gap-3 rounded-md p-3 transition-colors ${className || ""}`}
       style={{ pointerEvents: "auto" }}
     >
       <AnimatePresence mode="wait" initial={false}>
