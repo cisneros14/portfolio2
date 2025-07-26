@@ -322,7 +322,7 @@ export default function HeroGeometric() {
                                 <Button
                                     asChild
                                     size="lg"
-                                    className="group bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 px-8 py-2 text-base sm:text-lg rounded-xl h-auto"
+                                    className="group bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 px-8 py-2 text-base sm:text-lg rounded-xl h-auto animate-bounce"
                                 >
                                     <a
                                         href="https://tresore.store"
@@ -338,7 +338,7 @@ export default function HeroGeometric() {
                                 <Button
                                     variant="outline"
                                     size="lg"
-                                    className="px-8 py-2 sm:text-lg text-sm rounded-xl h-auto border dark:text-white hover:bg-purple-50 dark:hover:bg-purple-950/50 transition-all duration-300 bg-background"
+                                    className="px-8 cursor-pointer py-2 sm:text-lg text-sm rounded-xl h-auto border dark:text-white hover:bg-purple-50 dark:hover:bg-purple-950/50 transition-all duration-300 bg-background"
                                 >
                                     <Mail className="w-5 h-5 mr-3" />
                                     Get In Touch
@@ -351,21 +351,21 @@ export default function HeroGeometric() {
                                     {[
                                         {
                                             icon: Mail,
-                                            href: "mailto:carlos@email.com",
+                                            href: "mailto:cisnerosgranda14@gmail.com",
                                             label: "Email",
                                             hoverColor:
                                                 "hover:bg-purple-100 dark:hover:bg-purple-900/50 hover:text-purple-600 dark:hover:text-purple-400",
                                         },
                                         {
                                             icon: Github,
-                                            href: "https://github.com/carloscisneros",
+                                            href: "https://github.com/cisneros14",
                                             label: "GitHub",
                                             hoverColor:
                                                 "hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100",
                                         },
                                         {
                                             icon: Linkedin,
-                                            href: "https://linkedin.com/in/carloscisneros",
+                                            href: "https://www.linkedin.com/in/carlos-cisneros-granda-059469230/",
                                             label: "LinkedIn",
                                             hoverColor:
                                                 "hover:bg-blue-100 dark:hover:bg-blue-900/50 hover:text-blue-600 dark:hover:text-blue-400",
@@ -444,7 +444,7 @@ export default function HeroGeometric() {
                     <Button
                         variant="outline"
                         size="lg"
-                        className="px-8 py-2 sm:text-lg text-sm rounded-xl h-auto border dark:text-white hover:bg-purple-50 dark:hover:bg-purple-950/50 transition-all duration-300 bg-background"
+                        className="px-8 py-2 cursor-pointer sm:text-lg text-sm rounded-xl h-auto border dark:text-white hover:bg-purple-50 dark:hover:bg-purple-950/50 transition-all duration-300 bg-background"
                     >
                         <Mail className="w-5 h-5 mr-3" />
                         Get In Touch
