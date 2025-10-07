@@ -1,5 +1,6 @@
-"use client"
 
+"use client"
+import { PinContainer } from '@/components/ui/shadcn-io/3d-pin';
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -16,8 +17,30 @@ import {
     Zap,
     Database,
     Globe,
+    ExternalLink,
+    Twitter,
+    MapPin,
+    HomeIcon,
+    SunMoon,
+    ScrollText,
+    Activity,
+    Component,
+    Package,
+    MailIcon,
+    Languages,
 } from "lucide-react"
-import ThemeToggle from "@/app/ThemeToggle"
+import ThemeToggle from "@/app/[locale]/ThemeToggle"
+import { useTranslations } from 'next-intl';
+import { Dock, DockIcon, DockItem, DockLabel } from '@/components/ui/shadcn-io/dock/index';
+import Link from "next/link"
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+import { AnimatePresence } from "framer-motion";
+import { Separator } from "@radix-ui/react-separator"
+import React from "react"
+
+
 
 // Utilidad cn para concatenar clases
 function cn(...classes: (string | undefined | false | null)[]) {
@@ -129,6 +152,7 @@ function ElegantShape({
 }
 
 export default function HeroGeometric() {
+    const t = useTranslations();
     const { scrollY } = useScroll()
 
     // Transformaciones para las animaciones de scroll
@@ -214,6 +238,62 @@ export default function HeroGeometric() {
         },
     ]
 
+
+
+
+    const data = [
+        {
+            title: 'Home',
+            icon: (
+                <HomeIcon className='h-full w-full text-neutral-600 dark:text-neutral-300' />
+            ),
+            href: '#',
+        },
+        {
+            title: 'Products',
+            icon: (
+                <Package className='h-full w-full text-neutral-600 dark:text-neutral-300' />
+            ),
+            href: '#',
+        },
+        {
+            title: 'Components',
+            icon: (
+                <Component className='h-full w-full text-neutral-600 dark:text-neutral-300' />
+            ),
+            href: '#',
+        },
+    ];
+
+    const socialData = [
+        {
+            icon: Github,
+            href: 'https://github.com/cisneros14',
+            label: 'GitHub',
+        },
+        {
+            icon: MailIcon,
+            href: 'https://twitter.com/cisneros14',
+            label: 'Correo Electronico',
+        },
+        {
+            icon: Linkedin,
+            href: 'https://linkedin.com/in/cisneros14',
+            label: 'LinkedIn',
+        },
+    ];
+
+    const { setTheme, theme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    if (!mounted) return null;
+
+    const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
+
     return (
         <div className="relative min-h-screen py-10 bg-white dark:bg-slate-950 overflow-hidden">
 
@@ -286,7 +366,7 @@ export default function HeroGeometric() {
                                     className="inline-flex items-center gap-2 px-4 py-2 text-xs font-medium bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-purple-200/60 dark:border-purple-800/60 shadow-sm text-slate-600 dark:text-white"
                                 >
                                     <Sparkles className="w-4 h-4 text-purple-600 dark:text-purple-400" />
-                                    Available for new projects
+                                    {t('available_projects')}
                                 </Badge>
                             </motion.div>
 
@@ -302,15 +382,14 @@ export default function HeroGeometric() {
                                     </span>
                                 </h1>
                                 <p className="text-xl sm:text-2xl lg:text-3xl font-medium text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed">
-                                    Full Stack Developer & Digital Solutions Architect
+                                    {t('role')}
                                 </p>
                             </motion.div>
 
                             {/* Description */}
                             <motion.div variants={itemVariants} className="mb-8 sm:mb-12">
-                                <p className="text-base sm:text-lg lg:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed px-4">
-                                    Crafting exceptional digital experiences through elegant code, innovative automation, and scalable
-                                    e-commerce solutions that drive business growth.
+                                <p className="text-base sm:text-lg lg:text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed px-4">
+                                    {t('hero_description')}
                                 </p>
                             </motion.div>
 
@@ -331,7 +410,7 @@ export default function HeroGeometric() {
                                         className="flex items-center gap-3"
                                     >
                                         <ShoppingBag className="w-5 h-5" />
-                                        View Latest Project
+                                        {t('view_latest_project')}
                                         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
                                     </a>
                                 </Button>
@@ -341,7 +420,7 @@ export default function HeroGeometric() {
                                     className="px-8 cursor-pointer py-2 sm:text-lg text-sm rounded-xl h-auto border dark:text-white hover:bg-purple-50 dark:hover:bg-purple-950/50 transition-all duration-300 bg-background"
                                 >
                                     <Mail className="w-5 h-5 mr-3" />
-                                    Get In Touch
+                                    {t('contact')}
                                 </Button>
                             </motion.div>
 
@@ -399,14 +478,14 @@ export default function HeroGeometric() {
                         <motion.div variants={itemVariants}>
                             <div className="text-center mb-12">
                                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-4">
-                                    Expertise & Technologies
+                                    {t('technologies')}
                                 </h2>
                                 <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                                    Specialized in modern web technologies, automation tools, and scalable solutions
+                                    {t('technologies_desc')}
                                 </p>
                             </div>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 max-w-7xl mx-auto">
                                 {skillsData.map((skill, index) => (
                                     <motion.div key={skill.category} variants={itemVariants} transition={{ delay: index * 0.1 }}>
                                         <Card
@@ -425,8 +504,8 @@ export default function HeroGeometric() {
                                                 {skill.skills.map((tech) => (
                                                     <Badge
                                                         key={tech}
-                                                        variant="secondary"
-                                                        className="text-xs font-medium bg-white/70 dark:bg-zinc-800/90 hover:bg-white/90 dark:hover:bg-slate-800/90 dark:text-white transition-colors duration-200 px-3 py-1 rounded-lg"
+                                                        variant="default"
+                                                        className="text-xs text-gray-800 bg-foreground/10 dark:bg-foreground/60 font-medium transition-colors duration-200 px-3 py-1 rounded-lg"
                                                     >
                                                         {tech}
                                                     </Badge>
@@ -444,13 +523,395 @@ export default function HeroGeometric() {
                     <Button
                         variant="outline"
                         size="lg"
-                        className="px-8 py-2 cursor-pointer sm:text-lg text-sm rounded-xl h-auto border dark:text-white hover:bg-purple-50 dark:hover:bg-purple-950/50 transition-all duration-300 bg-background"
+                        className="group bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 px-8 py-2 text-base sm:text-lg rounded-xl h-auto"
                     >
                         <Mail className="w-5 h-5 mr-3" />
-                        Get In Touch
+                        {t('contact')}
                     </Button>
                 </div>
             </div>
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-20 sm:mt-24 lg:mt-32 relative z-10 shadow-none">
+                <div className="text-center mb-12">
+                    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-4">
+                        {t('experience_projects')}
+                    </h2>
+                    <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+                        {t('experience_projects_desc')}
+                    </p>
+                </div>
+                <motion.div className="shadow-none">
+                    <div className="grid shadow-none grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 h-[800px] md:h-[600px]">
+                        {/* About Me - Tall Card (Top Left) */}
+                        <Card
+                            id="about"
+                            className={cn(
+                                "group relative p-6 h-full bg-gradient-to-br border shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 backdrop-blur-md",
+                                "md:col-span-2 lg:col-span-2 md:row-span-2",
+                                "from-purple-50 to-violet-50 dark:from-purple-950/50 dark:to-violet-950/50",
+                                "border-purple-200/20 dark:border-purple-800/20"
+                            )}
+                        >
+                            <div className="flex flex-col h-full relative z-10">
+                                <div className="flex items-start gap-4 mb-4">
+                                    <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+                                        <span className="text-2xl font-bold font-sans">FM</span>
+                                    </div>
+                                    <div>
+                                        <h2 className="text-xl font-bold text-card-foreground font-sans">{t('about_me')}</h2>
+                                        <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
+                                            <MapPin className="w-4 h-4" />
+                                            <span className="font-sans">{t('about_me_location')}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p className="text-muted-foreground leading-relaxed font-sans flex-1 text-sm">
+                                    {t('about_me_desc')}
+                                </p>
+                                <div className="flex flex-wrap gap-2 mt-4">
+                                    <Badge variant="outline" className="inline-flex items-center gap-2 px-4 py-2 text-xs font-medium bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-purple-200/60 dark:border-purple-800/60 shadow-sm text-slate-600 dark:text-white">
+                                        HubSpot CMS
+                                    </Badge>
+                                    <Badge variant="outline" className="inline-flex items-center gap-2 px-4 py-2 text-xs font-medium bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-purple-200/60 dark:border-purple-800/60 shadow-sm text-slate-600 dark:text-white">
+                                        JavaScript
+                                    </Badge>
+                                    <Badge variant="outline" className="inline-flex items-center gap-2 px-4 py-2 text-xs font-medium bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-purple-200/60 dark:border-purple-800/60 shadow-sm text-slate-600 dark:text-white">
+                                        React
+                                    </Badge>
+                                    <Badge variant="outline" className="inline-flex items-center gap-2 px-4 py-2 text-xs font-medium bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-purple-200/60 dark:border-purple-800/60 shadow-sm text-slate-600 dark:text-white">
+                                        Node.js
+                                    </Badge>
+                                </div>
+                            </div>
+                        </Card>
+
+                        {/* Experience - Medium Card (Top Middle) */}
+                        <Card
+                            id="experience"
+                            className={cn(
+                                "group relative p-6 h-full bg-gradient-to-br border shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 backdrop-blur-md",
+                                "md:col-span-2",
+                                "from-blue-50 to-purple-50 dark:from-blue-950/50 dark:to-purple-950/50",
+                                "border-blue-200/20 dark:border-blue-800/20"
+                            )}
+                        >
+                            <div className="relative z-10">
+                                <h3 className="font-bold text-card-foreground mb-4 font-sans">{t('experience')}</h3>
+                                <div className="space-y-3">
+                                    <div className="flex items-start gap-3">
+                                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                                            <span className="text-xs font-bold font-sans">TC</span>
+                                        </div>
+                                        <div className="flex-1">
+                                            <h4 className="font-semibold text-card-foreground font-sans text-sm">
+                                                {t('senior_fullstack')}
+                                            </h4>
+                                            <p className="text-xs text-muted-foreground font-sans">{t('senior_fullstack_company')}</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-start gap-3">
+                                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                                            <span className="text-xs font-bold font-sans">ST</span>
+                                        </div>
+                                        <div className="flex-1">
+                                            <h4 className="font-semibold text-card-foreground font-sans text-sm">{t('fullstack')}</h4>
+                                            <p className="text-xs text-muted-foreground font-sans">{t('fullstack_company')}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Card>
+
+                        {/* Status - Square Card (Top Right) */}
+                        <Card
+                            className={cn(
+                                "group relative p-6 h-full bg-gradient-to-br border shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 backdrop-blur-md",
+                                "md:col-span-1",
+                                "from-green-50 to-lime-50 dark:from-green-950/50 dark:to-lime-950/50",
+                                "border-green-200/20 dark:border-green-800/20"
+                            )}
+                        >
+                            <div className="relative z-10">
+                                <div className="flex items-center gap-3 mb-4">
+                                    <div className="w-3 h-3 rounded-full bg-primary animate-pulse"></div>
+                                    <h3 className="font-semibold text-card-foreground font-sans">{t('available')}</h3>
+                                </div>
+                                <p className="text-sm text-muted-foreground mb-4 font-sans">{t('open_opportunities')}</p>
+                                <div className="space-y-2">
+                                    <div className="flex justify-between">
+                                        <span className="text-sm text-muted-foreground font-sans">{t('projects')}</span>
+                                        <span className="font-semibold text-card-foreground font-sans">25+</span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span className="text-sm text-muted-foreground font-sans">{t('years_experience')}</span>
+                                        <span className="font-semibold text-card-foreground font-sans">{t('years_value')}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </Card>
+
+                        {/* Social Links - Square Card (Bottom Left) */}
+                        <Card
+                            id="contact"
+                            className={cn(
+                                "group relative p-6 h-full bg-gradient-to-br border shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 backdrop-blur-md",
+                                "md:col-span-1",
+                                "from-pink-50 to-rose-50 dark:from-pink-950/50 dark:to-rose-950/50",
+                                "border-pink-200/20 dark:border-pink-800/20"
+                            )}
+                        >
+                            <div className="relative z-10">
+                                <h3 className="font-semibold text-card-foreground mb-4 font-sans">{t('connect')}</h3>
+                                <div className="space-y-3">
+                                    <a
+                                        href="#"
+                                        className="flex items-center gap-3 text-card-foreground hover hover:translate-x-1 transition-all duration-200"
+                                    >
+                                        <Github className="w-4 h-4" />
+                                        <span className="text-sm font-sans text-muted-foreground">{t('github')}</span>
+                                    </a>
+                                    <a
+                                        href="#"
+                                        className="flex items-center gap-3 text-card-foreground hover hover:translate-x-1 transition-all duration-200"
+                                    >
+                                        <Linkedin className="w-4 h-4" />
+                                        <span className="text-sm font-sans text-muted-foreground">{t('linkedin')}</span>
+                                    </a>
+                                    <a
+                                        href="#"
+                                        className="flex items-center gap-3 text-card-foreground hover hover:translate-x-1 transition-all duration-200"
+                                    >
+                                        <Twitter className="w-4 h-4" />
+                                        <span className="text-sm font-sans text-muted-foreground">{t('twitter')}</span>
+                                    </a>
+                                    <a
+                                        href="#"
+                                        className="flex items-center gap-3 text-card-foreground hover hover:translate-x-1 transition-all duration-200"
+                                    >
+                                        <Mail className="w-4 h-4" />
+                                        <span className="text-sm font-sans text-muted-foreground">{t('email')}</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </Card>
+
+                        {/* Selected Projects - Large Card (Bottom Right) */}
+                        <Card
+                            id="projects"
+                            className={cn(
+                                "group relative p-6 h-full bg-gradient-to-br border shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 backdrop-blur-md",
+                                "md:col-span-2 lg:col-span-2",
+                                "from-yellow-50 to-green-50 dark:from-yellow-950/50 dark:to-green-950/50",
+                                "border-yellow-200/20 dark:border-yellow-800/20"
+                            )}
+                        >
+                            <div className="relative z-10">
+                                <h3 className="font-bold text-card-foreground mb-4 font-sans">{t('selected_projects')}</h3>
+                                <div className="space-y-4">
+                                    <div className="flex items-start justify-between">
+                                        <div className="flex-1">
+                                            <h4 className="font-semibold text-card-foreground font-sans">{t('ecommerce_platform')}</h4>
+                                            <p className="text-sm text-muted-foreground mb-2 font-sans">
+                                                {t('ecommerce_platform_desc')}
+                                            </p>
+                                            <div className="flex flex-wrap gap-1">
+                                                <Badge variant="outline" className="inline-flex items-center gap-2 px-4 py-2 text-xs font-medium bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-purple-200/60 dark:border-purple-800/60 shadow-sm text-slate-600 dark:text-white">
+                                                    React
+                                                </Badge>
+                                                <Badge variant="outline" className="inline-flex items-center gap-2 px-4 py-2 text-xs font-medium bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-purple-200/60 dark:border-purple-800/60 shadow-sm text-slate-600 dark:text-white">
+                                                    Node.js
+                                                </Badge>
+                                                <Badge variant="outline" className="inline-flex items-center gap-2 px-4 py-2 text-xs font-medium bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-purple-200/60 dark:border-purple-800/60 shadow-sm text-slate-600 dark:text-white">
+                                                    PostgreSQL
+                                                </Badge>
+                                            </div>
+                                        </div>
+                                        <Button
+                                            size="sm"
+                                            variant="outline"
+                                            className="ml-3 font-sans bg-transparent hover:bg-primary/10 hover:scale-105 transition-all duration-200 rounded-full"
+                                        >
+                                            <ExternalLink className="w-4 h-4" />
+                                        </Button>
+                                    </div>
+
+                                    <div className="flex items-start justify-between">
+                                        <div className="flex-1">
+                                            <h4 className="font-semibold text-card-foreground font-sans">{t('task_management_app')}</h4>
+                                            <p className="text-sm text-muted-foreground mb-2 font-sans">
+                                                {t('task_management_app_desc')}
+                                            </p>
+                                            <div className="flex flex-wrap gap-1">
+                                                <Badge variant="outline" className="inline-flex items-center gap-2 px-4 py-2 text-xs font-medium bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-purple-200/60 dark:border-purple-800/60 shadow-sm text-slate-600 dark:text-white">
+                                                    Next.js
+                                                </Badge>
+                                                <Badge variant="outline" className="inline-flex items-center gap-2 px-4 py-2 text-xs font-medium bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-purple-200/60 dark:border-purple-800/60 shadow-sm text-slate-600 dark:text-white">
+                                                    TypeScript
+                                                </Badge>
+                                                <Badge variant="outline" className="inline-flex items-center gap-2 px-4 py-2 text-xs font-medium bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-purple-200/60 dark:border-purple-800/60 shadow-sm text-slate-600 dark:text-white">
+                                                    Socket.io
+                                                </Badge>
+                                            </div>
+                                        </div>
+                                        <Button
+                                            size="sm"
+                                            variant="outline"
+                                            className="ml-3 font-sans bg-transparent hover:bg-primary/10 hover:scale-105 transition-all duration-200 rounded-full"
+                                        >
+                                            <ExternalLink className="w-4 h-4" />
+                                        </Button>
+                                    </div>
+                                </div>
+                            </div>
+                        </Card>
+                    </div>
+
+                </motion.div>
+            </div>
+            <div className="container mb-30 mx-auto px-4 sm:px-6 lg:px-8 mt-20 sm:mt-24 lg:mt-32 relative z-10 shadow-none">
+                <div className="text-center mb-12">
+                    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-4">
+                        Ultimos proyectos
+                    </h2>
+                    <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+                        Los proyectos más recientes en los que he trabajado, destacando mis habilidades y experiencia en desarrollo web.
+                    </p>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-18">
+                    <ThreeDPinDemo />
+                    <ThreeDPinDemo />
+                    <ThreeDPinDemo />
+                </div>
+                <motion.div
+                    variants={itemVariants}
+                    className="flex mt-20 flex-col sm:flex-row gap-4 justify-center items-center mb-12 sm:mb-16"
+                >
+                    <Button
+                        asChild
+                        size="lg"
+                        className="group bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 px-8 py-2 text-base sm:text-lg rounded-xl h-auto animate-bounce"
+                    >
+                        <a
+                            href="https://tresore.store"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-3"
+                        >
+                            <ShoppingBag className="w-5 h-5" />
+                            {t('view_latest_project')}
+                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
+                        </a>
+                    </Button>
+                    <Button
+                        variant="outline"
+                        size="lg"
+                        className="px-8 cursor-pointer py-2 sm:text-lg text-sm rounded-xl h-auto border dark:text-white hover:bg-purple-50 dark:hover:bg-purple-950/50 transition-all duration-300 bg-background"
+                    >
+                        <Mail className="w-5 h-5 mr-3" />
+                        {t('contact')}
+                    </Button>
+                </motion.div>
+
+
+            </div>
+
+
+            <div className="fixed bottom-5 mx-auto left-0 right-0 z-40">
+
+                <Dock className='items-end border pb-3 z-50 bg-gradient-to-r !from-purple-100 !to-pink-100/100 dark:!from-purple-950/80 dark:!to-pink-950/80'>
+                    {data.map((item, idx) => (
+                        <Link href={item.href} key={idx}>
+                            <DockItem className='aspect-square rounded-full '>
+                                <DockLabel>{item.title}</DockLabel>
+                                <DockIcon>{item.icon}</DockIcon>
+                            </DockItem>
+                        </Link>
+                    ))}
+                    <Separator orientation="vertical" className="bg-foreground/20 w-[1px] h-10" />
+                    {socialData.map((item, idx) => (
+                        <Link href={item.href} key={idx} target="_blank" rel="noopener noreferrer">
+                            <DockItem className='aspect-square rounded-full '>
+                                <DockLabel>{item.label}</DockLabel>
+                                <DockIcon>{React.createElement(item.icon, { className: "h-full w-full text-neutral-600 dark:text-neutral-300" })}</DockIcon>
+                            </DockItem>
+                        </Link>
+                    ))}
+                    <Separator orientation="vertical" className="bg-foreground/20 w-[1px] h-10" />
+                    <DockItem className="aspect-square cursor-pointer rounded-full ">
+                        <DockLabel>Cambiar idioma</DockLabel>
+                        <DockIcon  >
+                            <Languages className=" " />
+                            <span className="sr-only">Toggle language</span>
+
+                        </DockIcon>
+
+                    </DockItem>
+                    <div onClick={toggleTheme}>
+
+                        <DockItem className="aspect-square cursor-pointer rounded-full ">
+                            <DockLabel>Cambiar Tema</DockLabel>
+                            <DockIcon  >
+                                <AnimatePresence mode="wait" initial={false}>
+                                    {theme === "light" ? (
+                                        <motion.div
+                                            key="sun"
+                                            initial={{ y: -10, opacity: 0 }}
+                                            animate={{ y: 0, opacity: 1 }}
+                                            exit={{ y: 10, opacity: 0 }}
+                                            transition={{ duration: 0.2 }}
+                                        >
+                                            <Sun className=" text-yellow-500 fill-yellow-500" />
+                                        </motion.div>
+                                    ) : (
+                                        <motion.div
+                                            key="moon"
+                                            initial={{ y: 10, opacity: 0 }}
+                                            animate={{ y: 0, opacity: 1 }}
+                                            exit={{ y: -10, opacity: 0 }}
+                                            transition={{ duration: 0.2 }}
+                                        >
+                                            <Moon className=" text-blue-400 fill-blue-400" />
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+
+                                <span className="sr-only">Toggle theme</span>
+
+                            </DockIcon>
+
+                        </DockItem>
+                    </div>
+
+
+
+                </Dock>
+            </div>
         </div>
     )
+}
+
+
+
+function ThreeDPinDemo() {
+    return (
+        <PinContainer
+            className=''
+            title="/ui.shadcn.io"
+            href="https://ui.shadcn.com"
+        >
+            <div className="flex basis-full flex-col tracking-tight sm:basis-1/2 w-[20rem] h-[20rem]">
+                <div className="p-4">
+
+                    <h3 className="max-w-xs !pb-2 !m-0 font-bold text-base">
+                        shadcn/ui
+                    </h3>
+                    <div className="text-base !m-0 !p-0 font-normal">
+                        <span className="text-slate-500">
+                            Beautifully designed components built with Radix UI and Tailwind CSS.
+                        </span>
+                    </div>
+                </div>
+                <div className="flex flex-1 w-full rounded-lg mt-4 bg-gradient-to-br from-violet-500 via-purple-500 to-blue-500" />
+            </div>
+        </PinContainer>
+    );
 }
