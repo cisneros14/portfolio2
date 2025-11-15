@@ -5,17 +5,24 @@ import GhostPageComponent from './GhostPageComponent';
 
 // Generar parámetros estáticos para miles de páginas
 export async function generateStaticParams() {
-  // Generar 50 slugs únicos para páginas fantasma (prueba inicial)
-  const slugs = generateGhostSlugs(50);
-  
-  const locales = ['es', 'en'];
   const params: { locale: string; slug: string }[] = [];
   
-  // Crear combinaciones de locale y slug
-  for (const locale of locales) {
-    for (const slug of slugs) {
-      params.push({ locale, slug });
+  // Solo cargar contenido español por ahora (ya que tenemos los archivos batch)
+  try {
+    for (let i = 1; i <= 11; i++) {
+      try {
+        const batch = await import(`@/data/ghost-content/es/batch-${i}.json`);
+        const content = batch.default;
+        
+        for (const item of content) {
+          params.push({ locale: 'es', slug: item.slug });
+        }
+      } catch (e) {
+        console.log(`Batch ${i} not found`);
+      }
     }
+  } catch (error) {
+    console.error('Error loading batch files:', error);
   }
   
   return params;

@@ -285,6 +285,33 @@ export async function generateGhostPageContent(
 // Cache para evitar regenerar contenido
 const contentCache = new Map<string, GhostPageContent>();
 
+// Cargar contenido pre-generado desde archivos JSON
+let preGeneratedContent: GhostPageContent[] | null = null;
+
+async function loadPreGeneratedContent(locale: string): Promise<GhostPageContent[]> {
+  if (preGeneratedContent) {
+    return preGeneratedContent;
+  }
+  
+  try {
+    const allContent: GhostPageContent[] = [];
+    // Cargar los 11 archivos batch
+    for (let i = 1; i <= 11; i++) {
+      try {
+        const batch = await import(`@/data/ghost-content/${locale}/batch-${i}.json`);
+        allContent.push(...batch.default);
+      } catch (e) {
+        console.log(`Batch ${i} not found for locale ${locale}`);
+      }
+    }
+    preGeneratedContent = allContent;
+    return allContent;
+  } catch (error) {
+    console.error('Error loading pre-generated content:', error);
+    return [];
+  }
+}
+
 export async function getCachedGhostContent(slug: string, locale: string): Promise<GhostPageContent> {
   const cacheKey = `${slug}-${locale}`;
   
@@ -292,6 +319,16 @@ export async function getCachedGhostContent(slug: string, locale: string): Promi
     return contentCache.get(cacheKey)!;
   }
   
+  // Intentar cargar contenido pre-generado primero
+  const preGenerated = await loadPreGeneratedContent(locale);
+  const existingContent = preGenerated.find(c => c.slug === slug);
+  
+  if (existingContent) {
+    contentCache.set(cacheKey, existingContent);
+    return existingContent;
+  }
+  
+  // Si no existe pre-generado, generar con IA (fallback)
   const content = await generateGhostPageContent(slug, locale);
   contentCache.set(cacheKey, content);
   
