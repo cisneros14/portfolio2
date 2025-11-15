@@ -1,36 +1,222 @@
 {
-  "available_projects": "Available for new projects",
-  "fullname": "Carlos Cisneros",
-  "role": "Full Stack Developer & Digital Solutions Architect",
-  "hero_description": "Crafting exceptional digital experiences through elegant code, innovative automation, and scalable e-commerce solutions that drive business growth.",
-  "view_latest_project": "View Latest Project",
-  "contact": "Get In Touch",
-  "technologies": "Technologies",
-  "technologies_desc": "Specialized in modern web technologies, automation tools, and scalable solutions",
-  "experience_projects": "Experience & Projects",
-  "experience_projects_desc": "A snapshot of my professional journey and selected works",
-  "about_me": "About Me",
-  "about_me_location": "Philippines",
-  "about_me_desc": "I'm Felix Macaspac, a passionate HubSpot CMS developer from the Philippines with 5 years of experience building scalable web applications and custom CMS solutions. I specialize in HubSpot development, creating seamless user experiences and optimizing content management workflows. When I'm not coding, you'll find me exploring new web technologies and contributing to the developer community.",
-  "experience": "Experience",
-  "senior_fullstack": "Senior Full Stack Developer",
-  "senior_fullstack_company": "TechCorp Inc. • 2022 - Present",
-  "fullstack": "Full Stack Developer",
-  "fullstack_company": "StartupXYZ • 2020 - 2022",
+  "available_projects": "Agility — Software Development Agency",
+  "fullname": "Agility Software Factory",
+  "role": "Turn your website into an automated sales machine that works while you sleep",
+ "hero_description": "Is your website not generating clients? We help you turn visitors into sales, automate processes, and build a predictable revenue stream. No complexity, no losses — measurable results in under 60 days.",
+  "you_know": "Did you know that over 80% of companies lose potential clients because their website isn’t optimized to sell? It’s a silent problem that drains money every single month.",
+    "view_latest_project": "See real success stories",
+  "contact": "Let's talk about your project",
+  "request_quote": "Get your free growth plan",
+  "technologies_badge": "Cutting-edge technology",
+  "technologies": "Technology that delivers results",
+  "technologies_list": {
+    "tec1": "Interfaces that sell",
+    "tec2": "Robust systems",
+    "tec3": "Full content control",
+    "tec4": "Automated sales",
+    "tec5": "Hands-free processes",
+    "tec6": "Scalable databases"
+  },
+  "technologies_desc": "Proven tools that ensure speed, security, and zero downtime for your business",
+  "experience_badge": "Experience that drives growth",
+  "experience_projects": "Why do companies choose us?",
+  "experience_projects_desc": "We solve the real problem: turning traffic into revenue and manual processes into automatic systems.",
+  "latest_projects": "Proven results",
+  "latest_projects_desc": "Companies that doubled sales, reduced operational costs, and recovered lost hours thanks to systems that work.",
+  "about_me": "The problem we solve",
+  "about_me_location": "Quito, Ecuador",
+  "about_me_desc": "Your competitors are already selling online while you're losing customers. Every day without an optimized system is money slipping away. We eliminate that problem: we build platforms that attract clients, automate sales, and scale your operation without hiring more staff. We don’t make pretty websites that don’t perform. We create digital assets that pay for themselves in under 6 months. Risk-free, with guaranteed results and real support when you need it.",
+  "senior_fullstack": "Our promise",
+  "senior_fullstack_company": "Your investment in software should generate returns, not headaches. We guarantee systems that increase your sales, reduce operational costs, and give you a true competitive advantage. If you don’t see measurable results in 60 days, we keep working until you do. That simple.",
+  "fullstack": "What makes us different",
+  "fullstack_company": "We don’t sell programming hours. We sell growth. While other agencies deliver code and disappear, we stay until your investment generates the promised return. Your results are our success metric—not how many lines of code we write.",
   "available": "Available",
-  "open_opportunities": "Open to new opportunities",
+  "open_opportunities": "Ready for new projects",
   "projects": "Projects",
-  "years_experience": "Experience",
-  "years_value": "5 years",
+  "projects_data": {
+    "easyClosers": {
+      "title": "Easy Closers",
+      "subtitle": "Real estate CRM designed to multiply lead capture and close more deals."
+    },
+    "holysin": {
+      "title": "Holysin",
+      "subtitle": "Online store optimized for adult products with a smooth shopping experience."
+    },
+    "dash_ecommerce": {
+      "title": "Admin Dashboard",
+      "subtitle": "Fast administrative dashboard to manage CRMs, sales, and operations in real time."
+    }
+  },
+  "years_experience": "Years of experience",
+  "years_value": "6+ years",
   "connect": "Connect",
   "github": "GitHub",
   "linkedin": "LinkedIn",
   "twitter": "Twitter",
   "email": "Email",
-  "selected_projects": "Selected Projects",
-  "ecommerce_platform": "E-Commerce Platform",
-  "ecommerce_platform_desc": "Modern e-commerce platform with React, Node.js, and PostgreSQL featuring payment processing and real-time inventory.",
-  "task_management_app": "Task Management App",
-  "task_management_app_desc": "Collaborative task management with real-time updates, drag-and-drop functionality, and team features.",
-  "copyright": "All rights reserved."
+  "selected_projects": "How we work differently",
+  "ecommerce_platform": "Results first, ego later",
+  "ecommerce_platform_desc": "We don’t sell you expensive tech you don’t need. We build the minimum necessary to generate fast returns, and scale only when the numbers justify it. Your ROI is our obsession.",
+  "task_management_app": "No surprises, no excuses",
+  "task_management_app_desc": "You know exactly how much it costs, how long it takes, and what results to expect. No fine print, no hidden fees, no invented delays. If something goes wrong, we fix it at no extra cost.",
+  "etica3": "Shared success or no deal",
+  "etica3Descrip": "If your project doesn’t generate results, we failed. That’s why we don’t accept every project. We only work with companies that can truly grow with our solutions, because your success is our success.",
+  "copyright": "All rights reserved.",
+  "contact_dialog": {
+    "title": "Contact us",
+    "description": "Choose your preferred communication channel",
+    "channels": {
+      "whatsapp": "WhatsApp",
+      "phone": "Phone",
+      "email": "Email",
+      "facebook": "Facebook",
+      "instagram": "Instagram"
+    },
+    "follow_us_facebook": "Follow us on Facebook",
+    "follow_us_instagram": "Follow us on Instagram",
+    "available_help": "We’re available to help you"
+  },
+  "timeline": {
+    "step": "Phase",
+    "steps": {
+      "step1": {
+        "title": "1. Free diagnosis (opportunity audit)",
+        "description": "We identify exactly where you’re losing money: traffic that doesn’t convert, slow processes, funnel leaks. In 45 minutes you know what’s failing and how much it costs you not to fix it.",
+        "result": "You get: An action plan with real numbers and clear priorities. No fluff."
+      },
+      "step2": {
+        "title": "2. ROI-focused strategy",
+        "description": "We design the minimum viable solution that generates the maximum return. No pretty features that don’t make money. Only what moves the sales needle or reduces operating costs.",
+        "result": "You get: Wireframes and flows optimized for conversion, with clear success metrics."
+      },
+      "step3": {
+        "title": "3. Design that persuades and sells",
+        "description": "We create interfaces based on sales psychology and proven A/B tests. Every element is designed to guide the user toward the desired action: buy, register, contact.",
+        "result": "You get: A tested design that reduces friction and multiplies conversions."
+      },
+      "step4": {
+        "title": "4. Agile development with early deliveries",
+        "description": "We build in short sprints. You see real progress every week and can adjust before investing more. No waiting 3 months to see something. Fast results, constant iteration.",
+        "result": "You get: A functional, fast platform ready to scale as your sales grow."
+      },
+      "step5": {
+        "title": "5. Validation with real users",
+        "description": "We test with real customers before the official launch. We fix what doesn’t work and optimize what does. Zero blind launches.",
+        "result": "You get: Total confidence that your investment will deliver the expected return."
+      },
+      "step6": {
+        "title": "6. Conversion-optimized launch",
+        "description": "We launch with perfect technical SEO, optimized speed, and full metric tracking. From day one you know exactly how much each traffic source is generating.",
+        "result": "You get: Your system running, generating leads or sales from week one."
+      },
+      "step7": {
+        "title": "7. Continuous data-driven optimization",
+        "description": "We monitor results, adjust what doesn’t convert, and scale what works. Your platform improves every month, instead of stagnating like your competitors’ websites.",
+        "result": "You get: Sustainable growth, proactive updates, and real support when needed."
+      }
+    }
+  },
+  "services": {
+    "badge": "Problems we solve",
+    "title_part1": "Stop losing money because of",
+    "title_part2": "systems that don’t work",
+    "description": "Your website doesn’t generate clients. Your sales process is manual and slow. Your competitors are pulling ahead. We fix that with proven systems that turn traffic into real revenue while cutting operational costs by up to 60%."
+  },
+  "metrics": {
+    "badge": "Real numbers, not promises",
+    "title_part1": "Here’s what",
+    "title_part2": "our clients achieve",
+    "description": "While your competitors keep paying for traffic that doesn’t convert, our clients double their sales without increasing their budget. These are the real results from companies like yours that stopped wasting money on marketing and started investing in systems that work.",
+    "sales_increase": "Revenue increase",
+    "sales_increase_value": "+167%",
+    "sales_increase_desc": "Average growth in the first 6 months without increasing budget",
+    "conversion_rate": "Real conversion",
+    "conversion_rate_value": "3.8%",
+    "conversion_rate_desc": "Visitors turning into paying clients (vs. 1.2% industry average)",
+    "average_roi": "Guaranteed return",
+    "average_roi_value": "250%",
+    "average_roi_desc": "Every dollar invested generates $4.50 in the first 180 days",
+    "satisfied_clients": "Contract renewal",
+    "satisfied_clients_value": "88%",
+    "satisfied_clients_desc": "Clients who renew because they see real results, not promises",
+    "sales_growth_chart": "Before vs. After",
+    "sales_growth_chart_desc": "Real sales impact after implementing our systems",
+    "conversion_chart": "Monthly conversion",
+    "conversion_chart_desc": "How your closing rate evolves with continuous optimization",
+    "client_growth_chart": "New clients each month",
+    "client_growth_chart_desc": "Sustained client growth without increasing ad spend",
+    "cta_title": "Your competitors are already growing. When will you start?",
+    "cta_description": "Book a free audit and discover exactly how much money you’re losing every month by not having an optimized system.",
+    "chart_before": "Before Agility",
+    "chart_after": "After Agility"
+  },
+  "process": {
+    "badge": "How we transform your business",
+    "title_part1": "From the initial audit",
+    "title_part2": "to sustained growth",
+    "description": "Zero improvisation. Zero delays. Zero surprises. A proven process used in 50+ projects that turns your investment into measurable results in under 60 days. You see progress every week, not each quarter.",
+    "cta_title": "Every day you wait, your competitors move ahead",
+    "cta_description": "Book your free audit now and discover how much money you're leaving on the table by not having an optimized system. No commitment, just real numbers."
+  },
+  "contact_dialog_title": "Contact us",
+  "contact_dialog_description": "Choose your preferred communication channel",
+  "contact_whatsapp": "WhatsApp",
+  "contact_phone": "Phone",
+  "contact_email": "Email",
+  "contact_facebook": "Facebook",
+  "contact_instagram": "Instagram",
+  "contact_follow_facebook": "Follow us on Facebook",
+  "contact_follow_instagram": "Follow us on Instagram",
+  "contact_available_help": "We’re available to help you",
+  "timeline_step": "Step",
+  "timeline_step1_title": "Initial Meeting and Analysis",
+  "timeline_step1_description": "We discuss your business and objectives",
+  "timeline_step2_title": "Proposal and Project Structure",
+  "timeline_step2_description": "We create a visual and functional proposal",
+  "timeline_step3_title": "Visual Design",
+  "timeline_step3_description": "We design the interface using your brand identity",
+  "timeline_step4_title": "Development and Programming",
+  "timeline_step4_description": "We turn the design into a fully functional site",
+  "timeline_step5_title": "Review and Adjustments",
+  "timeline_step5_description": "We refine everything until it's perfect",
+  "timeline_step6_title": "Publication (Launch)",
+  "timeline_step6_description": "We prepare everything for the site to go live",
+  "timeline_step7_title": "Maintenance and Optimization",
+  "timeline_step7_description": "We provide ongoing support and improvements",
+  "services_badge": "Services we offer",
+  "projects_badge": "Recent Projects",
+  "services_title_part1": "Digital solutions that",
+  "services_title_part2": "deliver results",
+  "services_description": "We build digital assets that work for your business 24/7",
+  "theme_toggle": "Toggle Theme",
+  "services_data": {
+    "landing_pages": {
+      "title": "Landing Pages that sell while you sleep",
+      "description": "94% of landing pages don’t convert because they’re not designed to sell. Yours will be different: proven structure, persuasive copy, and action-driven design. Result: more clients with the same traffic."
+    },
+    "strategic_websites": {
+      "title": "Websites that build authority (and sales)",
+      "description": "If your website doesn’t convey professional trust, you lose clients before they even meet you. We build sites that position your brand as the obvious choice, eliminate objections, and turn visitors into buyers."
+    },
+    "ecommerce": {
+      "title": "eCommerce that sells 24/7 without intervention",
+      "description": "Stop losing sales to complicated processes. We build stores with optimized checkout, frictionless payments, and proven conversion-driven UX. Your customers buy easily, you get paid automatically."
+    },
+    "automation": {
+      "title": "Automations that give you your time back",
+      "description": "Losing 15 hours a week to repetitive tasks? We automate sales, follow-ups, delivery, and reporting. Your team focuses on growth, not on copying and pasting. Operational cost reduction of 40–60%."
+    },
+    "custom_systems": {
+      "title": "Custom systems that scale with you",
+      "description": "Generic solutions don’t solve specific problems. We build exact tools for your operation: removing bottlenecks, giving visibility into critical data, and preparing you to scale without chaos."
+    },
+    "conversion_optimization": {
+      "title": "We rescue websites that don’t convert",
+      "description": "You have traffic but no sales. The problem isn’t the ads—it’s your site. We audit, identify leaks, and optimize every element until your conversion doubles. Same budget, twice the results."
+    },
+    "tool_integration": {
+      "title": "Integrations that unify your operation",
+      "description": "Manually copying data between systems? Time-consuming and error-prone. We connect your tools (CRM, payments, email, ads) so they communicate seamlessly. Everything synchronized, zero manual work."
+    }
+  }
 }

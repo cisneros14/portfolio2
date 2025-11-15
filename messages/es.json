@@ -1,36 +1,222 @@
 {
-  "available_projects": "Disponible para nuevos proyectos",
-  "fullname": "Carlos Cisneros",
-  "role": "Desarrollador Full Stack & Arquitecto de Soluciones Digitales",
-  "hero_description": "Creando experiencias digitales excepcionales mediante código elegante, automatización innovadora y soluciones e-commerce escalables que impulsan el crecimiento de negocios.",
-  "view_latest_project": "Ver último proyecto",
-  "contact": "Contactar",
-  "technologies": "Tecnologías",
-  "technologies_desc": "Especializado en tecnologías web modernas, herramientas de automatización y soluciones escalables",
-  "experience_projects": "Experiencia y Proyectos",
-  "experience_projects_desc": "Un vistazo a mi trayectoria profesional y trabajos seleccionados",
-  "about_me": "Sobre mí",
-  "about_me_location": "Filipinas",
-  "about_me_desc": "Soy Felix Macaspac, un apasionado desarrollador de HubSpot CMS de Filipinas con 5 años de experiencia construyendo aplicaciones web escalables y soluciones CMS personalizadas. Me especializo en desarrollo HubSpot, creando experiencias de usuario fluidas y optimizando flujos de trabajo de gestión de contenido. Cuando no estoy programando, me encontrarás explorando nuevas tecnologías web y contribuyendo a la comunidad de desarrolladores.",
-  "experience": "Experiencia",
-  "senior_fullstack": "Desarrollador Full Stack Senior",
-  "senior_fullstack_company": "TechCorp Inc. • 2022 - Actualidad",
-  "fullstack": "Desarrollador Full Stack",
-  "fullstack_company": "StartupXYZ • 2020 - 2022",
+  "available_projects": "Agility — Agencia de desarrollo de software",
+  "fullname": "Agility Software Factory",
+  "role": "Convierte tu web en una máquina automática de ventas que trabaja mientras duermes",
+  "hero_description": "¿Tu web no genera clientes? Te ayudamos a convertir visitas en ventas, automatizar procesos y crear un flujo de ingresos predecible. Sin complejidad, sin pérdidas: resultados medibles en menos de 60 días.",
+  "you_know": "¿Sabías que más del 80% de las empresas pierde clientes potenciales porque su sitio web no está optimizado para vender? Es un problema silencioso que drena dinero todos los meses.",
+  "view_latest_project": "Ver casos de éxito reales",
+  "contact": "Hablemos de tu proyecto",
+  "request_quote": "Recibe tu plan de crecimiento gratis",
+    "technologies_badge": "Tecnología de punta",
+  "technologies": "Tecnología que genera resultados",
+  "technologies_list": {
+    "tec1": "Interfaces que venden",
+    "tec2": "Sistemas robustos",
+    "tec3": "Control total de contenido",
+    "tec4": "Ventas automatizadas",
+    "tec5": "Procesos sin intervención",
+    "tec6": "Bases de datos escalables"
+  },
+  "technologies_desc": "Herramientas probadas que garantizan velocidad, seguridad y cero caídas en tu negocio",
+  "experience_badge": "Experiencia que impulsa el crecimiento",
+  "experience_projects": "Por qué nos eligen las empresas?",
+  "experience_projects_desc": "Resolvemos el problema real: convertir tráfico en dinero y procesos manuales en sistemas automáticos.",
+  "latest_projects": "Resultados comprobados",
+  "latest_projects_desc": "Empresas que duplicaron ventas, redujeron costos operativos y recuperaron horas perdidas gracias a sistemas que funcionan.",
+  "about_me": "El problema que resolvemos",
+  "about_me_location": "Quito, Ecuador",
+  "about_me_desc": "Tu competencia ya está vendiendo online mientras tú pierdes clientes. Cada día sin un sistema optimizado es dinero que dejas ir. Nosotros eliminamos ese problema: construimos plataformas que captan clientes, automatizan ventas y escalan tu operación sin contratar más personal. No hacemos webs bonitas que no sirven. Creamos activos digitales que pagan su inversión en menos de 6 meses. Sin riesgo, con garantía de resultados y soporte real cuando lo necesitas.",
+  "senior_fullstack": "Nuestra promesa",
+  "senior_fullstack_company": "Tu inversión en software debe generar retorno, no dolores de cabeza. Garantizamos sistemas que aumentan tus ventas, reducen costos operativos y te dan ventaja competitiva real. Si en 60 días no ves resultados medibles, seguimos trabajando hasta que los veas. Así de simple.",
+  "fullstack": "Lo que nos diferencia",
+  "fullstack_company": "No vendemos horas de programación. Vendemos crecimiento. Mientras otras agencias entregan código y desaparecen, nosotros nos quedamos hasta que tu inversión genere el retorno prometido. Tus resultados son nuestro indicador de éxito, no cuántas líneas escribimos.",
   "available": "Disponible",
-  "open_opportunities": "Abierto a nuevas oportunidades",
+  "open_opportunities": "Listos para nuevos proyectos",
   "projects": "Proyectos",
-  "years_experience": "Experiencia",
-  "years_value": "5 años",
-  "connect": "Contacto",
+  "projects_data": {
+    "easyClosers": {
+      "title": "EasyClosers",
+      "subtitle": "CRM inmobiliario diseñado para multiplicar la captación de leads y cerrar más ventas."
+    },
+    "holysin": {
+      "title": "Holysin",
+      "subtitle": "Tienda online optimizada para ventas de productos para adultos con experiencia de compra fluida."
+    },
+    "dash_ecommerce": {
+      "title": "Admin Dashboard",
+      "subtitle": "Dashboard administrativo ágil para gestionar CRMs, ventas y operaciones en tiempo real."
+    }
+  },
+  "years_experience": "Años de experiencia",
+  "years_value": "6+ años",
+  "connect": "Conectar",
   "github": "GitHub",
   "linkedin": "LinkedIn",
   "twitter": "Twitter",
   "email": "Correo",
-  "selected_projects": "Proyectos Seleccionados",
-  "ecommerce_platform": "Plataforma E-Commerce",
-  "ecommerce_platform_desc": "Plataforma e-commerce moderna con React, Node.js y PostgreSQL, con procesamiento de pagos e inventario en tiempo real.",
-  "task_management_app": "App de Gestión de Tareas",
-  "task_management_app_desc": "Gestión colaborativa de tareas con actualizaciones en tiempo real, función de arrastrar y soltar, y características para equipos.",
-  "copyright": "Todos los derechos reservados."
+  "selected_projects": "Cómo trabajamos diferente",
+  "ecommerce_platform": "Resultados primero, ego después",
+  "ecommerce_platform_desc": "No te vendemos tecnología cara que no necesitas. Te construimos lo mínimo necesario para generar retorno rápido, y escalamos cuando los números lo justifican. Tu ROI es nuestra obsesión.",
+  "task_management_app": "Cero sorpresas, cero excusas",
+  "task_management_app_desc": "Sabes exactamente cuánto cuesta, cuánto tarda y qué resultados esperar. Sin letra chica, sin costos ocultos, sin retrasos inventados. Si algo sale mal, lo arreglamos sin cobrarte extra.",
+  "etica3": "Éxito compartido o no hay trato",
+  "etica3Descrip": "Si tu proyecto no genera resultados, fallamos nosotros. Por eso no aceptamos todos los proyectos. Solo trabajamos con empresas que realmente pueden crecer con nuestras soluciones, porque tu éxito es el nuestro.",
+  "copyright": "Todos los derechos reservados.",
+  "contact_dialog": {
+    "title": "Contáctanos",
+    "description": "Elige tu canal de comunicación preferido",
+    "channels": {
+      "whatsapp": "WhatsApp",
+      "phone": "Teléfono",
+      "email": "Email",
+      "facebook": "Facebook",
+      "instagram": "Instagram"
+    },
+    "follow_us_facebook": "Síguenos en Facebook",
+    "follow_us_instagram": "Síguenos en Instagram",
+    "available_help": "Estamos disponibles para ayudarte"
+  },
+  "timeline": {
+    "step": "Fase",
+    "steps": {
+      "step1": {
+        "title": "1. Diagnóstico sin costo (auditoría de oportunidades)",
+        "description": "Identificamos exactamente dónde estás perdiendo dinero: tráfico que no convierte, procesos lentos, fugas en el embudo. En 45 minutos sabes qué está fallando y cuánto te cuesta no arreglarlo.",
+        "result": "Obtienes: Un plan de acción con números reales y prioridades claras. Sin fluff."
+      },
+      "step2": {
+        "title": "2. Estrategia enfocada en ROI",
+        "description": "Diseñamos la solución mínima viable que genera el máximo retorno. Nada de funcionalidades bonitas que no generan dinero. Solo lo que mueve la aguja de ventas o reduce costos operativos.",
+        "result": "Obtienes: Wireframes y flujos optimizados para conversión, con métricas claras de éxito."
+      },
+      "step3": {
+        "title": "3. Diseño que persuade y vende",
+        "description": "Creamos interfaces basadas en psicología de ventas y pruebas A/B comprobadas. Cada elemento está pensado para guiar al usuario hacia la acción que queremos: comprar, registrarse, contactar.",
+        "result": "Obtienes: Un diseño probado que reduce fricción y multiplica conversiones."
+      },
+      "step4": {
+        "title": "4. Desarrollo ágil con entregas tempranas",
+        "description": "Construimos en sprints cortos. Ves avances reales cada semana y puedes ajustar antes de invertir más. Nada de esperar 3 meses para ver algo. Resultados rápidos, iteración constante.",
+        "result": "Obtienes: Una plataforma funcional, rápida y lista para escalar cuando crezcan tus ventas."
+      },
+      "step5": {
+        "title": "5. Validación con usuarios reales",
+        "description": "Probamos con clientes reales antes del lanzamiento oficial. Corregimos lo que no funciona y optimizamos lo que sí. Cero lanzamientos a ciegas.",
+        "result": "Obtienes: Confianza total de que tu inversión va a generar el retorno esperado."
+      },
+      "step6": {
+        "title": "6. Lanzamiento optimizado para conversión",
+        "description": "Publicamos con SEO técnico perfecto, velocidad optimizada y tracking completo de métricas. Desde el día uno sabes cuánto genera cada fuente de tráfico.",
+        "result": "Obtienes: Tu sistema funcionando, generando leads o ventas desde la primera semana."
+      },
+      "step7": {
+        "title": "7. Optimización continua basada en datos",
+        "description": "Monitoreamos resultados, ajustamos lo que no convierte y escalamos lo que funciona. Tu plataforma mejora cada mes, no se queda estancada como las de tu competencia.",
+        "result": "Obtienes: Crecimiento sostenido, actualizaciones proactivas y soporte real cuando lo necesitas."
+      }
+    }
+  },
+  "services": {
+    "badge": "Problemas que resolvemos",
+    "title_part1": "Deja de perder dinero por",
+    "title_part2": "sistemas que no funcionan",
+    "description": "Tu web no genera clientes. Tu proceso de ventas es manual y lento. Tu competencia te está superando. Nosotros arreglamos eso con sistemas probados que convierten tráfico en dinero real, mientras reduces costos operativos hasta en un 60%."
+  },
+  "metrics": {
+    "badge": "Números reales, no promesas",
+    "title_part1": "Esto es lo que logran",
+    "title_part2": "nuestros clientes",
+    "description": "Mientras tu competencia sigue pagando por tráfico que no convierte, nuestros clientes duplican ventas sin aumentar presupuesto. Estos son los resultados reales de empresas como la tuya que dejaron de gastar en marketing y empezaron a invertir en sistemas que funcionan.",
+    "sales_increase": "Aumento en ingresos",
+    "sales_increase_value": "+167%",
+    "sales_increase_desc": "Crecimiento promedio en los primeros 6 meses sin aumentar presupuesto",
+    "conversion_rate": "Conversión real",
+    "conversion_rate_value": "3.8%",
+    "conversion_rate_desc": "De visitantes a clientes pagando (vs. 1.2% promedio de la industria)",
+    "average_roi": "Retorno garantizado",
+    "average_roi_value": "250%",
+    "average_roi_desc": "Cada dólar invertido genera $4.50 en los primeros 180 días",
+    "satisfied_clients": "Renovación de contratos",
+    "satisfied_clients_value": "88%",
+    "satisfied_clients_desc": "Clientes que renuevan porque ven resultados reales, no promesas",
+    "sales_growth_chart": "Antes vs. Después",
+    "sales_growth_chart_desc": "Impacto real en ventas tras implementar nuestros sistemas",
+    "conversion_chart": "Conversión mensual",
+    "conversion_chart_desc": "Cómo evoluciona tu tasa de cierre con optimización continua",
+    "client_growth_chart": "Clientes nuevos cada mes",
+    "client_growth_chart_desc": "Crecimiento sostenido de tu base de clientes sin aumentar inversión publicitaria",
+    "cta_title": "Tu competencia ya está creciendo. ¿Cuándo empiezas tú?",
+    "cta_description": "Agenda una auditoría gratuita y descubre exactamente cuánto dinero estás perdiendo cada mes por no tener un sistema optimizado.",
+    "chart_before": "Antes de Agility",
+    "chart_after": "Después de Agility"
+  },
+  "process": {
+    "badge": "Cómo transformamos tu negocio",
+    "title_part1": "De la auditoría inicial",
+    "title_part2": "al crecimiento sostenido",
+    "description": "Cero improvisación. Cero retrasos. Cero sorpresas. Un proceso probado en 50+ proyectos que convierte tu inversión en resultados medibles en menos de 60 días. Ves avances cada semana, no cada trimestre.",
+    "cta_title": "Cada día que esperas, tu competencia avanza",
+    "cta_description": "Agenda tu auditoría gratuita ahora y descubre cuánto dinero estás dejando de ganar por no tener un sistema optimizado. Sin compromiso, solo números reales."
+  },
+  "contact_dialog_title": "Contáctanos",
+  "contact_dialog_description": "Elige tu canal de comunicación preferido",
+  "contact_whatsapp": "WhatsApp",
+  "contact_phone": "Teléfono",
+  "contact_email": "Email",
+  "contact_facebook": "Facebook",
+  "contact_instagram": "Instagram",
+  "contact_follow_facebook": "Síguenos en Facebook",
+  "contact_follow_instagram": "Síguenos en Instagram",
+  "contact_available_help": "Estamos disponibles para ayudarte",
+  "timeline_step": "Paso",
+  "timeline_step1_title": "Reunión Inicial y Análisis",
+  "timeline_step1_description": "Conversamos sobre tu negocio y objetivos",
+  "timeline_step2_title": "Propuesta y Estructura del Proyecto",
+  "timeline_step2_description": "Creamos una propuesta visual y funcional",
+  "timeline_step3_title": "Diseño Visual",
+  "timeline_step3_description": "Diseñamos la interfaz con tu identidad de marca",
+  "timeline_step4_title": "Desarrollo y Programación",
+  "timeline_step4_description": "Convertimos el diseño en un sitio funcional",
+  "timeline_step5_title": "Revisión y Ajustes",
+  "timeline_step5_description": "Realizamos ajustes hasta que todo quede perfecto",
+  "timeline_step6_title": "Publicación (Lanzamiento)",
+  "timeline_step6_description": "Dejamos todo listo para que esté online",
+  "timeline_step7_title": "Mantenimiento y Optimización",
+  "timeline_step7_description": "Ofrecemos soporte y mejoras constantes",
+  "services_badge": "Servicios que ofrecemos",
+  "projects_badge": "Proyectos recientes",
+  "services_title_part1": "Soluciones digitales que",
+  "services_title_part2": "generan resultados",
+  "services_description": "Construimos activos digitales que trabajan para tu negocio 24/7",
+  "theme_toggle": "Cambiar Tema",
+  "services_data": {
+    "landing_pages": {
+      "title": "Landing Pages que venden mientras duermes",
+      "description": "El 94% de las landing pages no convierten porque no están diseñadas para vender. La tuya será diferente: estructura probada, copy persuasivo y diseño enfocado en acción. Resultado: más clientes con el mismo tráfico."
+    },
+    "strategic_websites": {
+      "title": "Sitios que generan autoridad (y ventas)",
+      "description": "Si tu web no transmite confianza profesional, pierdes clientes antes de que te conozcan. Creamos sitios que posicionan tu marca como la opción obvia, eliminan objeciones y convierten visitantes en compradores."
+    },
+    "ecommerce": {
+      "title": "eCommerce que vende 24/7 sin intervención",
+      "description": "Deja de perder ventas por procesos complicados. Construimos tiendas con checkout optimizado, pagos sin fricción y experiencia probada que convierte. Tus clientes compran fácil, tú cobras automáticamente."
+    },
+    "automation": {
+      "title": "Automatizaciones que recuperan tu tiempo",
+      "description": "¿Pierdes 15 horas semanales en tareas repetitivas? Automatizamos ventas, seguimientos, entregas y reportes. Tu equipo se enfoca en crecer, no en copiar y pegar. Reducción de costos operativos del 40-60%."
+    },
+    "custom_systems": {
+      "title": "Sistemas a medida que escalan contigo",
+      "description": "Las soluciones genéricas no resuelven problemas específicos. Creamos herramientas exactas para tu operación: eliminamos cuellos de botella, damos visibilidad de datos críticos y te preparamos para escalar sin caos."
+    },
+    "conversion_optimization": {
+      "title": "Rescatamos webs que no convierten",
+      "description": "Tienes tráfico pero no ventas. El problema no es la publicidad, es tu sitio. Auditamos, identificamos fugas y optimizamos cada elemento hasta duplicar tu conversión. Mismo presupuesto, el doble de resultados."
+    },
+    "tool_integration": {
+      "title": "Integraciones que unifican tu operación",
+      "description": "¿Copias datos manualmente entre sistemas? Pérdida de tiempo y errores costosos. Conectamos tus herramientas (CRM, pagos, email, ads) para que hablen entre sí. Todo sincronizado, cero intervención manual."
+    }
+  }
 }

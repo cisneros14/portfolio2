@@ -38,7 +38,7 @@ export const PinContainer = ({
   return (
     <div
       className={cn(
-        "relative group/pin z-50  cursor-pointer",
+        "relative group/pin z-50  cursor-pointer mt-[-25px] md:mt-0",
         containerClassName
       )}
       onMouseEnter={onMouseEnter}
