@@ -1,5 +1,4 @@
 import React from "react";
-import { Badge } from "@/components/ui/badge";
 import {
     Users,
     Layout,
@@ -11,9 +10,9 @@ import {
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { motion, useScroll, useTransform, useMotionValue } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 
-const getProcessSteps = (t: any) => [
+const getProcessSteps = (t: ReturnType<typeof useTranslations>) => [
     {
         title: t("timeline_step1_title"),
         description: t("timeline_step1_description"),
@@ -169,7 +168,7 @@ export default function ProcessTimeline() {
                 {/* Timeline line */}
                 <div className="absolute left-0 top-4 bottom-0 border-l-2" />
 
-                {processSteps.map(({ title, description, result, icon, gradient }, index) => (
+                {processSteps.map(({ title, description, icon, gradient }, index) => (
                     <div 
                         key={index} 
                         ref={(el) => { stepRefs.current[index] = el; }}
