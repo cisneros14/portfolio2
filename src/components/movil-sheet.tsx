@@ -3,7 +3,6 @@
 import React from 'react'
 import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetFooter } from './ui/sheet'
 import { Button } from './ui/button'
-import { cn } from '../lib/utils'
 import { Package, Component, Github, Mail as MailIcon, Linkedin, Menu } from 'lucide-react'
 import Link from 'next/link'
 

@@ -25,9 +25,9 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { locale: string; slug: string };
+  params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
-  const { locale, slug } = params;
+  const { locale, slug } = await params;
   
   try {
     const content = await getCachedGhostContent(slug, locale);
@@ -122,9 +122,9 @@ export async function generateMetadata({
 export default async function GhostPage({
   params,
 }: {
-  params: { locale: string; slug: string };
+  params: Promise<{ locale: string; slug: string }>;
 }) {
-  const { locale, slug } = params;
+  const { locale, slug } = await params;
   
   try {
     const content = await getCachedGhostContent(slug, locale);
