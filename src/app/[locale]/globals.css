@@ -44,105 +44,97 @@
 These serve as the fallback; there is no separate default.css file. */
 :root {
   --radius: 0.625rem;
-  --navbar-height: 4rem; /* 64px - altura del navbar */
-  
-  /* Colores de marca desde configuración (se establecen dinámicamente en los layouts) */
-  --brand-primary: #1D4ED8;   /* Valor por defecto, se sobrescribe dinámicamente */
-  --brand-secondary: #3B82F6; /* Valor por defecto, se sobrescribe dinámicamente */
-  --brand-accent: #93C5FD;    /* Valor por defecto, se sobrescribe dinámicamente */
-  --brand-success: #10B981;   /* Valor por defecto, se sobrescribe dinámicamente */
-  --brand-warning: #F59E0B;   /* Valor por defecto, se sobrescribe dinámicamente */
-  --brand-error: #EF4444;     /* Valor por defecto, se sobrescribe dinámicamente */
-  --brand-info: #3B82F6;      /* Valor por defecto, se sobrescribe dinámicamente */
-  --shadow-2xs: #3b83f61f;
-  
-  /* Colores del sistema que usan los colores de marca */
+  --navbar-height: 4rem;
+
+  /* Modern Tech Palette - Light Mode */
+  --background: oklch(0.985 0.01 260); /* Very light cool gray/blue */
+  --foreground: oklch(0.15 0.05 260); /* Deep navy */
+
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: oklch(0.15 0.05 260);
+
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: var(--brand-primary);
+  --popover-foreground: oklch(0.15 0.05 260);
+
+  --primary: oklch(0.5 0.25 290); /* Vivid Violet */
   --primary-foreground: oklch(0.985 0 0);
-  --secondary: var(--brand-secondary);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: var(--brand-accent);
+
+  --secondary: oklch(0.7 0.15 220); /* Electric Cyan */
+  --secondary-foreground: oklch(0.15 0.05 260);
+
+  --muted: oklch(0.96 0.01 260);
+  --muted-foreground: oklch(0.55 0.05 260);
+
+  --accent: oklch(0.6 0.2 340); /* Hot Pink/Magenta */
   --accent-foreground: oklch(0.985 0 0);
-  --destructive: var(--brand-error);
+
+  --destructive: oklch(0.6 0.25 25); /* Red */
   --destructive-foreground: oklch(0.985 0 0);
-  --success: var(--brand-success);
-  --success-foreground: oklch(0.985 0 0);
-  --warning: var(--brand-warning);
-  --warning-foreground: oklch(0.985 0 0);
-  --error: var(--brand-error);
-  --error-foreground: oklch(0.985 0 0);
-  --info: var(--brand-info);
-  --info-foreground: oklch(0.985 0 0);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: var(--brand-primary);
-  --chart-1: oklch(0.3211 0 0);
-  --chart-2: oklch(0.4495 0 0);
-  --chart-3: oklch(0.5693 0 0);
-  --chart-4: oklch(0.683 0 0);
-  --chart-5: oklch(0.7921 0 0);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: var(--brand-primary);
+
+  --border: oklch(0.92 0.02 260);
+  --input: oklch(0.92 0.02 260);
+  --ring: oklch(0.5 0.25 290); /* Matches Primary */
+
+  --chart-1: oklch(0.5 0.25 290); /* Violet */
+  --chart-2: oklch(0.7 0.15 220); /* Cyan */
+  --chart-3: oklch(0.6 0.2 340); /* Pink */
+  --chart-4: oklch(0.75 0.15 60); /* Orange/Gold */
+  --chart-5: oklch(0.65 0.2 140); /* Green */
+
+  --sidebar: oklch(0.985 0.01 260);
+  --sidebar-foreground: oklch(0.15 0.05 260);
+  --sidebar-primary: oklch(0.5 0.25 290);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: var(--brand-secondary);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: var(--brand-primary);
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --sidebar-accent: oklch(0.96 0.01 260);
+  --sidebar-accent-foreground: oklch(0.15 0.05 260);
+  --sidebar-border: oklch(0.92 0.02 260);
+  --sidebar-ring: oklch(0.5 0.25 290);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  
-  /* Colores de marca se mantienen iguales en modo oscuro */
-  --primary: var(--brand-primary);
-  --primary-foreground: oklch(0.145 0 0);
-  --secondary: var(--brand-secondary);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: var(--brand-accent);
+  /* Modern Tech Palette - Dark Mode */
+  --background: oklch(0.1 0.05 260); /* Deepest Navy/Black */
+  --foreground: oklch(0.98 0.02 260); /* White with slight cool tint */
+
+  --card: oklch(0.15 0.05 260); /* Lighter Navy */
+  --card-foreground: oklch(0.98 0.02 260);
+
+  --popover: oklch(0.15 0.05 260);
+  --popover-foreground: oklch(0.98 0.02 260);
+
+  --primary: oklch(0.6 0.25 290); /* Brighter Violet for dark mode */
+  --primary-foreground: oklch(0.985 0 0);
+
+  --secondary: oklch(0.7 0.15 220); /* Electric Cyan */
+  --secondary-foreground: oklch(0.1 0.05 260);
+
+  --muted: oklch(0.2 0.05 260);
+  --muted-foreground: oklch(0.7 0.05 260);
+
+  --accent: oklch(0.6 0.2 340); /* Hot Pink/Magenta */
   --accent-foreground: oklch(0.985 0 0);
-  --destructive: var(--brand-error);
+
+  --destructive: oklch(0.6 0.25 25);
   --destructive-foreground: oklch(0.985 0 0);
-  --success: var(--brand-success);
-  --success-foreground: oklch(0.985 0 0);
-  --warning: var(--brand-warning);
-  --warning-foreground: oklch(0.985 0 0);
-  --error: var(--brand-error);
-  --error-foreground: oklch(0.985 0 0);
-  --info: var(--brand-info);
-  --info-foreground: oklch(0.985 0 0);
-  
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: var(--brand-primary);
-  --chart-1: oklch(0.9521 0 0);
-  --chart-2: oklch(0.8576 0 0);
-  --chart-3: oklch(0.7572 0 0);
-  --chart-4: oklch(0.6534 0 0);
-  --chart-5: oklch(0.5452 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: var(--brand-primary);
+
+  --border: oklch(0.25 0.05 260);
+  --input: oklch(0.25 0.05 260);
+  --ring: oklch(0.6 0.25 290);
+
+  --chart-1: oklch(0.6 0.25 290);
+  --chart-2: oklch(0.7 0.15 220);
+  --chart-3: oklch(0.6 0.2 340);
+  --chart-4: oklch(0.75 0.15 60);
+  --chart-5: oklch(0.65 0.2 140);
+
+  --sidebar: oklch(0.15 0.05 260);
+  --sidebar-foreground: oklch(0.98 0.02 260);
+  --sidebar-primary: oklch(0.6 0.25 290);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: var(--brand-secondary);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: var(--brand-primary);
+  --sidebar-accent: oklch(0.2 0.05 260);
+  --sidebar-accent-foreground: oklch(0.98 0.02 260);
+  --sidebar-border: oklch(0.25 0.05 260);
+  --sidebar-ring: oklch(0.6 0.25 290);
 }
 
 @layer base {

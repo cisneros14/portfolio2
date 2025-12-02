@@ -1,7 +1,8 @@
 {
   "available_projects": "Agility — Software Development Agency",
   "fullname": "Agility Software Factory",
-  "role": "Turn your website into an automated sales machine that works while you sleep",
+"role": "Custom software ",
+"role2": "development",
  "hero_description": "Is your website not generating clients? We help you turn visitors into sales, automate processes, and build a predictable revenue stream. No complexity, no losses — measurable results in under 60 days.",
   "you_know": "Did you know that over 80% of companies lose potential clients because their website isn’t optimized to sell? It’s a silent problem that drains money every single month.",
     "view_latest_project": "See real success stories",
@@ -218,5 +219,24 @@
       "title": "Integrations that unify your operation",
       "description": "Manually copying data between systems? Time-consuming and error-prone. We connect your tools (CRM, payments, email, ads) so they communicate seamlessly. Everything synchronized, zero manual work."
     }
-  }
+  },
+  "contact_badge": "Contact Us",
+  "contact_title": "Get a Free Quote",
+  "contact_description": "Ready to transform your digital presence? Fill out the form and we'll get back to you within 24 hours with a custom proposal.",
+  "form_name": "Name",
+  "form_email": "Email",
+  "form_cedula": "ID / Cédula",
+  "form_phone": "Phone Number",
+  "form_message": "Message",
+  "form_submit": "Send Message",
+  "form_placeholder_name": "John Doe",
+  "form_placeholder_email": "john@example.com",
+  "form_placeholder_cedula": "1710034065",
+  "form_placeholder_phone": "0991234567",
+  "form_placeholder_message": "Tell us about your project...",
+  "error_cedula_invalid": "Invalid ID number",
+  "error_phone_invalid": "Invalid phone number",
+  "error_required": "This field is required",
+  "footer_copyright": "All rights reserved.",
+  "footer_company": "Agility Software Factory"
 }

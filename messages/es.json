@@ -1,7 +1,8 @@
 {
   "available_projects": "Agility — Agencia de desarrollo de software",
   "fullname": "Agility Software Factory",
-  "role": "Convierte tu web en una máquina automática de ventas que trabaja mientras duermes",
+  "role": "Desarrollo de software ",
+  "role2": "a medida",
   "hero_description": "¿Tu web no genera clientes? Te ayudamos a convertir visitas en ventas, automatizar procesos y crear un flujo de ingresos predecible. Sin complejidad, sin pérdidas: resultados medibles en menos de 60 días.",
   "you_know": "¿Sabías que más del 80% de las empresas pierde clientes potenciales porque su sitio web no está optimizado para vender? Es un problema silencioso que drena dinero todos los meses.",
   "view_latest_project": "Ver casos de éxito reales",
@@ -218,5 +219,24 @@
       "title": "Integraciones que unifican tu operación",
       "description": "¿Copias datos manualmente entre sistemas? Pérdida de tiempo y errores costosos. Conectamos tus herramientas (CRM, pagos, email, ads) para que hablen entre sí. Todo sincronizado, cero intervención manual."
     }
-  }
+  },
+  "contact_badge": "Contáctanos",
+  "contact_title": "Solicita una Cotización Gratis",
+  "contact_description": "¿Listo para transformar tu presencia digital? Completa el formulario y te responderemos en menos de 24 horas con una propuesta personalizada.",
+  "form_name": "Nombre",
+  "form_email": "Correo Electrónico",
+  "form_cedula": "Cédula / RUC",
+  "form_phone": "Número Celular",
+  "form_message": "Mensaje",
+  "form_submit": "Enviar Mensaje",
+  "form_placeholder_name": "Juan Pérez",
+  "form_placeholder_email": "juan@ejemplo.com",
+  "form_placeholder_cedula": "1710034065",
+  "form_placeholder_phone": "0991234567",
+  "form_placeholder_message": "Cuéntanos sobre tu proyecto...",
+  "error_cedula_invalid": "Número de cédula inválido",
+  "error_phone_invalid": "Número de celular inválido",
+  "error_required": "Este campo es requerido",
+  "footer_copyright": "Todos los derechos reservados.",
+  "footer_company": "Agility Software Factory"
 }

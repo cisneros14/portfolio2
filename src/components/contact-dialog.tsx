@@ -109,12 +109,12 @@ export function ContactDialog({
         </motion.div>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-md bg-black/95 border-purple-500/20 backdrop-blur-xl">
+      <DialogContent className="sm:max-w-md bg-background/95 border-primary/20 backdrop-blur-xl">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-white">
+          <DialogTitle className="text-2xl font-bold text-foreground">
             {t("contact_dialog_title")}
           </DialogTitle>
-          <DialogDescription className="text-gray-400">{t("contact_dialog_description")}</DialogDescription>
+          <DialogDescription className="text-muted-foreground">{t("contact_dialog_description")}</DialogDescription>
         </DialogHeader>
 
         <div className="grid gap-3 py-4">
@@ -130,7 +130,7 @@ export function ContactDialog({
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="group relative overflow-hidden rounded-lg border border-white/10 bg-white/5 p-4 transition-all duration-300 hover:border-white/20 hover:bg-white/10"
+                  className="group relative overflow-hidden rounded-lg border border-border/50 bg-card/50 p-4 transition-all duration-300 hover:border-primary/20 hover:bg-muted/20"
                   onClick={() => setOpen(false)}
                 >
                   {/* Gradient background on hover */}
@@ -148,14 +148,14 @@ export function ContactDialog({
 
                     {/* Text content */}
                     <div className="flex-1">
-                      <h3 className="font-semibold text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:bg-clip-text group-hover:from-white group-hover:to-gray-300 transition-all duration-300">
+                      <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors duration-300">
                         {channel.name}
                       </h3>
-                      <p className="text-sm text-gray-400">{channel.description}</p>
+                      <p className="text-sm text-muted-foreground">{channel.description}</p>
                     </div>
 
                     {/* Arrow indicator */}
-                    <div className="text-gray-400 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-white">
+                    <div className="text-muted-foreground transition-transform duration-300 group-hover:translate-x-1 group-hover:text-foreground">
                       <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
@@ -167,7 +167,7 @@ export function ContactDialog({
           </AnimatePresence>
         </div>
 
-        <div className="text-center text-sm text-gray-500">{t("contact_available_help")}</div>
+        <div className="text-center text-sm text-muted-foreground">{t("contact_available_help")}</div>
       </DialogContent>
     </Dialog>
   )

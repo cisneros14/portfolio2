@@ -68,49 +68,49 @@ const getSkillsData = (t: any) => [
         category: t("technologies_list.tec1"),
         icon: Code2,
         skills: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Shadcn UI"],
-        gradient: "from-blue-500 to-purple-600",
-        bgGradient: "from-blue-50 to-purple-50 dark:from-blue-950/50 dark:to-purple-950/50",
-        borderColor: "border-blue-200/20 dark:border-blue-800/20",
+        gradient: "from-primary to-secondary",
+        bgGradient: "from-primary/5 to-secondary/5 dark:from-primary/10 dark:to-secondary/10",
+        borderColor: "border-primary/20",
     },
     {
         category: t("technologies_list.tec2"),
         icon: Server,
         skills: ["Python", "PHP", "Node.js", "APIs"],
-        gradient: "from-purple-500 to-pink-600",
-        bgGradient: "from-purple-50 to-pink-50 dark:from-purple-950/50 dark:to-pink-950/50",
-        borderColor: "border-purple-200/20 dark:border-purple-800/20",
+        gradient: "from-secondary to-accent",
+        bgGradient: "from-secondary/5 to-accent/5 dark:from-secondary/10 dark:to-accent/10",
+        borderColor: "border-secondary/20",
     },
     {
         category: t("technologies_list.tec3"),
         icon: Database,
         skills: ["WordPress", "Elementor", "WooCommerce", "Custom Themes"],
-        gradient: "from-pink-500 to-rose-600",
-        bgGradient: "from-pink-50 to-rose-50 dark:from-pink-950/50 dark:to-rose-950/50",
-        borderColor: "border-pink-200/20 dark:border-pink-800/20",
+        gradient: "from-accent to-primary",
+        bgGradient: "from-accent/5 to-primary/5 dark:from-accent/10 dark:to-primary/10",
+        borderColor: "border-accent/20",
     },
     {
         category: t("technologies_list.tec4"),
         icon: ShoppingBag,
         skills: ["Shopify", "Hydrogen", "Oxygen"],
-        gradient: "from-rose-500 to-orange-600",
-        bgGradient: "from-rose-50 to-orange-50 dark:from-rose-950/50 dark:to-orange-950/50",
-        borderColor: "border-rose-200/20 dark:border-rose-800/20",
+        gradient: "from-primary to-accent",
+        bgGradient: "from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10",
+        borderColor: "border-primary/20",
     },
     {
         category: t("technologies_list.tec5"),
         icon: Zap,
         skills: ["n8n", "Make", "Workflows"],
-        gradient: "from-orange-500 to-yellow-600",
-        bgGradient: "from-orange-50 to-yellow-50 dark:from-orange-950/50 dark:to-yellow-950/50",
-        borderColor: "border-orange-200/20 dark:border-orange-800/20",
+        gradient: "from-secondary to-primary",
+        bgGradient: "from-secondary/5 to-primary/5 dark:from-secondary/10 dark:to-primary/10",
+        borderColor: "border-secondary/20",
     },
     {
         category: t("technologies_list.tec6"),
         icon: Globe,
         skills: ["Mysql", "PostgreSQL"],
-        gradient: "from-yellow-500 to-green-600",
-        bgGradient: "from-yellow-50 to-green-50 dark:from-yellow-950/50 dark:to-green-950/50",
-        borderColor: "border-yellow-200/20 dark:border-yellow-800/20",
+        gradient: "from-accent to-secondary",
+        bgGradient: "from-accent/5 to-secondary/5 dark:from-accent/10 dark:to-secondary/10",
+        borderColor: "border-accent/20",
     },
 ];
 
@@ -120,43 +120,43 @@ const getServicesData = (t: any) => [
         title: t("services_data.landing_pages.title"),
         description: t("services_data.landing_pages.description"),
         icon: Rocket,
-        gradient: "from-purple-500 to-violet-600",
+        gradient: "from-primary to-secondary",
     },
     {
         title: t("services_data.strategic_websites.title"),
         description: t("services_data.strategic_websites.description"),
         icon: Target,
-        gradient: "from-violet-500 to-fuchsia-600",
+        gradient: "from-secondary to-accent",
     },
     {
         title: t("services_data.ecommerce.title"),
         description: t("services_data.ecommerce.description"),
         icon: ShoppingBag,
-        gradient: "from-fuchsia-500 to-pink-600",
+        gradient: "from-accent to-primary",
     },
     {
         title: t("services_data.automation.title"),
         description: t("services_data.automation.description"),
         icon: Zap,
-        gradient: "from-pink-500 to-rose-600",
+        gradient: "from-primary to-accent",
     },
     {
         title: t("services_data.custom_systems.title"),
         description: t("services_data.custom_systems.description"),
         icon: Settings,
-        gradient: "from-rose-500 to-purple-600",
+        gradient: "from-secondary to-primary",
     },
     {
         title: t("services_data.conversion_optimization.title"),
         description: t("services_data.conversion_optimization.description"),
         icon: TrendingUp,
-        gradient: "from-purple-500 to-indigo-600",
+        gradient: "from-accent to-secondary",
     },
     {
         title: t("services_data.tool_integration.title"),
         description: t("services_data.tool_integration.description"),
         icon: Wrench,
-        gradient: "from-indigo-500 to-blue-600",
+        gradient: "from-primary to-secondary",
     },
 ];
 
@@ -165,19 +165,19 @@ const SOCIAL_LINKS = [
         icon: Mail,
         href: "mailto:cisnerosgranda14@gmail.com",
         label: "Email",
-        hoverColor: "hover:bg-purple-100 dark:hover:bg-purple-900/50 hover:text-purple-600 dark:hover:text-purple-400",
+        hoverColor: "hover:bg-primary/10 hover:text-primary",
     },
     {
         icon: Github,
         href: "https://github.com/cisneros14",
         label: "GitHub",
-        hoverColor: "hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100",
+        hoverColor: "hover:bg-secondary/10 hover:text-secondary",
     },
     {
         icon: Linkedin,
         href: "https://www.linkedin.com/in/carlos-cisneros-granda-059469230/",
         label: "LinkedIn",
-        hoverColor: "hover:bg-blue-100 dark:hover:bg-blue-900/50 hover:text-blue-600 dark:hover:text-blue-400",
+        hoverColor: "hover:bg-accent/10 hover:text-accent",
     },
 ]
 
@@ -515,73 +515,84 @@ function ThreeDPinDemo({
 
 function HeroSection({ t, itemVariants }: { t: any; itemVariants: any }) {
     return (
-        <div className="text-center mb-12 sm:mb-16 lg:mb-20 xl:mb-24 px-4">
-            <motion.div variants={itemVariants} className="mb-5 sm:mb-6 lg:mb-8">
-                <Badge
-                    variant="outline"
-                    className="!text-wrap text-center items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-[0.7rem] sm:text-xs font-medium bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-purple-200/60 dark:border-purple-800/60 shadow-sm text-slate-600 dark:text-white max-w-full inline-flex"
-                >
-                    <Sparkles className="min-w-3.5 min-h-3.5 max-w-3.5 max-h-3.5 sm:min-w-4 sm:min-h-4 sm:max-w-4 sm:max-h-4 text-purple-600 dark:text-purple-400" />
-                    {t("available_projects")}
-                </Badge>
-            </motion.div>
+        <div className="container mx-auto px-4 mb-12 sm:mb-16 lg:mb-20 xl:mb-24 sm:mt-24">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                {/* Left Column: Content */}
+                <div className="flex flex-col items-start text-left order-2 lg:order-1">
+                    <motion.div variants={itemVariants} className="mb-6">
+                        <Badge
+                            variant="outline"
+                            className="!text-wrap items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-[0.7rem] sm:text-xs font-medium bg-background/80 backdrop-blur-sm border-primary/20 shadow-sm text-muted-foreground max-w-full inline-flex"
+                        >
+                            <Sparkles className="min-w-3.5 min-h-3.5 max-w-3.5 max-h-3.5 sm:min-w-4 sm:min-h-4 sm:max-w-4 sm:max-h-4 text-primary" />
+                            {t("available_projects")}
+                        </Badge>
+                    </motion.div>
 
-            <motion.div variants={itemVariants} className="mb-5 sm:mb-6 lg:mb-8">
-                <div className="inline-block rounded-2xl p-1.5 sm:p-2 lg:p-3 mb-3 sm:mb-4 lg:mb-6 relative">
-                    <div
-                        className="absolute inset-0 rounded-4xl pointer-events-none"
-                        style={{
-                            background:
-                                "radial-gradient(circle at 50% 40%, rgba(124,58,237,0.72) 0%, rgba(124,58,237,0.55) 18%, rgba(124,58,237,0.32) 36%, rgba(124,58,237,0.08) 58%, transparent 78%)",
-                            filter: "blur(60px)",
-                            transform: "translateZ(0)",
-                        }}
-                    />
-                    <Image
-                        src="/logo.png"
-                        alt="Agility Logo"
-                        width={400}
-                        height={100}
-                        className="relative w-40 sm:w-48 lg:w-56 mx-auto rounded-full"
-                        style={{
-                            filter: "drop-shadow(0 0 6px rgba(124,58,237,0.6))",
-                        }}
-                    />
+                    <motion.div variants={itemVariants} className="mb-6">
+                        <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-foreground mb-6 leading-[1.1]">
+                            {t("role")}
+                            <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+                                {t("role2")}
+                            </span>
+                        </h1>
+                        <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl leading-relaxed">
+                            {t("hero_description")}
+                        </p>
+                    </motion.div>
+
+                    <motion.div
+                        variants={itemVariants}
+                        className="flex flex-col sm:flex-row gap-4 mt-2 w-full sm:w-auto"
+                    >
+                        <ContactDialog
+                            triggerSize="lg"
+                            triggerClassName="group bg-gradient-to-r from-primary via-accent to-primary text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 px-8 py-3 text-base lg:text-lg rounded-xl flex items-center justify-center w-full sm:w-auto"
+                        >
+                            {t("request_quote")}
+                            <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform duration-200" />
+                        </ContactDialog>
+                        <Button
+                            asChild
+                            size="lg"
+                            className="group w-full sm:w-auto border border-primary bg-transparent hover:bg-primary/20 text-foreground shadow-lg hover:shadow-xl transition-all duration-300 px-8 py-3 text-base lg:text-lg rounded-xl h-auto"
+                        >
+                            <a href="#projects" rel="noopener noreferrer" className="flex items-center justify-center gap-3">
+                                <ShoppingBag className="w-5 h-5" />
+                                {t("view_latest_project")}
+                                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
+                            </a>
+                        </Button>
+                    </motion.div>
                 </div>
-                <p className="text-start md:text-center text-lg sm:text-xl lg:text-2xl xl:text-3xl font-medium text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed px-2">
-                    {t("role")}
-                </p>
-            </motion.div>
 
-            <motion.div variants={itemVariants} className="mb-6 sm:mb-8 lg:mb-10">
-                <p className="text-start md:text-center text-sm sm:text-base lg:text-lg xl:text-xl text-slate-500 dark:text-slate-400 max-w-4xl mx-auto leading-relaxed px-4">
-                    {t("hero_description")}
-                </p>
-            </motion.div>
-
-            <motion.div
-                variants={itemVariants}
-                className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center mb-8 sm:mb-12 lg:mb-14 px-4"
-            >
-                <ContactDialog
-                    triggerSize="lg"
-                    triggerClassName="group bg-gradient-to-r from-purple-600 via-fuchsia-600 to-purple-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base lg:text-lg rounded-xl flex items-center justify-center w-full sm:w-auto"
-                >
-                    {t("request_quote")}
-                    <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 sm:ml-3 group-hover:translate-x-1 transition-transform duration-200" />
-                </ContactDialog>
-                <Button
-                    asChild
-                    size="lg"
-                    className="group w-full sm:w-auto border border-violet-500 bg-transparent hover:bg-violet-500/20 text-foreground shadow-lg hover:shadow-xl transition-all duration-300 px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base lg:text-lg rounded-xl h-auto"
-                >
-                    <a href="#projects" rel="noopener noreferrer" className="flex items-center justify-center gap-2 sm:gap-3">
-                        <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5" />
-                        {t("view_latest_project")}
-                        <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform duration-200" />
-                    </a>
-                </Button>
-            </motion.div>
+                {/* Right Column: Visual */}
+                <div className="relative order-1 lg:order-2 flex justify-center lg:justify-end">
+                    <motion.div 
+                        variants={itemVariants}
+                        className="relative w-full max-w-[400px] lg:max-w-[500px] aspect-square flex items-center justify-center"
+                    >
+                        <div
+                            className="absolute inset-0 rounded-full pointer-events-none opacity-60 dark:opacity-40"
+                            style={{
+                                background:
+                                    "radial-gradient(circle at 50% 50%, rgba(124,58,237,0.4) 0%, rgba(124,58,237,0.1) 50%, transparent 70%)",
+                                filter: "blur(40px)",
+                            }}
+                        />
+                        <div className="relative z-10 p-8 rounded-full bg-background/30 backdrop-blur-xl border border-white/10 shadow-2xl">
+                            <Image
+                                src="/logo.png"
+                                alt="Agility Logo"
+                                width={400}
+                                height={400}
+                                className="w-48 sm:w-64 lg:w-80 h-auto rounded-full drop-shadow-2xl"
+                                priority
+                            />
+                        </div>
+                    </motion.div>
+                </div>
+            </div>
         </div>
     )
 }
@@ -598,15 +609,15 @@ function AboutExperienceSection({ t, itemVariants }: { t: any; itemVariants: any
                 >
                     <Badge
                         variant="outline"
-                        className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-xs font-medium bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-purple-200/60 dark:border-purple-800/60 shadow-sm text-slate-600 dark:text-white mb-5 sm:mb-6"
+                        className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-xs font-medium bg-background/80 backdrop-blur-sm border-primary/20 shadow-sm text-muted-foreground mb-5 sm:mb-6"
                     >
-                        <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-purple-600 dark:text-purple-400" />
+                        <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
                         {t("experience_badge")}
                     </Badge>
-                    <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-slate-900 dark:text-white mb-4 sm:mb-5 lg:mb-6 px-4 leading-tight">
+                    <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-foreground mb-4 sm:mb-5 lg:mb-6 px-4 leading-tight">
                         {t("experience_projects")}
                     </h2>
-                    <p className="text-sm sm:text-base lg:text-lg text-slate-600 dark:text-slate-400 max-w-3xl mx-auto px-4">
+                    <p className="text-sm sm:text-base lg:text-lg text-muted-foreground max-w-3xl mx-auto px-4">
                         {t("experience_projects_desc")}
                     </p>
                 </motion.div>
@@ -619,8 +630,8 @@ function AboutExperienceSection({ t, itemVariants }: { t: any; itemVariants: any
                         className={cn(
                             "group relative p-5 sm:p-6 lg:p-7 h-full bg-gradient-to-br border shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 backdrop-blur-md",
                             "xl:col-span-6 col-span-12 row-span-2",
-                            "from-purple-50 to-violet-50 dark:from-purple-950/50 dark:to-violet-950/50",
-                            "border-purple-200/20 dark:border-purple-800/20",
+                            "from-primary/5 to-secondary/5 dark:from-primary/10 dark:to-secondary/10",
+                            "border-primary/20",
                         )}
                     >
                         <div className="flex flex-col items-start justify-start h-full relative z-10">
@@ -651,7 +662,7 @@ function AboutExperienceSection({ t, itemVariants }: { t: any; itemVariants: any
                                     <Badge
                                         key={tech}
                                         variant="outline"
-                                        className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 text-[0.7rem] sm:text-xs font-medium bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-purple-200/60 dark:border-purple-800/60 shadow-sm text-slate-600 dark:text-white"
+                                        className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 text-[0.7rem] sm:text-xs font-medium bg-background/80 backdrop-blur-sm border-primary/20 shadow-sm text-muted-foreground"
                                     >
                                         {tech}
                                     </Badge>
@@ -666,8 +677,8 @@ function AboutExperienceSection({ t, itemVariants }: { t: any; itemVariants: any
                         className={cn(
                             "group relative p-5 sm:p-6 lg:p-7 h-full bg-gradient-to-br border shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 backdrop-blur-md",
                             "xl:col-span-3 lg:col-span-6 col-span-12",
-                            "from-blue-50 to-purple-50 dark:from-blue-950/50 dark:to-purple-950/50",
-                            "border-blue-200/20 dark:border-blue-800/20",
+                            "from-secondary/5 to-primary/5 dark:from-secondary/10 dark:to-primary/10",
+                            "border-secondary/20",
                         )}
                     >
                         <div className="relative z-10">
@@ -692,8 +703,8 @@ function AboutExperienceSection({ t, itemVariants }: { t: any; itemVariants: any
                         className={cn(
                             "group relative p-5 sm:p-6 h-full bg-gradient-to-br border shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 backdrop-blur-md",
                             "xl:col-span-3 lg:col-span-6 col-span-12",
-                            "from-green-50 to-lime-50 dark:from-green-950/50 dark:to-lime-950/50",
-                            "border-green-200/20 dark:border-green-800/20",
+                            "from-accent/5 to-secondary/5 dark:from-accent/10 dark:to-secondary/10",
+                            "border-accent/20",
                         )}
                     >
                         <div className="relative z-10">
@@ -719,8 +730,8 @@ function AboutExperienceSection({ t, itemVariants }: { t: any; itemVariants: any
                         className={cn(
                             "group relative p-5 sm:p-6 lg:p-7 h-full bg-gradient-to-br border shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 backdrop-blur-md",
                             "xl:col-span-6 col-span-12",
-                            "from-yellow-50 to-green-50 dark:from-yellow-950/50 dark:to-green-950/50",
-                            "border-yellow-200/20 dark:border-yellow-800/20",
+                            "from-secondary/5 to-accent/5 dark:from-secondary/10 dark:to-accent/10",
+                            "border-secondary/20",
                         )}
                     >
                         <div className="relative z-10">
@@ -755,7 +766,7 @@ function AboutExperienceSection({ t, itemVariants }: { t: any; itemVariants: any
             >
                 <ContactDialog
                     triggerSize="lg"
-                    triggerClassName="group bg-gradient-to-r from-purple-600 via-fuchsia-600 to-purple-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base lg:text-lg rounded-xl flex items-center justify-center w-full sm:w-auto"
+                    triggerClassName="group bg-gradient-to-r from-primary via-accent to-primary text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base lg:text-lg rounded-xl flex items-center justify-center w-full sm:w-auto"
                 >
                     {t("request_quote")}
                     <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 sm:ml-3 group-hover:translate-x-1 transition-transform duration-200" />
@@ -763,7 +774,7 @@ function AboutExperienceSection({ t, itemVariants }: { t: any; itemVariants: any
                 <Button
                     asChild
                     size="lg"
-                    className="group w-full sm:w-auto border border-violet-500 bg-transparent hover:bg-violet-500/20 text-foreground shadow-lg hover:shadow-xl transition-all duration-300 px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base lg:text-lg rounded-xl h-auto"
+                    className="group w-full sm:w-auto border border-primary bg-transparent hover:bg-primary/20 text-foreground shadow-lg hover:shadow-xl transition-all duration-300 px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base lg:text-lg rounded-xl h-auto"
                 >
                     <a href="#projects" rel="noopener noreferrer" className="flex items-center justify-center gap-2 sm:gap-3">
                         <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -792,15 +803,15 @@ function TechnologiesSection({ t, itemVariants }: { t: any; itemVariants: any })
                     >
                         <Badge
                             variant="outline"
-                            className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-xs font-medium bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-purple-200/60 dark:border-purple-800/60 shadow-sm text-slate-600 dark:text-white mb-5 sm:mb-6"
+                            className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-xs font-medium bg-background/80 backdrop-blur-sm border-primary/20 shadow-sm text-muted-foreground mb-5 sm:mb-6"
                         >
-                            <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-purple-600 dark:text-purple-400" />
+                            <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
                             {t("technologies_badge")}
                         </Badge>
-                        <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-slate-900 dark:text-white mb-4 sm:mb-5 lg:mb-6 px-4 leading-tight">
+                        <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-foreground mb-4 sm:mb-5 lg:mb-6 px-4 leading-tight">
                             {t("technologies")}
                         </h2>
-                        <p className="text-sm sm:text-base lg:text-lg text-slate-600 dark:text-slate-400 max-w-3xl mx-auto px-4">
+                        <p className="text-sm sm:text-base lg:text-lg text-muted-foreground max-w-3xl mx-auto px-4">
                             {t("technologies_desc")}
                         </p>
                     </motion.div>
@@ -817,7 +828,7 @@ function TechnologiesSection({ t, itemVariants }: { t: any; itemVariants: any })
             >
                 <ContactDialog
                     triggerSize="lg"
-                    triggerClassName="group bg-gradient-to-r from-purple-600 via-fuchsia-600 to-purple-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base lg:text-lg rounded-xl flex items-center justify-center w-full sm:w-auto"
+                    triggerClassName="group bg-gradient-to-r from-primary via-accent to-primary text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base lg:text-lg rounded-xl flex items-center justify-center w-full sm:w-auto"
                 >
                     {t("request_quote")}
                     <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 sm:ml-3 group-hover:translate-x-1 transition-transform duration-200" />
@@ -825,7 +836,7 @@ function TechnologiesSection({ t, itemVariants }: { t: any; itemVariants: any })
                 <Button
                     asChild
                     size="lg"
-                    className="group w-full sm:w-auto border border-violet-500 bg-transparent hover:bg-violet-500/20 text-foreground shadow-lg hover:shadow-xl transition-all duration-300 px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base lg:text-lg rounded-xl h-auto"
+                    className="group w-full sm:w-auto border border-primary bg-transparent hover:bg-primary/20 text-foreground shadow-lg hover:shadow-xl transition-all duration-300 px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base lg:text-lg rounded-xl h-auto"
                 >
                     <a href="#projects" rel="noopener noreferrer" className="flex items-center justify-center gap-2 sm:gap-3">
                         <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -850,15 +861,15 @@ function ProjectsSection({ t, itemVariants }: { t: any; itemVariants: any }) {
                 >
                     <Badge
                         variant="outline"
-                        className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-xs font-medium bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-purple-200/60 dark:border-purple-800/60 shadow-sm text-slate-600 dark:text-white mb-5 sm:mb-6"
+                        className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-xs font-medium bg-background/80 backdrop-blur-sm border-primary/20 shadow-sm text-muted-foreground mb-5 sm:mb-6"
                     >
-                        <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-purple-600 dark:text-purple-400" />
+                        <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
                         {t("projects_badge")}
                     </Badge>
-                    <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-slate-900 dark:text-white mb-4 sm:mb-5 lg:mb-6 px-4 leading-tight">
+                    <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-foreground mb-4 sm:mb-5 lg:mb-6 px-4 leading-tight">
                         {t("latest_projects")}
                     </h2>
-                    <p className="text-sm sm:text-base lg:text-lg text-slate-600 dark:text-slate-400 max-w-3xl mx-auto px-4">
+                    <p className="text-sm sm:text-base lg:text-lg text-muted-foreground max-w-3xl mx-auto px-4">
                         {t("latest_projects_desc")}
                     </p>
                 </motion.div>
@@ -874,7 +885,7 @@ function ProjectsSection({ t, itemVariants }: { t: any; itemVariants: any }) {
             >
                 <ContactDialog
                     triggerSize="lg"
-                    triggerClassName="group bg-gradient-to-r from-purple-600 via-fuchsia-600 to-purple-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base lg:text-lg rounded-xl flex items-center justify-center w-full sm:w-auto"
+                    triggerClassName="group bg-gradient-to-r from-primary via-accent to-primary text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base lg:text-lg rounded-xl flex items-center justify-center w-full sm:w-auto"
                 >
                     {t("request_quote")}
                     <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 sm:ml-3 group-hover:translate-x-1 transition-transform duration-200" />
@@ -897,18 +908,18 @@ function ServicesSection() {
                 >
                     <Badge
                         variant="outline"
-                        className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-xs font-medium bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-purple-200/60 dark:border-purple-800/60 shadow-sm text-slate-600 dark:text-white mb-5 sm:mb-6"
+                        className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-xs font-medium bg-background/80 backdrop-blur-sm border-primary/20 shadow-sm text-muted-foreground mb-5 sm:mb-6"
                     >
-                        <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-purple-600 dark:text-purple-400" />
+                        <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
                         {t("services_badge")}
                     </Badge>
-                    <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-slate-900 dark:text-white mb-4 sm:mb-5 lg:mb-6 px-4 leading-tight">
+                    <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-foreground mb-4 sm:mb-5 lg:mb-6 px-4 leading-tight">
                         {t("services_title_part1")}{" "}
-                        <span className="bg-gradient-to-r from-purple-600 via-violet-600 to-fuchsia-600 bg-clip-text text-transparent">
+                        <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
                             {t("services_title_part2")}
                         </span>
                     </h2>
-                    <p className="text-sm sm:text-base lg:text-lg text-slate-600 dark:text-slate-400 max-w-3xl mx-auto px-4 leading-relaxed">
+                    <p className="text-sm sm:text-base lg:text-lg text-muted-foreground max-w-3xl mx-auto px-4 leading-relaxed">
                         {t("services_description")}
                     </p>
                 </motion.div>
@@ -930,7 +941,7 @@ function ServicesSection() {
                 <div className="inline-flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center px-4 w-full sm:w-auto">
                     <ContactDialog
                         triggerSize="lg"
-                        triggerClassName="group bg-gradient-to-r from-purple-600 via-fuchsia-600 to-purple-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base lg:text-lg rounded-xl flex items-center justify-center w-full sm:w-auto"
+                        triggerClassName="group bg-gradient-to-r from-primary via-accent to-primary text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base lg:text-lg rounded-xl flex items-center justify-center w-full sm:w-auto"
                     >
                         {t("request_quote")}
                         <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 sm:ml-3 group-hover:translate-x-1 transition-transform duration-200" />
@@ -938,7 +949,7 @@ function ServicesSection() {
                     <Button
                         asChild
                         size="lg"
-                        className="group w-full sm:w-auto border border-violet-500 bg-transparent hover:bg-violet-500/20 text-foreground shadow-lg hover:shadow-xl transition-all duration-300 px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base lg:text-lg rounded-xl h-auto"
+                        className="group w-full sm:w-auto border border-primary bg-transparent hover:bg-primary/20 text-foreground shadow-lg hover:shadow-xl transition-all duration-300 px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base lg:text-lg rounded-xl h-auto"
                     >
                         <a href="#projects" rel="noopener noreferrer" className="flex items-center justify-center gap-2 sm:gap-3">
                             <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -957,7 +968,7 @@ function MetricsSection() {
     const METRICS_HIGHLIGHTS = getMetricsHighlights(t)
 
     return (
-        <div id="metricas" className="container mx-auto px-4 sm:px-6 lg:px-8 mt-20 sm:mt-24 lg:mt-32 mb-16 sm:mb-20">
+        <div id="metricas" className="container mx-auto px-4 sm:px-6 lg:px-8 mt-20 sm:mt-24 lg:mt-32 mb-16 sm:mb-20 max-w-full overflow-hidden">
             <div className="text-center mb-10 sm:mb-12 lg:mb-16">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -967,18 +978,18 @@ function MetricsSection() {
                 >
                     <Badge
                         variant="outline"
-                        className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-xs font-medium bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-emerald-200/60 dark:border-emerald-800/60 shadow-sm text-slate-600 dark:text-white mb-5 sm:mb-6"
+                        className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-xs font-medium bg-background/80 backdrop-blur-sm border-secondary/20 shadow-sm text-muted-foreground mb-5 sm:mb-6"
                     >
-                        <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-600 dark:text-emerald-400" />
+                        <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-secondary" />
                         {t("metrics.badge")}
                     </Badge>
-                    <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-slate-900 dark:text-white mb-4 sm:mb-5 lg:mb-6 px-4 leading-tight">
+                    <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-foreground mb-4 sm:mb-5 lg:mb-6 px-4 leading-tight">
                         {t("metrics.title_part1")}{" "}
-                        <span className="bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 bg-clip-text text-transparent">
+                        <span className="bg-gradient-to-r from-secondary via-accent to-primary bg-clip-text text-transparent">
                             {t("metrics.title_part2")}
                         </span>
                     </h2>
-                    <p className="text-sm sm:text-base lg:text-lg text-slate-600 dark:text-slate-400 max-w-3xl mx-auto px-4 leading-relaxed">
+                    <p className="text-sm sm:text-base lg:text-lg text-muted-foreground max-w-3xl mx-auto px-4 leading-relaxed">
                         {t("metrics.description")}
                     </p>
                 </motion.div>
@@ -994,7 +1005,7 @@ function MetricsSection() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: index * 0.1 }}
                     >
-                        <Card className="relative p-5 sm:p-6 h-full bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800/60 hover:border-transparent transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                        <Card className="relative p-5 sm:p-6 h-full bg-card border border-border hover:border-transparent transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
                             <div
                                 className={cn(
                                     "absolute -inset-0.5 bg-gradient-to-r rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur",
@@ -1010,13 +1021,13 @@ function MetricsSection() {
                                 >
                                     <metric.icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                                 </div>
-                                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-1.5 sm:mb-2">
+                                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-1.5 sm:mb-2">
                                     {metric.value}
                                 </div>
-                                <h4 className="font-semibold text-slate-900 dark:text-white mb-1 text-sm sm:text-base">
+                                <h4 className="font-semibold text-foreground mb-1 text-sm sm:text-base">
                                     {metric.title}
                                 </h4>
-                                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                                     {metric.description}
                                 </p>
                             </div>
@@ -1033,13 +1044,14 @@ function MetricsSection() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
+                    className="min-w-0"
                 >
-                    <Card className="p-5 sm:p-6 lg:p-7 bg-gradient-to-br from-emerald-50 to-green-50 dark:from-emerald-950/50 dark:to-green-950/50 border border-emerald-200/20 dark:border-emerald-800/20">
+                    <Card className="p-5 sm:p-6 lg:p-7 bg-gradient-to-br from-secondary/5 to-primary/5 dark:from-secondary/10 dark:to-primary/10 border border-secondary/20">
                         <div className="mb-5 sm:mb-6">
-                            <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-1.5 sm:mb-2">
+                            <h3 className="text-lg sm:text-xl font-bold text-foreground mb-1.5 sm:mb-2">
                                 {t("metrics.sales_growth_chart")}
                             </h3>
-                            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                            <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                                 {t("metrics.sales_growth_chart_desc")}
                             </p>
                         </div>
@@ -1047,18 +1059,18 @@ function MetricsSection() {
                             config={{
                                 before: {
                                     label: "Antes",
-                                    color: "hsl(var(--chart-1))",
+                                    color: "var(--chart-1)",
                                 },
                                 after: {
                                     label: "Después",
-                                    color: "hsl(142, 76%, 36%)",
+                                    color: "var(--chart-2)",
                                 },
                             }}
-                            className="h-[250px] sm:h-[300px]"
+                            className="h-[250px] sm:h-[300px] w-full"
                         >
                             <ResponsiveContainer width="100%" height="100%">
                                 <AreaChart data={SALES_GROWTH_DATA}>
-                                    <CartesianGrid strokeDasharray="3 3" className="stroke-slate-200 dark:stroke-slate-800" />
+                                    <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
                                     <XAxis dataKey="month" className="text-xs" />
                                     <YAxis className="text-xs" />
                                     <ChartTooltip content={<ChartTooltipContent />} />
@@ -1066,16 +1078,16 @@ function MetricsSection() {
                                         type="monotone"
                                         dataKey="before"
                                         stackId="1"
-                                        stroke="hsl(var(--chart-1))"
-                                        fill="hsl(var(--chart-1))"
+                                        stroke="var(--chart-1)"
+                                        fill="var(--chart-1)"
                                         fillOpacity={0.6}
                                     />
                                     <Area
                                         type="monotone"
                                         dataKey="after"
                                         stackId="2"
-                                        stroke="hsl(142, 76%, 36%)"
-                                        fill="hsl(142, 76%, 36%)"
+                                        stroke="var(--chart-2)"
+                                        fill="var(--chart-2)"
                                         fillOpacity={0.8}
                                     />
                                 </AreaChart>
@@ -1090,13 +1102,14 @@ function MetricsSection() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
+                    className="min-w-0"
                 >
-                    <Card className="p-5 sm:p-6 lg:p-7 bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-950/50 dark:to-cyan-950/50 border border-blue-200/20 dark:border-blue-800/20">
+                    <Card className="p-5 sm:p-6 lg:p-7 bg-gradient-to-br from-accent/5 to-secondary/5 dark:from-accent/10 dark:to-secondary/10 border border-accent/20">
                         <div className="mb-5 sm:mb-6">
-                            <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-1.5 sm:mb-2">
+                            <h3 className="text-lg sm:text-xl font-bold text-foreground mb-1.5 sm:mb-2">
                                 {t("metrics.conversion_chart")}
                             </h3>
-                            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                            <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                                 {t("metrics.conversion_chart_desc")}
                             </p>
                         </div>
@@ -1104,23 +1117,23 @@ function MetricsSection() {
                             config={{
                                 rate: {
                                     label: t("metrics.conversion_rate"),
-                                    color: "hsl(199, 89%, 48%)",
+                                    color: "var(--chart-3)",
                                 },
                             }}
-                            className="h-[250px] sm:h-[300px]"
+                            className="h-[250px] sm:h-[300px] w-full"
                         >
                             <ResponsiveContainer width="100%" height="100%">
                                 <LineChart data={CONVERSION_RATE_DATA}>
-                                    <CartesianGrid strokeDasharray="3 3" className="stroke-slate-200 dark:stroke-slate-800" />
+                                    <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
                                     <XAxis dataKey="month" className="text-xs" />
                                     <YAxis className="text-xs" />
                                     <ChartTooltip content={<ChartTooltipContent />} />
                                     <Line
                                         type="monotone"
                                         dataKey="rate"
-                                        stroke="hsl(199, 89%, 48%)"
+                                        stroke="var(--chart-3)"
                                         strokeWidth={3}
-                                        dot={{ fill: "hsl(199, 89%, 48%)", r: 6 }}
+                                        dot={{ fill: "var(--chart-3)", r: 6 }}
                                     />
                                 </LineChart>
                             </ResponsiveContainer>
@@ -1134,14 +1147,14 @@ function MetricsSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
-                    className="lg:col-span-2"
+                    className="lg:col-span-2 min-w-0"
                 >
-                    <Card className="p-5 sm:p-6 lg:p-7 bg-gradient-to-br from-purple-50 to-fuchsia-50 dark:from-purple-950/50 dark:to-fuchsia-950/50 border border-purple-200/20 dark:border-purple-800/20">
+                    <Card className="p-5 sm:p-6 lg:p-7 bg-gradient-to-br from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10 border border-primary/20">
                         <div className="mb-5 sm:mb-6">
-                            <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-1.5 sm:mb-2">
+                            <h3 className="text-lg sm:text-xl font-bold text-foreground mb-1.5 sm:mb-2">
                                 {t("metrics.client_growth_chart")}
                             </h3>
-                            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                            <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                                 {t("metrics.client_growth_chart_desc")}
                             </p>
                         </div>
@@ -1149,18 +1162,18 @@ function MetricsSection() {
                             config={{
                                 clients: {
                                     label: t("metrics.satisfied_clients"),
-                                    color: "hsl(292, 84%, 61%)",
+                                    color: "var(--chart-4)",
                                 },
                             }}
-                            className="h-[250px] sm:h-[300px]"
+                            className="h-[250px] sm:h-[300px] w-full"
                         >
                             <ResponsiveContainer width="100%" height="100%">
                                 <BarChart data={CLIENT_GROWTH_DATA}>
-                                    <CartesianGrid strokeDasharray="3 3" className="stroke-slate-200 dark:stroke-slate-800" />
+                                    <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
                                     <XAxis dataKey="month" className="text-xs" />
                                     <YAxis className="text-xs" />
                                     <ChartTooltip content={<ChartTooltipContent />} />
-                                    <Bar dataKey="clients" fill="hsl(292, 84%, 61%)" radius={[8, 8, 0, 0]} />
+                                    <Bar dataKey="clients" fill="var(--chart-4)" radius={[8, 8, 0, 0]} />
                                 </BarChart>
                             </ResponsiveContainer>
                         </ChartContainer>
@@ -1176,17 +1189,17 @@ function MetricsSection() {
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="md:text-center mt-12 sm:mt-16 lg:mt-20"
             >
-                <div className="bg-gradient-to-r from-blue-50 to-blue-50 dark:from-blue-950/50 dark:to-blue-950/50 rounded-2xl sm:rounded-3xl p-2 py-10 md:p-6 sm:p-8 lg:p-12 border border-blue-200/20 dark:border-blue-800/20">
-                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white mb-3 sm:mb-4 px-4 leading-tight">
+                <div className="bg-gradient-to-r from-secondary/5 to-primary/5 dark:from-secondary/10 dark:to-primary/10 rounded-2xl sm:rounded-3xl p-2 py-10 md:p-6 sm:p-8 lg:p-12 border border-secondary/20">
+                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-foreground mb-3 sm:mb-4 px-4 leading-tight">
                         {t("metrics.cta_title")}
                     </h3>
-                    <p className="text-sm sm:text-base lg:text-lg text-slate-600 dark:text-slate-400 mb-6 sm:mb-8 max-w-2xl mx-auto px-4 leading-relaxed">
+                    <p className="text-sm sm:text-base lg:text-lg text-muted-foreground mb-6 sm:mb-8 max-w-2xl mx-auto px-4 leading-relaxed">
                         {t("you_know")}
                     </p>
                     <div className="inline-flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center px-4 w-full sm:w-auto">
                         <ContactDialog
                             triggerSize="lg"
-                            triggerClassName="group bg-gradient-to-r from-purple-600 via-fuchsia-600 to-purple-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base lg:text-lg rounded-xl flex items-center justify-center w-full sm:w-auto"
+                            triggerClassName="group bg-gradient-to-r from-primary via-accent to-primary text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base lg:text-lg rounded-xl flex items-center justify-center w-full sm:w-auto"
                         >
                             {t("request_quote")}
                             <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 sm:ml-3 group-hover:translate-x-1 transition-transform duration-200" />
@@ -1194,7 +1207,7 @@ function MetricsSection() {
                         <Button
                             asChild
                             size="lg"
-                            className="group w-full sm:w-auto border border-violet-500 bg-transparent hover:bg-violet-500/20 text-foreground shadow-lg hover:shadow-xl transition-all duration-300 px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base lg:text-lg rounded-xl h-auto"
+                            className="group w-full sm:w-auto border border-primary bg-transparent hover:bg-primary/20 text-foreground shadow-lg hover:shadow-xl transition-all duration-300 px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base lg:text-lg rounded-xl h-auto"
                         >
                             <a href="#projects" rel="noopener noreferrer" className="flex items-center justify-center gap-2 sm:gap-3">
                                 <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -1223,18 +1236,18 @@ function ProcessSection() {
                 >
                     <Badge
                         variant="outline"
-                        className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-xs font-medium bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-purple-200/60 dark:border-purple-800/60 shadow-sm text-slate-600 dark:text-white mb-5 sm:mb-6"
+                        className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-xs font-medium bg-background/80 backdrop-blur-sm border-primary/20 shadow-sm text-muted-foreground mb-5 sm:mb-6"
                     >
-                        <Rocket className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-purple-600 dark:text-purple-400" />
+                        <Rocket className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
                         {t("process.badge")}
                     </Badge>
-                    <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-slate-900 dark:text-white mb-4 sm:mb-5 lg:mb-6 px-4 leading-tight">
+                    <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-foreground mb-4 sm:mb-5 lg:mb-6 px-4 leading-tight">
                         {t("process.title_part1")}{" "}
-                        <span className="bg-gradient-to-r from-purple-600 via-fuchsia-600 to-purple-600 bg-clip-text text-transparent">
+                        <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
                             {t("process.title_part2")}
                         </span>
                     </h2>
-                    <p className="text-sm sm:text-base lg:text-lg text-slate-600 dark:text-slate-400 max-w-3xl mx-auto px-4 leading-relaxed">
+                    <p className="text-sm sm:text-base lg:text-lg text-muted-foreground max-w-3xl mx-auto px-4 leading-relaxed">
                         {t("process.description")}
                     </p>
                 </motion.div>
@@ -1249,17 +1262,17 @@ function ProcessSection() {
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="text-center mt-12 sm:mt-16 lg:mt-20"
             >
-                <div className="bg-gradient-to-r from-purple-50 to-fuchsia-50 dark:from-purple-950/50 dark:to-fuchsia-950/50 rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 border border-purple-200/20 dark:border-purple-800/20">
-                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white mb-3 sm:mb-4 px-4 leading-tight">
+                <div className="bg-gradient-to-r from-primary/5 to-accent/5 dark:from-primary/10 dark:to-accent/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 border border-primary/20">
+                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-foreground mb-3 sm:mb-4 px-4 leading-tight">
                         {t("process.cta_title")}
                     </h3>
-                    <p className="text-sm sm:text-base lg:text-lg text-slate-600 dark:text-slate-400 mb-6 sm:mb-8 max-w-2xl mx-auto px-4 leading-relaxed">
+                    <p className="text-sm sm:text-base lg:text-lg text-muted-foreground mb-6 sm:mb-8 max-w-2xl mx-auto px-4 leading-relaxed">
                         {t("process.cta_description")}
                     </p>
                     <div className="inline-flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center px-4 w-full sm:w-auto">
                         <ContactDialog
                             triggerSize="lg"
-                            triggerClassName="group bg-gradient-to-r from-purple-600 via-fuchsia-600 to-purple-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base lg:text-lg rounded-xl flex items-center justify-center w-full sm:w-auto"
+                            triggerClassName="group bg-gradient-to-r from-primary via-accent to-primary text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base lg:text-lg rounded-xl flex items-center justify-center w-full sm:w-auto"
                         >
                             {t("request_quote")}
                             <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 sm:ml-3 group-hover:translate-x-1 transition-transform duration-200" />
@@ -1285,8 +1298,25 @@ function DockNavigation({
     const t = useTranslations()
 
     return (
-        <div className="fixed bottom-4 sm:bottom-5 mx-auto left-0 right-0 z-[1000] px-4">
-            <Dock className="hidden md:flex items-end border pb-3 bg-gradient-to-r !from-purple-100 !to-pink-100/100 dark:!from-purple-950/80 dark:!to-pink-950/80">
+        <div className="fixed top-4 sm:top-5 mx-auto left-0 right-0 !z-[10000] px-4">
+               <Dock
+                className="
+                    hidden md:flex items-start pt-3 border
+
+                    bg-gradient-to-r
+                    from-white via-fuchsia-100 to-white
+                    dark:from-primary/50 dark:to-accent/50
+
+                    backdrop-blur-2xl
+
+                    shadow-xl
+                    ring-1 ring-fuchsia-300
+                    dark:ring-fuchsia-900
+                "
+                >
+
+
+
                 {DOCK_DATA.map((item, idx) => (
                     <Link href={item.href} key={idx}>
                         <DockItem className="aspect-square rounded-full ">
