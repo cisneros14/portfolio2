@@ -1304,8 +1304,8 @@ function DockNavigation({
                     hidden md:flex items-start pt-3 border
 
                     bg-gradient-to-r
-                    from-white via-fuchsia-100 to-white
-                    dark:from-primary/50 dark:to-accent/50
+                    from-purple-50 via-white to-purple-50
+                    dark:from-primary/50 dark:via-accent/50 dark:to-primary/50
 
                     backdrop-blur-2xl
 

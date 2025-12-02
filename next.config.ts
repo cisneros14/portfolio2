@@ -91,7 +91,7 @@ const nextConfig: NextConfig = {
   trailingSlash: false,
 
   // Configuración de output
-  output: 'standalone',
+  // output: 'standalone',
 };
 
 const withNextIntl = createNextIntlPlugin();

@@ -1,11 +1,16 @@
 
 
+// Middleware for locale handling
 import { NextResponse, NextRequest } from 'next/server';
 import createMiddleware from 'next-intl/middleware';
+import { jwtVerify } from 'jose';
 
 const locales = ['es', 'en'] as const;
 const defaultLocale = 'es' as const;
 const LOCALE_COOKIE = 'NEXT_LOCALE';
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-this';
+
+
 
 function parseAcceptLanguage(header: string | null): (typeof locales)[number] {
   if (!header) return defaultLocale;
@@ -32,30 +37,66 @@ function detectLocale(request: NextRequest): (typeof locales)[number] {
   return parseAcceptLanguage(acceptLang);
 }
 
-export function middleware(request: NextRequest) {
+const intlMiddleware = createMiddleware({
+  locales,
+  defaultLocale,
+  localePrefix: 'always',
+});
+
+async function verifyToken(token: string) {
+  if (!token) return false;
+  try {
+    const secret = new TextEncoder().encode(JWT_SECRET);
+    await jwtVerify(token, secret);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // 1. Check for Admin Routes Protection
+  // Matches: /admin, /es/admin, /en/admin, /admin/..., /es/admin/...
+  const isAdminRoute = 
+    pathname === '/admin' || 
+    pathname.startsWith('/admin/') || 
+    /^\/(es|en)\/admin(\/|$)/.test(pathname);
+
+  if (isAdminRoute) {
+    const token = request.cookies.get('auth_token')?.value;
+    const isValid = await verifyToken(token || '');
+
+    if (!isValid) {
+      // Determine locale to redirect to
+      const localeMatch = pathname.match(/^\/(es|en)\//);
+      const locale = localeMatch ? localeMatch[1] : defaultLocale;
+      
+      return NextResponse.redirect(new URL(`/${locale}/login`, request.url));
+    }
+  }
+
+  // 2. Handle Root Redirect (Optional, handled by intlMiddleware usually but keeping custom logic if needed)
   if (pathname === '/') {
     const locale = detectLocale(request);
+    // Let intlMiddleware handle the redirect to default locale if we want standard behavior, 
+    // but keeping your custom logic for persistence:
     const response = NextResponse.redirect(new URL(`/${locale}`, request.url));
-    // Persistimos la preferencia para futuras visitas
     response.cookies.set({
       name: LOCALE_COOKIE,
       value: locale,
       path: '/',
-      // ~1 año
       maxAge: 60 * 60 * 24 * 365,
       sameSite: 'lax'
     });
     return response;
   }
-  // next-intl middleware para el resto de rutas
-  return createMiddleware({
-    locales,
-    defaultLocale,
-    localePrefix: 'as-needed',
-  })(request);
+
+  // 3. Run Internationalization Middleware
+  return intlMiddleware(request);
 }
 
 export const config = {
-  matcher: ['/((?!_next|.*\..*).*)'],
+  matcher: ['/((?!api|_next|.*\\..*).*)'],
 };

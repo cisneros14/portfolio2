@@ -165,7 +165,7 @@ export function ContactSection() {
         <section id="contact" className="container mx-auto px-4 py-24 sm:py-32 relative ">
             {/* Decorative Background Elements */}
          
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center relative z-[10001]">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center relative z-10">
                 {/* Left Column: Copy */}
                 <div className="flex flex-col items-start text-left">
                     <motion.div
