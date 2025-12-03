@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import type { ReactNode } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { useState } from "react";
+import type { ReactNode } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Dialog,
   DialogContent,
@@ -10,12 +10,19 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
-import { MessageCircle, Phone, Mail, Facebook, Instagram, Send } from "lucide-react"
-import { FaWhatsapp } from "react-icons/fa"
-import { useTranslations } from "next-intl"
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import {
+  MessageCircle,
+  Phone,
+  Mail,
+  Facebook,
+  Instagram,
+  Send,
+} from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
+import { useTranslations } from "next-intl";
 
 // Datos de contacto - personaliza estos valores
 const CONTACT_DATA = {
@@ -24,7 +31,7 @@ const CONTACT_DATA = {
   email: "contacto@ejemplo.com",
   facebook: "https://facebook.com/tupagina",
   instagram: "https://instagram.com/tuusuario",
-}
+};
 
 const getContactChannels = (t: any) => [
   {
@@ -64,23 +71,24 @@ const getContactChannels = (t: any) => [
     name: t("contact_instagram"),
     icon: Instagram,
     href: CONTACT_DATA.instagram,
-    color: "bg-[radial-gradient(circle_at_bottom_left,_#ffb347_0%,_#fd1d1d_45%,_#833ab4_90%)]",
+    color:
+      "bg-[radial-gradient(circle_at_bottom_left,_#ffb347_0%,_#fd1d1d_45%,_#833ab4_90%)]",
     description: t("contact_follow_instagram"),
   },
-]
+];
 
 export function ContactDialog({
   triggerClassName,
   triggerSize,
   children,
 }: {
-  triggerClassName?: string
-  triggerSize?: "default" | "sm" | "lg" | "icon"
-  children?: ReactNode
+  triggerClassName?: string;
+  triggerSize?: "default" | "sm" | "lg" | "icon";
+  children?: ReactNode;
 }) {
-  const t = useTranslations()
-  const [open, setOpen] = useState(false)
-  const CONTACT_CHANNELS = getContactChannels(t)
+  const t = useTranslations();
+  const [open, setOpen] = useState(false);
+  const CONTACT_CHANNELS = getContactChannels(t);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -114,13 +122,15 @@ export function ContactDialog({
           <DialogTitle className="text-2xl font-bold text-foreground">
             {t("contact_dialog_title")}
           </DialogTitle>
-          <DialogDescription className="text-muted-foreground">{t("contact_dialog_description")}</DialogDescription>
+          <DialogDescription className="text-muted-foreground">
+            {t("contact_dialog_description")}
+          </DialogDescription>
         </DialogHeader>
 
         <div className="grid gap-3 py-4">
           <AnimatePresence>
             {CONTACT_CHANNELS.map((channel, index) => {
-              const Icon = channel.icon
+              const Icon = channel.icon;
               return (
                 <motion.a
                   key={channel.id}
@@ -133,42 +143,46 @@ export function ContactDialog({
                   className="group relative overflow-hidden rounded-lg border border-border/50 bg-card/50 p-4 transition-all duration-300 hover:border-primary/20 hover:bg-muted/20"
                   onClick={() => setOpen(false)}
                 >
-                  {/* Gradient background on hover */}
-                  <div
-                    className={`absolute inset-0 bg-gradient-to-r ${channel.color} opacity-0 transition-opacity duration-300 group-hover:opacity-10`}
-                  />
-
                   <div className="relative flex items-center gap-4">
-                    {/* Icon with gradient */}
-                    <div
-                      className={`flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br ${channel.color} shadow-lg transition-transform duration-300 group-hover:scale-110`}
-                    >
-                      <Icon className="h-6 w-6 text-white" />
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 shadow-sm transition-transform duration-300 group-hover:scale-110">
+                      <Icon className="h-6 w-6 text-primary" />
                     </div>
 
-                    {/* Text content */}
                     <div className="flex-1">
                       <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors duration-300">
                         {channel.name}
                       </h3>
-                      <p className="text-sm text-muted-foreground">{channel.description}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {channel.description}
+                      </p>
                     </div>
 
-                    {/* Arrow indicator */}
                     <div className="text-muted-foreground transition-transform duration-300 group-hover:translate-x-1 group-hover:text-foreground">
-                      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      <svg
+                        className="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
+                        />
                       </svg>
                     </div>
                   </div>
                 </motion.a>
-              )
+              );
             })}
           </AnimatePresence>
         </div>
 
-        <div className="text-center text-sm text-muted-foreground">{t("contact_available_help")}</div>
+        <div className="text-center text-sm text-muted-foreground">
+          {t("contact_available_help")}
+        </div>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

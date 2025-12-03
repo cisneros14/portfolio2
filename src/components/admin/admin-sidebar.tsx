@@ -11,6 +11,8 @@ import {
   LogOut,
   Menu,
   Megaphone,
+  BookOpen,
+  User,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -21,24 +23,14 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useState } from "react";
+import Image from "next/image";
 
 const sidebarItems = [
   {
     title: "Dashboard",
     href: "/admin",
     icon: LayoutDashboard,
-  },
-
-  {
-    title: "Contenido",
-    href: "/admin/content",
-    icon: FileText,
-  },
-  {
-    title: "Configuración",
-    href: "/admin/settings",
-    icon: Settings,
-  },
+  }
 ];
 
 export function AdminSidebar() {
@@ -77,7 +69,7 @@ function SidebarContent({
   return (
     <div className="flex flex-col h-full">
       <div className="h-16 flex items-center px-6 border-b">
-        <span className="text-xl font-bold text-primary">Admin Panel</span>
+        <Image src="/logo3.png" className="w-24" alt="Logo" width={500} height={500} />
       </div>
       <div className="flex-1 py-6 px-3 space-y-1 overflow-y-auto">
         {sidebarItems.map((item) => (
@@ -129,7 +121,19 @@ function SidebarContent({
                       : "text-muted-foreground hover:bg-muted hover:text-foreground"
                   )}
                 >
-                  Personal
+                  Personal Admin
+                </Link>
+                <Link
+                  href="/admin/messages"
+                  onClick={() => setOpen?.(false)}
+                  className={cn(
+                    "block px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                    pathname === "/admin/messages"
+                      ? "bg-primary/10 text-primary"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                  )}
+                >
+                  Mensajes
                 </Link>
               </div>
             </AccordionContent>
@@ -154,12 +158,65 @@ function SidebarContent({
                       : "text-muted-foreground hover:bg-muted hover:text-foreground"
                   )}
                 >
-                  Posts
+                  Posts Redes
+                </Link>
+
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
+
+          <AccordionItem value="blog" className="border-none">
+            <AccordionTrigger className="px-3 py-2.5 hover:no-underline hover:bg-muted rounded-md text-sm font-medium text-muted-foreground hover:text-foreground">
+              <div className="flex items-center gap-3">
+                <BookOpen className="h-5 w-5" />
+                Blog
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className="pb-0">
+              <div className="pl-10 space-y-1 mt-1">
+                <Link
+                  href="/admin/blog"
+                  onClick={() => setOpen?.(false)}
+                  className={cn(
+                    "block px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                    pathname === "/admin/blog" || pathname.startsWith("/admin/blog/")
+                      ? "bg-primary/10 text-primary"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                  )}
+                >
+                  Entradas Blog
+                </Link>
+                <Link
+                  href="/admin/categoria_blog"
+                  onClick={() => setOpen?.(false)}
+                  className={cn(
+                    "block px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                    pathname === "/admin/categoria_blog"
+                      ? "bg-primary/10 text-primary"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                  )}
+                >
+                  Categorías Blog
                 </Link>
               </div>
             </AccordionContent>
           </AccordionItem>
         </Accordion>
+         <Link
+            key="/admin/perfil"
+            href="/admin/perfil"
+            onClick={() => setOpen?.(false)}
+            className={cn(
+              "flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors",
+              pathname === "/admin/perfil"
+                ? "bg-primary/10 text-primary"
+                : "text-muted-foreground hover:bg-muted hover:text-foreground"
+            )}
+          >
+            <User className="h-5 w-5" />
+            Perfil
+          </Link>
       </div>
       <div className="p-4 border-t">
         <Button 

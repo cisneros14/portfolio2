@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import ThemeToggle from "@/app/[locale]/ThemeToggle";
+import Link from "next/link";
 
 export function AdminHeader() {
   return (
@@ -43,7 +44,9 @@ export function AdminHeader() {
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Perfil</DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/es/admin/perfil">Perfil</Link>
+            </DropdownMenuItem>
             <DropdownMenuItem>Configuración</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem 

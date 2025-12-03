@@ -130,12 +130,35 @@ export function ContactSection() {
         return isValid
     }
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         if (validateForm()) {
-            console.log("Form submitted:", formData)
-            // Aquí iría la lógica de envío real
-            alert("Formulario válido. Enviando datos...")
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                });
+
+                if (response.ok) {
+                    alert("Mensaje enviado correctamente.");
+                    setFormData({
+                        name: "",
+                        email: "",
+                        cedula: "",
+                        phone: "",
+                        message: ""
+                    });
+                } else {
+                    const data = await response.json();
+                    alert(data.error || "Error al enviar mensaje.");
+                }
+            } catch (error) {
+                console.error("Error submitting form:", error);
+                alert("Error al enviar mensaje.");
+            }
         }
     }
 
@@ -162,10 +185,10 @@ export function ContactSection() {
     }
 
     return (
-        <section id="contact" className="container mx-auto px-4 py-24 sm:py-32 relative ">
+        <section id="contact" className="relative ">
             {/* Decorative Background Elements */}
          
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center relative">
                 {/* Left Column: Copy */}
                 <div className="flex flex-col items-start text-left">
                     <motion.div
