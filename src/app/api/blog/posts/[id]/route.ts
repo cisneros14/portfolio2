@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server';
 import { pool } from '@/lib/db';
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   try {
-    const [rows]: any = await pool.query('SELECT * FROM tbl_blog WHERE blog_id = ?', [params.id]);
+    const [rows]: any = await pool.query('SELECT * FROM tbl_blog WHERE blog_id = ?', [id]);
     if (rows.length === 0) {
       return NextResponse.json({ error: 'Post not found' }, { status: 404 });
     }
@@ -14,7 +15,8 @@ export async function GET(request: Request, { params }: { params: { id: string }
   }
 }
 
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
+export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   try {
     const body = await request.json();
     const { 
@@ -43,7 +45,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
         blog_titulo, blog_slug, blog_cat_id || null,
         blog_extracto, blog_contenido, blog_imagen_portada,
         blog_estado, blog_seo_keywords, blog_seo_description,
-        params.id
+        id
       ]
     );
 
@@ -57,9 +59,10 @@ export async function PUT(request: Request, { params }: { params: { id: string }
   }
 }
 
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   try {
-    await pool.query('DELETE FROM tbl_blog WHERE blog_id = ?', [params.id]);
+    await pool.query('DELETE FROM tbl_blog WHERE blog_id = ?', [id]);
     return NextResponse.json({ message: 'Post deleted successfully' });
   } catch (error) {
     console.error('Error deleting post:', error);
