@@ -328,10 +328,9 @@ export async function getCachedGhostContent(slug: string, locale: string): Promi
     return existingContent;
   }
   
-  // Si no existe pre-generado, generar con IA (fallback)
-  const content = await generateGhostPageContent(slug, locale);
-  contentCache.set(cacheKey, content);
-  
-  return content;
+  // Si no existe pre-generado, NO generar con IA (para evitar costos/errores de cuota)
+  // En su lugar, lanzar error o devolver null para que la página de 404
+  console.warn(`Ghost content not found for slug: ${slug} in locale: ${locale}`);
+  throw new Error(`Ghost content not found for slug: ${slug}`);
 }
 
