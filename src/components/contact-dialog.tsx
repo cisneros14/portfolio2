@@ -13,14 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import {
-  MessageCircle,
-  Phone,
-  Mail,
-  Facebook,
-  Instagram,
-  Send,
-} from "lucide-react";
+import { Phone, Mail, Facebook, Instagram, Send } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import { useTranslations } from "next-intl";
 
@@ -33,6 +26,7 @@ const CONTACT_DATA = {
   instagram: "https://instagram.com/tuusuario",
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getContactChannels = (t: any) => [
   {
     id: "whatsapp",

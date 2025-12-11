@@ -300,7 +300,7 @@ async function loadPreGeneratedContent(locale: string): Promise<GhostPageContent
       try {
         const batch = await import(`@/data/ghost-content/${locale}/batch-${i}.json`);
         allContent.push(...batch.default);
-      } catch (_) {
+      } catch {
         console.log(`Batch ${i} not found for locale ${locale}`);
       }
     }

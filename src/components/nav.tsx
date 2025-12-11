@@ -7,7 +7,6 @@ import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import {
   Github,
-  Linkedin,
   MailIcon,
   Package,
   Component,
@@ -16,7 +15,6 @@ import {
   Moon,
   Home,
 } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
 import { FaWhatsapp } from "react-icons/fa";
 import Image from "next/image";
 
@@ -62,7 +60,6 @@ const DOCK_SOCIAL_DATA = [
 ];
 
 const Nav = () => {
-  const t = useTranslations();
   const { setTheme, theme } = useTheme();
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
