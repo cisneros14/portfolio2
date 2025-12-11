@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ['lucide-react', 'framer-motion'],
   },
 
+
   // Configuración de imágenes
   images: {
     domains: ["i.pinimg.com"],
