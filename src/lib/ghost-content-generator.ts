@@ -313,7 +313,8 @@ async function loadPreGeneratedContent(locale: string): Promise<GhostPageContent
 }
 
 export async function getCachedGhostContent(slug: string, locale: string): Promise<GhostPageContent> {
-  const cacheKey = `${slug}-${locale}`;
+  const decodedSlug = decodeURIComponent(slug);
+  const cacheKey = `${decodedSlug}-${locale}`;
   
   if (contentCache.has(cacheKey)) {
     return contentCache.get(cacheKey)!;
@@ -321,7 +322,7 @@ export async function getCachedGhostContent(slug: string, locale: string): Promi
   
   // Intentar cargar contenido pre-generado primero
   const preGenerated = await loadPreGeneratedContent(locale);
-  const existingContent = preGenerated.find(c => c.slug === slug);
+  const existingContent = preGenerated.find(c => c.slug === decodedSlug);
   
   if (existingContent) {
     contentCache.set(cacheKey, existingContent);
@@ -330,7 +331,7 @@ export async function getCachedGhostContent(slug: string, locale: string): Promi
   
   // Si no existe pre-generado, NO generar con IA (para evitar costos/errores de cuota)
   // En su lugar, lanzar error o devolver null para que la página de 404
-  console.warn(`Ghost content not found for slug: ${slug} in locale: ${locale}`);
-  throw new Error(`Ghost content not found for slug: ${slug}`);
+  console.warn(`Ghost content not found for slug: ${decodedSlug} in locale: ${locale}`);
+  throw new Error(`Ghost content not found for slug: ${decodedSlug}`);
 }
 
