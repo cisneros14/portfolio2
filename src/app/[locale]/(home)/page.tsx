@@ -9,9 +9,6 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
-
 import React from "react";
 
 import Image from "next/image";
@@ -73,7 +70,6 @@ function HeroSection({
   itemVariants: any;
   containerVariants: any;
 }) {
-  const { theme } = useTheme();
   return (
     <div id="hero" className="scroll-mt-24">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
@@ -138,11 +134,20 @@ function HeroSection({
           <div className="relative w-full max-w-[400px] lg:max-w-[500px] aspect-square flex items-center justify-center">
             <div className="absolute inset-0 rounded-full pointer-events-none opacity-20 dark:opacity-10 bg-primary/20 blur-3xl" />
             <Image
-              src={theme === "dark" ? "/logo5.png" : "/logo6.png"}
+              className="w-74 lg:w-100 h-auto drop-shadow-2xl block dark:hidden"
+              src="/logo6.png"
               alt="Agility Logo"
               width={400}
               height={400}
-              className="w-74 lg:w-100 h-auto drop-shadow-2xl"
+              priority
+              fetchPriority="high"
+            />
+            <Image
+              className="w-74 lg:w-100 h-auto drop-shadow-2xl hidden dark:block"
+              src="/logo5.png"
+              alt="Agility Logo"
+              width={400}
+              height={400}
               priority
               fetchPriority="high"
             />
@@ -215,8 +220,6 @@ function ProcessSection() {
 
 export default function HeroGeometric() {
   const t = useTranslations();
-  const { setTheme, theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
   const router = useRouter();
 
   // Scroll transformations
@@ -247,12 +250,6 @@ export default function HeroGeometric() {
     const restPath = window.location.pathname.split("/").slice(2).join("/");
     router.push(`/${newLocale}${restPath ? "/" + restPath : ""}`);
   };
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
 
   return (
     <div className="relative space-y-48">

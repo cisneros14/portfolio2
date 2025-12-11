@@ -16,6 +16,7 @@ import {
 import { ContactDialog } from "@/components/contact-dialog";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 // Función para obtener datos de servicios con traducciones
 const getServicesData = (t: any) => [
@@ -115,7 +116,6 @@ export function ServicesSection() {
   // The original code used useTranslations().
   // I'll import useTranslations from "next-intl".
 
-  const { useTranslations } = require("next-intl");
   const t = useTranslations();
 
   return (

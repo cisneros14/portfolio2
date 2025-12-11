@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { useTheme } from "next-themes";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Github,
   MailIcon,
@@ -62,27 +62,18 @@ const DOCK_SOCIAL_DATA = [
 const Nav = () => {
   const { setTheme, theme } = useTheme();
   const router = useRouter();
-  const [mounted, setMounted] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const currentLocale =
-    typeof window !== "undefined"
-      ? window.location.pathname.split("/")[1]
-      : "es";
+  const pathname = usePathname();
+  const currentLocale = pathname.split("/")[1];
 
   const handleLanguageSwitch = () => {
     const newLocale = currentLocale === "es" ? "en" : "es";
-    const restPath = window.location.pathname.split("/").slice(2).join("/");
+    const restPath = pathname.split("/").slice(2).join("/");
     router.push(`/${newLocale}${restPath ? "/" + restPath : ""}`);
   };
 
   const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
-
-  if (!mounted) return null;
 
   return (
     <nav className="bg-white dark:bg-background backdrop-blur-md fixed w-full z-[10000] top-0 start-0 border-b border-border">
@@ -92,8 +83,18 @@ const Nav = () => {
           className="flex items-center space-x-3 rtl:space-x-reverse"
         >
           <Image
-            className="w-24"
-            src={theme === "dark" ? "/logo4.png" : "/logo7.png"}
+            className="w-24 block dark:hidden"
+            src="/logo7.png"
+            alt="Logo"
+            width={1000}
+            height={1000}
+            priority
+            fetchPriority="high"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+          <Image
+            className="w-24 hidden dark:block"
+            src="/logo4.png"
             alt="Logo"
             width={1000}
             height={1000}
