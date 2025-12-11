@@ -437,10 +437,12 @@ function ProjectCard({
         <Card className="overflow-hidden h-full bg-background border-border/50 hover:border-primary/50 transition-colors shadow-sm hover:shadow-md py-0">
           <div className="relative aspect-video w-full overflow-hidden bg-muted">
             {image ? (
-              <img
-                src={image}
+              <Image
+                src={image.startsWith("/") ? image : `/${image}`}
                 alt={title}
-                className="object-cover w-full h-full transition-transform duration-500 hover:scale-105"
+                fill
+                className="object-cover transition-transform duration-500 hover:scale-105"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             ) : (
               <div className="w-full h-full bg-muted flex items-center justify-center">
