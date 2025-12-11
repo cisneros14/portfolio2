@@ -94,7 +94,13 @@ const Nav = () => {
           href="/"
           className="flex items-center space-x-3 rtl:space-x-reverse"
         >
-          <Image className="w-24" src="/logo3.png" alt="Logo" width={1000} height={1000} />
+          <Image
+            className="w-24"
+            src={theme === "dark" ? "/logo4.png" : "/logo7.png"}
+            alt="Logo"
+            width={1000}
+            height={1000}
+          />
         </Link>
         <div className="flex md:order-2 space-x-2 rtl:space-x-reverse items-center">
           {/* Social Links - Visible on desktop */}

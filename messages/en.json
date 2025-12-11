@@ -46,6 +46,10 @@
     "dash_ecommerce": {
       "title": "Admin Dashboard",
       "subtitle": "Fast administrative dashboard to manage CRMs, sales, and operations in real time."
+    },
+    "cainec": {
+      "title": "Cainec",
+      "subtitle": "Website for a company specializing in real estate."
     }
   },
   "years_experience": "Years of experience",

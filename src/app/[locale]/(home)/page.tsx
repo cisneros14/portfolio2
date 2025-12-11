@@ -219,6 +219,12 @@ const getProjectsData = (t: any) => [
     href: "https://cisnerosdash.vercel.app/",
     image: "dash.png",
   },
+  {
+    title: t("projects_data.cainec.title"),
+    subtitle: t("projects_data.cainec.subtitle"),
+    href: "https://palevioletred-gerbil-452167.hostingersite.com/",
+    image: "cainec.png",
+  },
 ];
 
 const getMetricsHighlights = (t: any) => [
@@ -321,7 +327,7 @@ function SkillCard({
     <motion.div variants={itemVariants} transition={{ delay: index * 0.1 }}>
       <Card
         className={cn(
-          `group relative p-5 sm:p-6 lg:p-7 h-full bg-card border-border/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1`
+          `group relative p-5 sm:p-6 lg:p-7 h-full bg-background border-border/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1`
         )}
       >
         <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-5">
@@ -379,7 +385,7 @@ function ServiceCard({
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
       <div className="group relative h-full">
-        <div className="relative h-full bg-card rounded-2xl p-5 sm:p-6 lg:p-8 border border-border/50 hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-md">
+        <div className="relative h-full rounded-2xl p-5 sm:p-6 bg-background lg:p-8 border border-border/50 hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-md">
           <div className="flex flex-col md:flex-row items-start gap-4 lg:gap-5">
             <div className="flex-shrink-0">
               <div
@@ -418,7 +424,7 @@ function ProjectCard({
 }) {
   return (
     <motion.div
-      whileHover={{ y: -5 }}
+      whileHover={{ y: 0 }}
       transition={{ duration: 0.2 }}
       className="w-full h-full"
     >
@@ -428,7 +434,7 @@ function ProjectCard({
         rel="noopener noreferrer"
         className="block h-full"
       >
-        <Card className="overflow-hidden h-full bg-card border-border/50 hover:border-primary/50 transition-colors shadow-sm hover:shadow-md py-0">
+        <Card className="overflow-hidden h-full bg-background border-border/50 hover:border-primary/50 transition-colors shadow-sm hover:shadow-md py-0">
           <div className="relative aspect-video w-full overflow-hidden bg-muted">
             {image ? (
               <img
@@ -455,6 +461,7 @@ function ProjectCard({
 }
 
 function HeroSection({ t, itemVariants }: { t: any; itemVariants: any }) {
+  const { theme } = useTheme();
   return (
     <div id="hero" className="scroll-mt-24">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
@@ -463,7 +470,7 @@ function HeroSection({ t, itemVariants }: { t: any; itemVariants: any }) {
           <motion.div variants={itemVariants} className="mb-6">
             <Badge
               variant="outline"
-              className="!text-wrap items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-[0.7rem] sm:text-xs font-medium bg-background/80 backdrop-blur-sm border-primary/20 shadow-sm text-muted-foreground max-w-full inline-flex"
+              className="!text-wrap items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-[0.7rem] sm:text-xs font-medium bg-background backdrop-blur-sm border-primary/20 shadow-sm text-muted-foreground max-w-full inline-flex"
             >
               <Sparkles className="min-w-3.5 min-h-3.5 max-w-3.5 max-h-3.5 sm:min-w-4 sm:min-h-4 sm:max-w-4 sm:max-h-4 text-primary" />
               {t("available_projects")}
@@ -516,14 +523,14 @@ function HeroSection({ t, itemVariants }: { t: any; itemVariants: any }) {
             className="relative w-full max-w-[400px] lg:max-w-[500px] aspect-square flex items-center justify-center"
           >
             <div className="absolute inset-0 rounded-full pointer-events-none opacity-20 dark:opacity-10 bg-primary/20 blur-3xl" />
-              <Image
-                src="/logo2.png"
-                alt="Agility Logo"
-                width={400}
-                height={400}
-                className="w-74 lg:w-100 h-auto rounded-full drop-shadow-2xl"
-                priority
-              />
+            <Image
+              src={theme === "dark" ? "/logo5.png" : "/logo6.png"}
+              alt="Agility Logo"
+              width={400}
+              height={400}
+              className="w-74 lg:w-100 h-auto drop-shadow-2xl"
+              priority
+            />
           </motion.div>
         </div>
       </div>
@@ -568,7 +575,7 @@ function AboutExperienceSection({
           <Card
             id="about"
             className={cn(
-              "group relative p-5 sm:p-6 lg:p-7 h-full bg-card border border-border/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1",
+              "group relative p-5 sm:p-6 lg:p-7 h-full bg-background border border-border/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1",
               "xl:col-span-6 col-span-12 row-span-2"
             )}
           >
@@ -619,7 +626,7 @@ function AboutExperienceSection({
           <Card
             id="experience"
             className={cn(
-              "group relative p-5 sm:p-6 lg:p-7 h-full bg-card border border-border/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1",
+              "group relative p-5 sm:p-6 lg:p-7 h-full bg-background border border-border/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1",
               "xl:col-span-3 lg:col-span-6 col-span-12"
             )}
           >
@@ -645,7 +652,7 @@ function AboutExperienceSection({
           {/* Status - Square Card */}
           <Card
             className={cn(
-              "group relative p-5 sm:p-6 h-full bg-card border border-border/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1",
+              "group relative p-5 sm:p-6 h-full bg-background border border-border/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1",
               "xl:col-span-3 lg:col-span-6 col-span-12"
             )}
           >
@@ -672,7 +679,7 @@ function AboutExperienceSection({
           <Card
             id="selected-projects-card"
             className={cn(
-              "group relative p-5 sm:p-6 lg:p-7 h-full bg-card border border-border/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1",
+              "group relative p-5 sm:p-6 lg:p-7 h-full bg-background border border-border/50 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1",
               "xl:col-span-6 col-span-12"
             )}
           >
@@ -816,6 +823,14 @@ function TechnologiesSection({
   );
 }
 
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+
 function ProjectsSection({ t, itemVariants }: { t: any; itemVariants: any }) {
   return (
     <div id="projects" className="scroll-mt-24">
@@ -841,11 +856,34 @@ function ProjectsSection({ t, itemVariants }: { t: any; itemVariants: any }) {
           </p>
         </motion.div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">
-        {getProjectsData(t).map((project) => (
-          <ProjectCard key={project.title} {...project} />
-        ))}
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Carousel
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+          className="w-full"
+        >
+          <CarouselContent className="-ml-2 md:-ml-4">
+            {getProjectsData(t).map((project) => (
+              <CarouselItem
+                key={project.title}
+                className="pl-2 md:pl-4 sm:basis-1/2 lg:basis-1/3"
+              >
+                <div className="h-full p-1">
+                  <ProjectCard {...project} />
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <div className="hidden sm:block">
+            <CarouselPrevious className="left-0 -translate-x-1/2" />
+            <CarouselNext className="right-0 translate-x-1/2" />
+          </div>
+        </Carousel>
       </div>
+
       <motion.div
         variants={itemVariants}
         className="flex mt-12 sm:mt-16 lg:mt-20 flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center mb-10 sm:mb-12 lg:mb-16 px-4"
@@ -972,7 +1010,7 @@ function MetricsSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
           >
-            <Card className="relative p-5 sm:p-6 h-full bg-card border border-border/50 hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+            <Card className="relative p-5 sm:p-6 h-full bg-background border border-border/50 hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
               <div className="relative">
                 <div
                   className={cn(
@@ -1006,7 +1044,7 @@ function MetricsSection() {
           transition={{ duration: 0.6 }}
           className="min-w-0"
         >
-          <Card className="p-5 sm:p-6 lg:p-7 bg-card border border-border/50 shadow-sm">
+          <Card className="p-5 sm:p-6 lg:p-7 bg-background border border-border/50 shadow-sm">
             <div className="mb-5 sm:mb-6">
               <h3 className="text-lg sm:text-xl font-bold text-foreground mb-1.5 sm:mb-2">
                 {t("metrics.sales_growth_chart")}
@@ -1067,7 +1105,7 @@ function MetricsSection() {
           transition={{ duration: 0.6 }}
           className="min-w-0"
         >
-          <Card className="p-5 sm:p-6 lg:p-7 bg-card border border-border/50 shadow-sm">
+          <Card className="p-5 sm:p-6 lg:p-7 bg-background border border-border/50 shadow-sm">
             <div className="mb-5 sm:mb-6">
               <h3 className="text-lg sm:text-xl font-bold text-foreground mb-1.5 sm:mb-2">
                 {t("metrics.conversion_chart")}
@@ -1115,7 +1153,7 @@ function MetricsSection() {
           transition={{ duration: 0.6 }}
           className="lg:col-span-2 min-w-0"
         >
-          <Card className="p-5 sm:p-6 lg:p-7 bg-card border border-border/50 shadow-sm">
+          <Card className="p-5 sm:p-6 lg:p-7 bg-background border border-border/50 shadow-sm">
             <div className="mb-5 sm:mb-6">
               <h3 className="text-lg sm:text-xl font-bold text-foreground mb-1.5 sm:mb-2">
                 {t("metrics.client_growth_chart")}
@@ -1162,7 +1200,7 @@ function MetricsSection() {
         transition={{ duration: 0.6, delay: 0.3 }}
         className="md:text-center mt-12 sm:mt-16 lg:mt-20"
       >
-        <div className="bg-card rounded-2xl sm:rounded-3xl p-2 py-10 md:p-6 sm:p-8 lg:p-12 border border-border/50 shadow-sm">
+        <div className="bg-background rounded-2xl sm:rounded-3xl p-2 py-10 md:p-6 sm:p-8 lg:p-12 border border-border/50 shadow-sm">
           <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-foreground mb-3 sm:mb-4 px-4 leading-tight">
             {t("metrics.cta_title")}
           </h3>
@@ -1237,7 +1275,7 @@ function ProcessSection() {
         transition={{ duration: 0.6, delay: 0.3 }}
         className="text-center mt-12 sm:mt-16 lg:mt-20"
       >
-        <div className="bg-card rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 border border-border/50 shadow-sm">
+        <div className="bg-background rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 border border-border/50 shadow-sm">
           <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-foreground mb-3 sm:mb-4 px-4 leading-tight">
             {t("process.cta_title")}
           </h3>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 import { NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
@@ -54,6 +55,9 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            <GoogleAnalytics
+              gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID || ""}
+            />
             {children}
           </ThemeProvider>
         </NextIntlClientProvider>

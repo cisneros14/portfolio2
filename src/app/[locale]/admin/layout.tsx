@@ -11,7 +11,7 @@ export default function AdminLayout({
       <AdminSidebar />
       <div className="flex-1 flex flex-col md:pl-64 transition-all duration-300">
         <AdminHeader />
-        <main className="flex-1 p-6 overflow-y-auto bg-background">
+        <main className="flex-1 p-6 overflow-y-auto bg-card">
           {children}
         </main>
       </div>

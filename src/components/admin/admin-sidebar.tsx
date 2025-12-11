@@ -24,13 +24,14 @@ import {
 } from "@/components/ui/accordion";
 import { useState } from "react";
 import Image from "next/image";
+import { useTheme } from "next-themes";
 
 const sidebarItems = [
   {
     title: "Dashboard",
     href: "/admin",
     icon: LayoutDashboard,
-  }
+  },
 ];
 
 export function AdminSidebar() {
@@ -42,7 +43,11 @@ export function AdminSidebar() {
       {/* Mobile Sidebar Trigger */}
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild>
-          <Button variant="ghost" size="icon" className="md:hidden fixed top-4 left-4 z-50">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden fixed top-4 left-4 z-50"
+          >
             <Menu className="h-6 w-6" />
           </Button>
         </SheetTrigger>
@@ -52,7 +57,7 @@ export function AdminSidebar() {
       </Sheet>
 
       {/* Desktop Sidebar */}
-      <aside className="hidden md:flex h-screen w-64 flex-col fixed left-0 top-0 border-r bg-card text-card-foreground z-40">
+      <aside className="hidden md:flex h-screen w-64 flex-col fixed left-0 top-0 border-r bg-background text-card-foreground z-40">
         <SidebarContent pathname={pathname} />
       </aside>
     </>
@@ -66,10 +71,18 @@ function SidebarContent({
   pathname: string;
   setOpen?: (open: boolean) => void;
 }) {
+    const { theme } = useTheme();
+
   return (
     <div className="flex flex-col h-full">
       <div className="h-16 flex items-center px-6 border-b">
-        <Image src="/logo3.png" className="w-24" alt="Logo" width={500} height={500} />
+        <Image
+          className="w-24"
+          src={theme === "dark" ? "/logo4.png" : "/logo7.png"}
+          alt="Logo"
+          width={1000}
+          height={1000}
+        />
       </div>
       <div className="flex-1 py-6 px-3 space-y-1 overflow-y-auto">
         {sidebarItems.map((item) => (
@@ -160,11 +173,9 @@ function SidebarContent({
                 >
                   Posts Redes
                 </Link>
-
               </div>
             </AccordionContent>
           </AccordionItem>
-
 
           <AccordionItem value="blog" className="border-none">
             <AccordionTrigger className="px-3 py-2.5 hover:no-underline hover:bg-muted rounded-md text-sm font-medium text-muted-foreground hover:text-foreground">
@@ -180,7 +191,8 @@ function SidebarContent({
                   onClick={() => setOpen?.(false)}
                   className={cn(
                     "block px-3 py-2 rounded-md text-sm font-medium transition-colors",
-                    pathname === "/admin/blog" || pathname.startsWith("/admin/blog/")
+                    pathname === "/admin/blog" ||
+                      pathname.startsWith("/admin/blog/")
                       ? "bg-primary/10 text-primary"
                       : "text-muted-foreground hover:bg-muted hover:text-foreground"
                   )}
@@ -203,28 +215,28 @@ function SidebarContent({
             </AccordionContent>
           </AccordionItem>
         </Accordion>
-         <Link
-            key="/admin/perfil"
-            href="/admin/perfil"
-            onClick={() => setOpen?.(false)}
-            className={cn(
-              "flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors",
-              pathname === "/admin/perfil"
-                ? "bg-primary/10 text-primary"
-                : "text-muted-foreground hover:bg-muted hover:text-foreground"
-            )}
-          >
-            <User className="h-5 w-5" />
-            Perfil
-          </Link>
+        <Link
+          key="/admin/perfil"
+          href="/admin/perfil"
+          onClick={() => setOpen?.(false)}
+          className={cn(
+            "flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors",
+            pathname === "/admin/perfil"
+              ? "bg-primary/10 text-primary"
+              : "text-muted-foreground hover:bg-muted hover:text-foreground"
+          )}
+        >
+          <User className="h-5 w-5" />
+          Perfil
+        </Link>
       </div>
       <div className="p-4 border-t">
-        <Button 
-          variant="ghost" 
+        <Button
+          variant="ghost"
           className="w-full justify-start gap-3 text-destructive hover:text-destructive hover:bg-destructive/10"
           onClick={async () => {
-            await fetch('/api/auth/logout', { method: 'POST' });
-            window.location.href = '/es/login';
+            await fetch("/api/auth/logout", { method: "POST" });
+            window.location.href = "/es/login";
           }}
         >
           <LogOut className="h-5 w-5" />

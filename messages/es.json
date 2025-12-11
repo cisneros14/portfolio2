@@ -46,6 +46,10 @@
     "dash_ecommerce": {
       "title": "Admin Dashboard",
       "subtitle": "Dashboard administrativo ágil para gestionar CRMs, ventas y operaciones en tiempo real."
+    },
+    "cainec": {
+      "title": "Cainec",
+      "subtitle": "Sitio web, para empresa orientada a bienes y raices."
     }
   },
   "years_experience": "Años de experiencia",

@@ -47,7 +47,7 @@ These serve as the fallback; there is no separate default.css file. */
   --navbar-height: 4rem;
 
   /* Modern Tech Palette - Light Mode */
-  --background: oklch(0.985 0.01 260); /* Very light cool gray/blue */
+  --background: #ffffff ; /* Very light cool gray/blue */
   --foreground: oklch(0.15 0.05 260); /* Deep navy */
 
   --card: oklch(1 0 0);
