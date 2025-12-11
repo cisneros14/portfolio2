@@ -87,28 +87,22 @@ export function ContactDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <motion.div
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 1, type: "spring", stiffness: 260, damping: 20 }}
+        <Button
+          size={triggerSize}
+          className={cn(
+            "group max-sm:w-full cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300 px-8 py-2 !text-[0.8rem] md:!text-base sm:text-lg rounded-xl h-auto",
+            triggerClassName
+          )}
         >
-          <Button
-            size={triggerSize}
-            className={cn(
-              "group max-sm:w-full cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300 px-8 py-2 !text-[0.8rem] md:!text-base sm:text-lg rounded-xl h-auto",
-              triggerClassName
-            )}
-          >
-            {children ? (
-              children
-            ) : (
-              <>
-                <Send className="h-6 w-6" />
-                <span className="sr-only">Abrir canales de contacto</span>
-              </>
-            )}
-          </Button>
-        </motion.div>
+          {children ? (
+            children
+          ) : (
+            <>
+              <Send className="h-6 w-6" />
+              <span className="sr-only">Abrir canales de contacto</span>
+            </>
+          )}
+        </Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-md bg-background/95 border-primary/20 backdrop-blur-xl">

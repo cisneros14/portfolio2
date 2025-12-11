@@ -20,6 +20,7 @@ import {
   User,
   ArrowRight,
 } from "lucide-react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import Nav from "@/components/nav";
 
@@ -181,10 +182,11 @@ export default function BlogListingPage() {
                   )}
                 >
                   {post.blog_imagen_portada ? (
-                    <img
+                    <Image
                       src={post.blog_imagen_portada}
                       alt={post.blog_titulo}
-                      className="object-cover w-full h-full transition-transform hover:scale-105 duration-500"
+                      fill
+                      className="object-cover transition-transform hover:scale-105 duration-500"
                     />
                   ) : (
                     <div className="flex items-center justify-center w-full h-full text-muted-foreground">

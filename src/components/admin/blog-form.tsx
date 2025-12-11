@@ -8,6 +8,7 @@ import * as z from "zod";
 import { Loader2 } from "lucide-react";
 import dynamic from "next/dynamic";
 import "react-quill-new/dist/quill.snow.css";
+import Image from "next/image";
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
 
@@ -281,10 +282,11 @@ export const BlogForm = forwardRef<BlogFormHandle, BlogFormProps>(
                   <div className="flex flex-col gap-4">
                     {imagePreview && (
                       <div className="relative aspect-video w-full overflow-hidden rounded-lg border">
-                        <img
+                        <Image
                           src={imagePreview}
                           alt="Vista previa"
-                          className="h-full w-full object-cover"
+                          fill
+                          className="object-cover"
                         />
                       </div>
                     )}

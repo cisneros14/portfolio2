@@ -47,6 +47,7 @@ export function AdminSidebar() {
             variant="ghost"
             size="icon"
             className="md:hidden fixed top-4 left-4 z-50"
+            aria-label="Toggle Menu"
           >
             <Menu className="h-6 w-6" />
           </Button>
@@ -71,7 +72,7 @@ function SidebarContent({
   pathname: string;
   setOpen?: (open: boolean) => void;
 }) {
-    const { theme } = useTheme();
+  const { theme } = useTheme();
 
   return (
     <div className="flex flex-col h-full">
