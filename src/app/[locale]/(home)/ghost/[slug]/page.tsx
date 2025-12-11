@@ -1,30 +1,31 @@
-import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-import { getCachedGhostContent, generateGhostSlugs } from '@/lib/ghost-content-generator';
-import GhostPageComponent from './GhostPageComponent';
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { getCachedGhostContent } from "@/lib/ghost-content-generator";
 
 // Generar parámetros estáticos para miles de páginas
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   const params: { locale: string; slug: string }[] = [];
-  
+
   // Solo cargar contenido español por ahora (ya que tenemos los archivos batch)
   try {
     for (let i = 1; i <= 11; i++) {
       try {
         const batch = await import(`@/data/ghost-content/es/batch-${i}.json`);
         const content = batch.default;
-        
+
         for (const item of content) {
-          params.push({ locale: 'es', slug: item.slug });
+          params.push({ locale: "es", slug: item.slug });
         }
-      } catch (e) {
+      } catch {
         console.log(`Batch ${i} not found`);
       }
     }
   } catch (error) {
-    console.error('Error loading batch files:', error);
+    console.error("Error loading batch files:", error);
   }
-  
+
   return params;
 }
 
@@ -35,29 +36,29 @@ export async function generateMetadata({
   params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
   const { locale, slug } = await params;
-  
+
   try {
     const content = await getCachedGhostContent(slug, locale);
-    
-    const baseUrl = 'https://agility-ecuador.com';
+
+    const baseUrl = "https://agility-ecuador.com";
     const currentUrl = `${baseUrl}/${locale}/ghost/${slug}`;
-    
+
     return {
       title: content.title,
       description: content.description,
-      keywords: content.keywords.join(', '),
-      authors: [{ name: 'Agility Ecuador' }],
-      creator: 'Agility Ecuador',
-      publisher: 'Agility Ecuador',
-      
+      keywords: content.keywords.join(", "),
+      authors: [{ name: "Agility Ecuador" }],
+      creator: "Agility Ecuador",
+      publisher: "Agility Ecuador",
+
       // Open Graph
       openGraph: {
-        type: 'website',
-        locale: locale === 'es' ? 'es_EC' : 'en_US',
+        type: "website",
+        locale: locale === "es" ? "es_EC" : "en_US",
         url: currentUrl,
         title: content.title,
         description: content.description,
-        siteName: 'Agility Ecuador',
+        siteName: "Agility Ecuador",
         images: [
           {
             url: `${baseUrl}/og-image-agility.jpg`,
@@ -67,25 +68,25 @@ export async function generateMetadata({
           },
         ],
       },
-      
+
       // Twitter Card
       twitter: {
-        card: 'summary_large_image',
+        card: "summary_large_image",
         title: content.title,
         description: content.description,
         images: [`${baseUrl}/og-image-agility.jpg`],
-        creator: '@agilityecuador',
+        creator: "@agilityecuador",
       },
-      
+
       // Canonical URL
       alternates: {
         canonical: currentUrl,
         languages: {
-          'es': `${baseUrl}/es/ghost/${slug}`,
-          'en': `${baseUrl}/en/ghost/${slug}`,
+          es: `${baseUrl}/es/ghost/${slug}`,
+          en: `${baseUrl}/en/ghost/${slug}`,
         },
       },
-      
+
       // Robots
       robots: {
         index: true,
@@ -93,49 +94,52 @@ export async function generateMetadata({
         googleBot: {
           index: true,
           follow: true,
-          'max-video-preview': -1,
-          'max-image-preview': 'large',
-          'max-snippet': -1,
+          "max-video-preview": -1,
+          "max-image-preview": "large",
+          "max-snippet": -1,
         },
       },
-      
+
       // Additional meta tags
       other: {
-        'geo.region': 'EC',
-        'geo.placename': content.location,
-        'geo.position': '-0.1807;-78.4678', // Quito coordinates
-        'ICBM': '-0.1807, -78.4678',
-        'DC.title': content.title,
-        'DC.description': content.description,
-        'DC.subject': content.keywords.join(', '),
-        'DC.creator': 'Agility Ecuador',
-        'DC.publisher': 'Agility Ecuador',
-        'DC.date.created': new Date().toISOString(),
-        'DC.language': locale,
-        'DC.coverage': content.location,
-        'DC.rights': '© 2024 Agility Ecuador. All rights reserved.',
+        "geo.region": "EC",
+        "geo.placename": content.location,
+        "geo.position": "-0.1807;-78.4678", // Quito coordinates
+        ICBM: "-0.1807, -78.4678",
+        "DC.title": content.title,
+        "DC.description": content.description,
+        "DC.subject": content.keywords.join(", "),
+        "DC.creator": "Agility Ecuador",
+        "DC.publisher": "Agility Ecuador",
+        "DC.date.created": new Date().toISOString(),
+        "DC.language": locale,
+        "DC.coverage": content.location,
+        "DC.rights": "© 2024 Agility Ecuador. All rights reserved.",
       },
     };
   } catch (error) {
-    console.error('Error generating metadata:', error);
+    console.error("Error generating metadata:", error);
     return {
-      title: 'Agility Ecuador - Landing Pages Profesionales',
-      description: 'Creamos landing pages profesionales y económicas en Ecuador. Desde $79. Contacta a Agility hoy.',
+      title: "Agility Ecuador - Landing Pages Profesionales",
+      description:
+        "Creamos landing pages profesionales y económicas en Ecuador. Desde $79. Contacta a Agility hoy.",
     };
   }
 }
 
 // Componente principal de la página fantasma
+import HeroGeometric from "../../page";
+
 export default async function GhostPage({
   params,
 }: {
   params: Promise<{ locale: string; slug: string }>;
 }) {
   const { locale, slug } = await params;
-  
+
   try {
     const content = await getCachedGhostContent(slug, locale);
-    
+
     return (
       <>
         {/* Schema.org JSON-LD para LocalBusiness */}
@@ -145,61 +149,61 @@ export default async function GhostPage({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "LocalBusiness",
-              "name": "Agility Ecuador",
-              "description": content.description,
-              "url": "https://agility-ecuador.com",
-              "telephone": "+593-99-999-9999",
-              "email": "contacto@agility-ecuador.com",
-              "address": {
+              name: "Agility Ecuador",
+              description: content.description,
+              url: "https://agility-ecuador.com",
+              telephone: "+593-99-999-9999",
+              email: "contacto@agility-ecuador.com",
+              address: {
                 "@type": "PostalAddress",
-                "streetAddress": "Av. Amazonas N39-79",
-                "addressLocality": "Quito",
-                "addressRegion": "Pichincha",
-                "postalCode": "170150",
-                "addressCountry": "EC"
+                streetAddress: "Av. Amazonas N39-79",
+                addressLocality: "Quito",
+                addressRegion: "Pichincha",
+                postalCode: "170150",
+                addressCountry: "EC",
               },
-              "geo": {
+              geo: {
                 "@type": "GeoCoordinates",
-                "latitude": -0.1807,
-                "longitude": -78.4678
+                latitude: -0.1807,
+                longitude: -78.4678,
               },
-              "openingHours": "Mo-Fr 09:00-18:00",
-              "priceRange": "$79-$199",
-              "serviceArea": {
+              openingHours: "Mo-Fr 09:00-18:00",
+              priceRange: "$79-$199",
+              serviceArea: {
                 "@type": "Country",
-                "name": "Ecuador"
+                name: "Ecuador",
               },
-              "hasOfferCatalog": {
+              hasOfferCatalog: {
                 "@type": "OfferCatalog",
-                "name": "Servicios de Diseño Web",
-                "itemListElement": [
+                name: "Servicios de Diseño Web",
+                itemListElement: [
                   {
                     "@type": "Offer",
-                    "itemOffered": {
+                    itemOffered: {
                       "@type": "Service",
-                      "name": content.service,
-                      "description": content.description
+                      name: content.service,
+                      description: content.description,
                     },
-                    "price": content.price,
-                    "priceCurrency": "USD",
-                    "availability": "https://schema.org/InStock"
-                  }
-                ]
+                    price: content.price,
+                    priceCurrency: "USD",
+                    availability: "https://schema.org/InStock",
+                  },
+                ],
               },
-              "aggregateRating": {
+              aggregateRating: {
                 "@type": "AggregateRating",
-                "ratingValue": "4.9",
-                "reviewCount": "127"
+                ratingValue: "4.9",
+                reviewCount: "127",
               },
-              "sameAs": [
+              sameAs: [
                 "https://www.facebook.com/agilityecuador",
                 "https://www.instagram.com/agilityecuador",
-                "https://www.linkedin.com/company/agilityecuador"
-              ]
-            })
+                "https://www.linkedin.com/company/agilityecuador",
+              ],
+            }),
           }}
         />
-        
+
         {/* Schema.org para WebPage */}
         <script
           type="application/ld+json"
@@ -207,38 +211,38 @@ export default async function GhostPage({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebPage",
-              "name": content.title,
-              "description": content.description,
-              "url": `https://agility-ecuador.com/${locale}/ghost/${slug}`,
-              "isPartOf": {
+              name: content.title,
+              description: content.description,
+              url: `https://agility-ecuador.com/${locale}/ghost/${slug}`,
+              isPartOf: {
                 "@type": "WebSite",
-                "name": "Agility Ecuador",
-                "url": "https://agility-ecuador.com"
+                name: "Agility Ecuador",
+                url: "https://agility-ecuador.com",
               },
-              "about": {
+              about: {
                 "@type": "LocalBusiness",
-                "name": "Agility Ecuador"
+                name: "Agility Ecuador",
               },
-              "keywords": content.keywords.join(', '),
-              "inLanguage": locale,
-              "datePublished": new Date().toISOString(),
-              "dateModified": new Date().toISOString(),
-              "author": {
+              keywords: content.keywords.join(", "),
+              inLanguage: locale,
+              datePublished: new Date().toISOString(),
+              dateModified: new Date().toISOString(),
+              author: {
                 "@type": "Organization",
-                "name": "Agility Ecuador"
+                name: "Agility Ecuador",
               },
-              "publisher": {
+              publisher: {
                 "@type": "Organization",
-                "name": "Agility Ecuador",
-                "logo": {
+                name: "Agility Ecuador",
+                logo: {
                   "@type": "ImageObject",
-                  "url": "https://agility-ecuador.com/logo.png"
-                }
-              }
-            })
+                  url: "https://agility-ecuador.com/logo.png",
+                },
+              },
+            }),
           }}
         />
-        
+
         {/* Schema.org para Service */}
         <script
           type="application/ld+json"
@@ -246,32 +250,32 @@ export default async function GhostPage({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Service",
-              "name": content.service,
-              "description": content.description,
-              "provider": {
+              name: content.service,
+              description: content.description,
+              provider: {
                 "@type": "LocalBusiness",
-                "name": "Agility Ecuador"
+                name: "Agility Ecuador",
               },
-              "areaServed": {
+              areaServed: {
                 "@type": "Country",
-                "name": "Ecuador"
+                name: "Ecuador",
               },
-              "serviceType": "Web Design",
-              "offers": {
+              serviceType: "Web Design",
+              offers: {
                 "@type": "Offer",
-                "price": content.price,
-                "priceCurrency": "USD",
-                "availability": "https://schema.org/InStock"
-              }
-            })
+                price: content.price,
+                priceCurrency: "USD",
+                availability: "https://schema.org/InStock",
+              },
+            }),
           }}
         />
-        
-        <GhostPageComponent content={content} locale={locale} />
+
+        <HeroGeometric />
       </>
     );
   } catch (error) {
-    console.error('Error loading ghost page:', error);
+    console.error("Error loading ghost page:", error);
     notFound();
   }
 }
