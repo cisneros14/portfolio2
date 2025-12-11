@@ -460,13 +460,26 @@ function ProjectCard({
   );
 }
 
-function HeroSection({ t, itemVariants }: { t: any; itemVariants: any }) {
+function HeroSection({
+  t,
+  itemVariants,
+  containerVariants,
+}: {
+  t: any;
+  itemVariants: any;
+  containerVariants: any;
+}) {
   const { theme } = useTheme();
   return (
     <div id="hero" className="scroll-mt-24">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
         {/* Left Column: Content */}
-        <div className="flex flex-col items-start text-left order-2 lg:order-1">
+        <motion.div
+          className="flex flex-col items-start text-left order-2 lg:order-1"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
           <motion.div variants={itemVariants} className="mb-6">
             <Badge
               variant="outline"
@@ -514,14 +527,11 @@ function HeroSection({ t, itemVariants }: { t: any; itemVariants: any }) {
               </a>
             </Button>
           </motion.div>
-        </div>
+        </motion.div>
 
         {/* Right Column: Visual */}
         <div className="relative order-1 lg:order-2 flex justify-center lg:justify-end">
-          <motion.div
-            variants={itemVariants}
-            className="relative w-full max-w-[400px] lg:max-w-[500px] aspect-square flex items-center justify-center"
-          >
+          <div className="relative w-full max-w-[400px] lg:max-w-[500px] aspect-square flex items-center justify-center">
             <div className="absolute inset-0 rounded-full pointer-events-none opacity-20 dark:opacity-10 bg-primary/20 blur-3xl" />
             <Image
               src={theme === "dark" ? "/logo5.png" : "/logo6.png"}
@@ -531,7 +541,7 @@ function HeroSection({ t, itemVariants }: { t: any; itemVariants: any }) {
               className="w-74 lg:w-100 h-auto drop-shadow-2xl"
               priority
             />
-          </motion.div>
+          </div>
         </div>
       </div>
     </div>
@@ -1347,13 +1357,11 @@ export default function HeroGeometric() {
 
       {/* Main content */}
       <div className="relative z-10 space-y-48">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <HeroSection t={t} itemVariants={itemVariants} />
-        </motion.div>
+        <HeroSection
+          t={t}
+          itemVariants={itemVariants}
+          containerVariants={containerVariants}
+        />
 
         <AboutExperienceSection t={t} itemVariants={itemVariants} />
         <ProjectsSection t={t} itemVariants={itemVariants} />

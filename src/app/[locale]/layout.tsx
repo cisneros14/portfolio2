@@ -55,12 +55,12 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <GoogleAnalytics
-              gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID || ""}
-            />
             {children}
           </ThemeProvider>
         </NextIntlClientProvider>
+        <GoogleAnalytics
+          gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID || ""}
+        />
       </body>
     </html>
   );
