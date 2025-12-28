@@ -14,7 +14,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Lock } from "lucide-react";
-import Nav from "@/components/nav";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");

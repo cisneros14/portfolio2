@@ -1,22 +1,19 @@
 "use client";
 
 import React from "react";
-import { Button } from "./ui/button";
+import { usePathname } from "next/navigation";
 import { FaWhatsapp } from "react-icons/fa";
 
 export default function WhatsappBtn() {
-  const phone = "+593939595776";
-  const hrefWeb = `https://api.whatsapp.com/send?phone=${phone.replace(
-    /[^0-9+]/g,
-    ""
-  )}`;
-  const hrefMobile = `whatsapp://send?phone=${phone.replace(/[^0-9+]/g, "")}`;
+  const pathname = usePathname();
+  const isEnglish = pathname.startsWith("/en");
 
-  // Prefer protocol for mobile, fallback to web
-  const href =
-    typeof window !== "undefined" && /Mobi|Android/i.test(navigator.userAgent)
-      ? hrefMobile
-      : hrefWeb;
+  const phone = "593939595776"; // solo números, sin +
+  const message = isEnglish
+    ? "Hello, I would like more information about..."
+    : "Hola, quisiera más información sobre ...";
+
+  const href = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 
   return (
     <a
@@ -24,7 +21,7 @@ export default function WhatsappBtn() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Contactar por WhatsApp"
-      className="fixed bottom-5 right-3 z-[1000] inline-flex items-center justify-center rounded-md border border-green-400 bg-green-500 p-3 py-6 shadow-lg transition-transform hover:scale-110"
+      className="fixed bottom-5 right-3 z-[1000] inline-flex items-center justify-center rounded-md border border-green-400 bg-green-500 p-3 shadow-lg transition-transform hover:scale-110"
     >
       <FaWhatsapp className="h-6 w-6 text-white" />
     </a>

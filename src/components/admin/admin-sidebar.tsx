@@ -5,9 +5,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
   LayoutDashboard,
-  Settings,
   Users,
-  FileText,
   LogOut,
   Menu,
   Megaphone,
@@ -24,7 +22,6 @@ import {
 } from "@/components/ui/accordion";
 import { useState } from "react";
 import Image from "next/image";
-import { useTheme } from "next-themes";
 
 const sidebarItems = [
   {
@@ -72,14 +69,19 @@ function SidebarContent({
   pathname: string;
   setOpen?: (open: boolean) => void;
 }) {
-  const { theme } = useTheme();
-
   return (
     <div className="flex flex-col h-full">
       <div className="h-16 flex items-center px-6 border-b">
         <Image
-          className="w-24"
-          src={theme === "dark" ? "/logo4.png" : "/logo7.png"}
+          className="w-24 block dark:hidden"
+          src="/logo7.png"
+          alt="Logo"
+          width={1000}
+          height={1000}
+        />
+        <Image
+          className="w-24 hidden dark:block"
+          src="/logo4.png"
           alt="Logo"
           width={1000}
           height={1000}

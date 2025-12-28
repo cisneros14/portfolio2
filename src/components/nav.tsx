@@ -6,7 +6,6 @@ import { useRouter, usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import {
-  Github,
   MailIcon,
   Package,
   Component,
@@ -20,22 +19,22 @@ import Image from "next/image";
 
 const DOCK_DATA = [
   {
-    title: "Inicio",
+    titleKey: "nav_home",
     icon: Home,
     href: "/",
   },
   {
-    title: "Tecnologías",
+    titleKey: "nav_technologies",
     icon: Package,
     href: "#skills",
   },
   {
-    title: "Proyectos",
+    titleKey: "nav_projects",
     icon: Component,
     href: "#projects",
   },
   {
-    title: "Nuestro blog",
+    titleKey: "nav_blog",
     icon: Component,
     href: "/lista-blogs",
   },
@@ -43,19 +42,14 @@ const DOCK_DATA = [
 
 const DOCK_SOCIAL_DATA = [
   {
-    icon: Github,
-    href: "https://github.com/cisneros14",
-    label: "GitHub",
-  },
-  {
     icon: MailIcon,
     href: "mailto:cisnerosgranda14@gmail.com",
-    label: "Correo Electronico",
+    labelKey: "nav_email",
   },
   {
     icon: FaWhatsapp,
     href: "https://wa.me/593939595776",
-    label: "WhatsApp",
+    labelKey: "nav_whatsapp",
   },
 ];
 
@@ -63,9 +57,18 @@ const Nav = () => {
   const { setTheme, theme } = useTheme();
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const t = useTranslations();
 
   const pathname = usePathname();
   const currentLocale = pathname.split("/")[1];
+
+  const getNavigationHref = (href: string) => {
+    if (href.startsWith("#")) {
+      const locale = ["es", "en"].includes(currentLocale) ? currentLocale : "";
+      return locale ? `/${locale}${href}` : `/${href}`;
+    }
+    return href;
+  };
 
   const handleLanguageSwitch = () => {
     const newLocale = currentLocale === "es" ? "en" : "es";
@@ -113,7 +116,7 @@ const Nav = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 text-muted-foreground hover:text-foreground transition-colors"
-                aria-label={item.label}
+                aria-label={t(item.labelKey)}
               >
                 <item.icon className="w-5 h-5" />
               </a>
@@ -125,7 +128,7 @@ const Nav = () => {
           <button
             onClick={handleLanguageSwitch}
             className="p-2 text-muted-foreground hover:text-foreground transition-colors rounded-full hover:bg-accent"
-            aria-label="Switch Language"
+            aria-label={t("nav_switch_language")}
           >
             <Languages className="w-5 h-5" />
           </button>
@@ -134,7 +137,7 @@ const Nav = () => {
           <button
             onClick={toggleTheme}
             className="p-2 text-muted-foreground hover:text-foreground transition-colors rounded-full hover:bg-accent"
-            aria-label="Toggle Theme"
+            aria-label={t("nav_toggle_theme")}
           >
             {theme === "light" ? (
               <Sun className="w-5 h-5" />
@@ -151,7 +154,7 @@ const Nav = () => {
             aria-expanded={isMenuOpen}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            <span className="sr-only">Open main menu</span>
+            <span className="sr-only">{t("nav_open_menu")}</span>
             <svg
               className="w-5 h-5"
               aria-hidden="true"
@@ -179,12 +182,12 @@ const Nav = () => {
             {DOCK_DATA.map((item, idx) => (
               <li key={idx}>
                 <Link
-                  href={item.href}
+                  href={getNavigationHref(item.href)}
                   className="block py-2 px-3 text-foreground rounded hover:bg-accent md:hover:bg-transparent md:hover:text-primary md:p-0 transition-colors flex items-center gap-2"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   <item.icon className="w-4 h-4 md:hidden" />
-                  {item.title}
+                  {t(item.titleKey)}
                 </Link>
               </li>
             ))}

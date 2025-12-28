@@ -2,13 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardFooter,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -22,7 +16,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import Nav from "@/components/nav";
+import { useTranslations } from "next-intl";
 
 interface BlogPost {
   blog_id: number;
@@ -47,6 +41,7 @@ export default function BlogListingPage() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
+  const t = useTranslations();
 
   // Filters
   const [searchQuery, setSearchQuery] = useState("");
@@ -65,13 +60,30 @@ export default function BlogListingPage() {
         const postsData = await postsRes.json();
         const catsData = await catsRes.json();
 
-        // Filter only published posts
-        const publishedPosts = postsData.filter(
-          (p: any) => p.blog_estado === "publicado"
-        );
+        // Check if responses are arrays before using them
+        if (Array.isArray(postsData)) {
+          // Filter only published posts
+          const publishedPosts = postsData.filter(
+            (p: BlogPost) => p.blog_estado === "publicado"
+          );
+          setPosts(publishedPosts);
+        } else {
+          console.error(
+            "Posts API returned error or invalid format:",
+            postsData
+          );
+          setPosts([]);
+        }
 
-        setPosts(publishedPosts);
-        setCategories(catsData);
+        if (Array.isArray(catsData)) {
+          setCategories(catsData);
+        } else {
+          console.error(
+            "Categories API returned error or invalid format:",
+            catsData
+          );
+          setCategories([]);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -100,10 +112,10 @@ export default function BlogListingPage() {
         <div className="flex flex-col md:flex-row justify-between md:items-end gap-4 border-b pb-6">
           <div>
             <h1 className="text-4xl font-bold tracking-tight mb-2">
-              Nuestro Blog
+              {t("blog_title")}
             </h1>
             <p className="text-muted-foreground text-lg">
-              Noticias, consejos y artículos de interés.
+              {t("blog_subtitle")}
             </p>
           </div>
 
@@ -111,7 +123,7 @@ export default function BlogListingPage() {
             <div className="relative flex-1 md:w-64">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Buscar artículos..."
+                placeholder={t("blog_search_placeholder")}
                 className="pl-9"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -145,7 +157,7 @@ export default function BlogListingPage() {
         ) : filteredPosts.length === 0 ? (
           <div className="text-center py-20 bg-muted/30 rounded-lg">
             <p className="text-muted-foreground text-lg">
-              No se encontraron artículos.
+              {t("blog_no_posts")}
             </p>
             {selectedCategory && (
               <Button
@@ -153,7 +165,7 @@ export default function BlogListingPage() {
                 onClick={() => setSelectedCategory(null)}
                 className="mt-2"
               >
-                Ver todos los artículos
+                {t("blog_view_all")}
               </Button>
             )}
           </div>
@@ -225,7 +237,7 @@ export default function BlogListingPage() {
                   </h3>
 
                   <p className="text-muted-foreground line-clamp-3 mb-4 flex-1">
-                    {post.blog_extracto || "Sin descripción disponible."}
+                    {post.blog_extracto || t("blog_no_description")}
                   </p>
 
                   <div className="mt-auto pt-4 border-t flex justify-between items-center">
@@ -234,7 +246,7 @@ export default function BlogListingPage() {
                         variant="link"
                         className="p-0 h-auto font-semibold group"
                       >
-                        Leer más{" "}
+                        {t("blog_read_more")}{" "}
                         <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                       </Button>
                     </Link>
@@ -250,7 +262,7 @@ export default function BlogListingPage() {
       <aside className="w-full lg:w-80 space-y-8 sticky top-24 self-start">
         <Card>
           <CardHeader>
-            <CardTitle>Categorías</CardTitle>
+            <CardTitle>{t("blog_categories_title")}</CardTitle>
           </CardHeader>
           <CardContent className="p-0">
             <div className="flex flex-col">
@@ -263,7 +275,7 @@ export default function BlogListingPage() {
                     : "border-transparent text-muted-foreground"
                 )}
               >
-                Todas las categorías
+                {t("blog_all_categories")}
               </button>
               {categories.map((cat) => (
                 <button
@@ -286,13 +298,12 @@ export default function BlogListingPage() {
         {/* Optional: Recent Posts or other widgets could go here */}
         <Card className="bg-primary/5 border-none">
           <CardContent className="p-6">
-            <h3 className="font-bold text-lg mb-2">¿Necesitas ayuda?</h3>
+            <h3 className="font-bold text-lg mb-2">{t("blog_help_title")}</h3>
             <p className="text-sm text-muted-foreground mb-4">
-              Contáctanos para recibir asesoría personalizada sobre nuestros
-              servicios.
+              {t("blog_help_description")}
             </p>
             <Link href="/#contact">
-              <Button className="w-full">Contáctanos</Button>
+              <Button className="w-full">{t("blog_contact_button")}</Button>
             </Link>
           </CardContent>
         </Card>

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
-import { Sparkles, ShoppingBag, ArrowRight, Component } from "lucide-react";
+import { Sparkles, ArrowRight, Component } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -14,8 +14,6 @@ import { Card } from "@/components/ui/card";
 import Link from "next/link";
 import Image from "next/image";
 import { ContactDialog } from "@/components/contact-dialog";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 
 // Proyectos: generar datos traducibles usando las claves de i18n
 const getProjectsData = (t: any) => [

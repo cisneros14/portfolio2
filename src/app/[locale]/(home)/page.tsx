@@ -6,8 +6,7 @@ import { motion } from "framer-motion";
 import { Sparkles, ArrowRight, ShoppingBag, Rocket } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+
 
 import React from "react";
 
@@ -24,9 +23,6 @@ const ContactSection = dynamic(
   { ssr: false }
 );
 
-function cn(...classes: (string | undefined | false | null)[]) {
-  return classes.filter(Boolean).join(" ");
-}
 const ProjectsSection = dynamic(
   () =>
     import("@/components/projects-section").then((mod) => mod.ProjectsSection),
@@ -220,7 +216,7 @@ function ProcessSection() {
 
 export default function HeroGeometric() {
   const t = useTranslations();
-  const router = useRouter();
+
 
   // Scroll transformations
   // Animation variants
@@ -240,16 +236,7 @@ export default function HeroGeometric() {
     visible: { opacity: 1, y: 0 },
   };
 
-  const currentLocale =
-    typeof window !== "undefined"
-      ? window.location.pathname.split("/")[1]
-      : "es";
 
-  const handleLanguageSwitch = () => {
-    const newLocale = currentLocale === "es" ? "en" : "es";
-    const restPath = window.location.pathname.split("/").slice(2).join("/");
-    router.push(`/${newLocale}${restPath ? "/" + restPath : ""}`);
-  };
 
   return (
     <div className="relative space-y-48">
