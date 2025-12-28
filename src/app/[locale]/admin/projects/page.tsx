@@ -76,7 +76,7 @@ export default function AdminProjectsPage() {
         </Link>
       </div>
 
-      <div className="border rounded-lg">
+      <div className="border rounded-lg bg-background">
         <Table>
           <TableHeader>
             <TableRow>
