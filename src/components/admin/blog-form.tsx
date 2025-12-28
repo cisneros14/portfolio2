@@ -148,11 +148,28 @@ export const BlogForm = forwardRef<BlogFormHandle, BlogFormProps>(
     }
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-      console.log(values);
-      alert(
-        "Funcionalidad de guardar pendiente. Revisa la consola para ver los valores."
-      );
-      // Here you would call the server action to save/update the post
+      try {
+        // Import dynamically to avoid build issues
+        const { saveBlogPost } = await import("@/actions/blog");
+
+        const result = await saveBlogPost({
+          ...values,
+          id: initialData?.blog_id, // Pass ID if editing
+        });
+
+        if (result.success) {
+          alert(result.message);
+          if (!isEditing) {
+            // Optional: Redirect or reset form
+            window.location.href = "/admin/blog";
+          }
+        } else {
+          alert(result.error);
+        }
+      } catch (error) {
+        console.error("Error submitting form:", error);
+        alert("Error inesperado al guardar");
+      }
     }
 
     useImperativeHandle(ref, () => ({
