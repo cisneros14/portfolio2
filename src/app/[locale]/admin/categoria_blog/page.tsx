@@ -97,7 +97,7 @@ export default function BlogCategoriesPage() {
 
     try {
       const res = await fetch(`/api/blog/categories/${id}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
 
       if (res.ok) {
@@ -142,17 +142,22 @@ export default function BlogCategoriesPage() {
     }
   };
 
-  const filteredCategories = categories.filter((cat) =>
-    cat.cat_nombre.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    cat.cat_slug.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredCategories = categories.filter(
+    (cat) =>
+      cat.cat_nombre.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      cat.cat_slug.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Categorías de Blog</h1>
-          <p className="text-muted-foreground">Gestiona las categorías para tus artículos.</p>
+          <h1 className="text-3xl font-bold tracking-tight">
+            Categorías de Blog
+          </h1>
+          <p className="text-muted-foreground">
+            Gestiona las categorías para tus artículos.
+          </p>
         </div>
         <Button onClick={handleCreateClick}>
           <Plus className="mr-2 h-4 w-4" /> Nueva Categoría
@@ -164,7 +169,7 @@ export default function BlogCategoriesPage() {
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Buscar por nombre o slug..."
-            className="pl-9"
+            className="pl-9 bg-background"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -187,27 +192,56 @@ export default function BlogCategoriesPage() {
               <table className="w-full caption-bottom text-sm">
                 <thead className="[&_tr]:border-b">
                   <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">ID</th>
-                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Nombre</th>
-                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Slug</th>
-                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Descripción</th>
-                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Acciones</th>
+                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                      ID
+                    </th>
+                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                      Nombre
+                    </th>
+                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                      Slug
+                    </th>
+                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                      Descripción
+                    </th>
+                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                      Acciones
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="[&_tr:last-child]:border-0">
                   {filteredCategories.map((cat) => (
-                    <tr key={cat.cat_id} className="border-b transition-colors hover:bg-muted/50">
-                      <td className="p-4 align-middle font-medium">{cat.cat_id}</td>
+                    <tr
+                      key={cat.cat_id}
+                      className="border-b transition-colors hover:bg-muted/50"
+                    >
+                      <td className="p-4 align-middle font-medium">
+                        {cat.cat_id}
+                      </td>
                       <td className="p-4 align-middle">{cat.cat_nombre}</td>
-                      <td className="p-4 align-middle text-muted-foreground">{cat.cat_slug}</td>
-                      <td className="p-4 align-middle max-w-xs truncate" title={cat.cat_descripcion}>
-                        {cat.cat_descripcion || '-'}
+                      <td className="p-4 align-middle text-muted-foreground">
+                        {cat.cat_slug}
+                      </td>
+                      <td
+                        className="p-4 align-middle max-w-xs truncate"
+                        title={cat.cat_descripcion}
+                      >
+                        {cat.cat_descripcion || "-"}
                       </td>
                       <td className="p-4 align-middle flex gap-2">
-                        <Button variant="ghost" size="icon" onClick={() => handleEditClick(cat)}>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => handleEditClick(cat)}
+                        >
                           <Edit className="h-4 w-4" />
                         </Button>
-                        <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive" onClick={() => handleDeleteClick(cat.cat_id)}>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="text-destructive hover:text-destructive"
+                          onClick={() => handleDeleteClick(cat.cat_id)}
+                        >
                           <Trash2 className="h-4 w-4" />
                         </Button>
                       </td>
@@ -223,7 +257,9 @@ export default function BlogCategoriesPage() {
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>{editingCategory ? "Editar Categoría" : "Nueva Categoría"}</DialogTitle>
+            <DialogTitle>
+              {editingCategory ? "Editar Categoría" : "Nueva Categoría"}
+            </DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="space-y-2">
@@ -239,21 +275,29 @@ export default function BlogCategoriesPage() {
               <Input
                 id="slug"
                 value={formData.cat_slug}
-                onChange={(e) => setFormData({ ...formData, cat_slug: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, cat_slug: e.target.value })
+                }
               />
-              <p className="text-xs text-muted-foreground">URL amigable para SEO.</p>
+              <p className="text-xs text-muted-foreground">
+                URL amigable para SEO.
+              </p>
             </div>
             <div className="space-y-2">
               <Label htmlFor="description">Descripción</Label>
               <Input
                 id="description"
                 value={formData.cat_descripcion}
-                onChange={(e) => setFormData({ ...formData, cat_descripcion: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, cat_descripcion: e.target.value })
+                }
               />
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsModalOpen(false)}>Cancelar</Button>
+            <Button variant="outline" onClick={() => setIsModalOpen(false)}>
+              Cancelar
+            </Button>
             <Button onClick={handleSave}>Guardar</Button>
           </DialogFooter>
         </DialogContent>

@@ -42,7 +42,7 @@ export default async function RootLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
-        <link rel="icon" href="logo.png" />
+        <link rel="icon" href="/ico.png" />
         <title>Agility - Software Factory</title>
       </head>
       <body

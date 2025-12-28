@@ -89,8 +89,8 @@ function SkillCard({
           {skill.skills.map((tech) => (
             <Badge
               key={tech}
-              variant="secondary"
-              className="text-xs font-medium px-2.5 py-1 rounded-lg"
+              variant="default"
+              className="text-xs font-medium px-2.5 py-1 rounded-lg bg-primary/10 text-foreground"
             >
               {tech}
             </Badge>
@@ -109,7 +109,7 @@ export function TechnologiesSection({
   itemVariants: any;
 }) {
   return (
-    <div id="tecnologias" className="scroll-mt-24">
+    <div id="tecnologias" className="scroll-mt-40">
       <motion.div variants={itemVariants} id="skills">
         <div className="text-center mb-10 sm:mb-12 lg:mb-16">
           <motion.div

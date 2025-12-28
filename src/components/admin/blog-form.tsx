@@ -12,6 +12,8 @@ import Image from "next/image";
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
 
+import { useRouter } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -49,10 +51,11 @@ export interface BlogFormHandle {
 
 export const BlogForm = forwardRef<BlogFormHandle, BlogFormProps>(
   ({ initialData, isEditing }, ref) => {
+    const router = useRouter();
     const [categories, setCategories] = useState<any[]>([]);
     const [uploading, setUploading] = useState(false);
     const [imagePreview, setImagePreview] = useState<string | null>(
-      initialData?.blog_imagen || null
+      initialData?.blog_imagen_portada || null
     );
 
     const {
@@ -67,13 +70,14 @@ export const BlogForm = forwardRef<BlogFormHandle, BlogFormProps>(
       defaultValues: {
         title: initialData?.blog_titulo || "",
         slug: initialData?.blog_slug || "",
-        categoryId: initialData?.blog_categoria_id?.toString() || "",
+        categoryId: initialData?.blog_cat_id?.toString() || "",
         extract: initialData?.blog_extracto || "",
         content: initialData?.blog_contenido || "",
-        keywords: initialData?.blog_keywords || "",
-        description: initialData?.blog_descripcion || "",
-        status: initialData?.blog_estado || "draft",
-        imageUrl: initialData?.blog_imagen || "",
+        keywords: initialData?.blog_seo_keywords || "",
+        description: initialData?.blog_seo_description || "",
+        status:
+          initialData?.blog_estado === "publicado" ? "published" : "draft",
+        imageUrl: initialData?.blog_imagen_portada || "",
       },
     });
 
@@ -159,10 +163,7 @@ export const BlogForm = forwardRef<BlogFormHandle, BlogFormProps>(
 
         if (result.success) {
           alert(result.message);
-          if (!isEditing) {
-            // Optional: Redirect or reset form
-            window.location.href = "/admin/blog";
-          }
+          router.push("/admin/blog");
         } else {
           alert(result.error);
         }
@@ -361,16 +362,27 @@ export const BlogForm = forwardRef<BlogFormHandle, BlogFormProps>(
               </CardContent>
             </Card>
 
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={isSubmitting || uploading}
-            >
-              {isSubmitting && (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              )}
-              {isEditing ? "Actualizar Artículo" : "Crear Artículo"}
-            </Button>
+            <div className="flex gap-4 flex-col">
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full"
+                onClick={() => router.push("/admin/blog")}
+                disabled={isSubmitting || uploading}
+              >
+                Cancelar
+              </Button>
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={isSubmitting || uploading}
+              >
+                {isSubmitting && (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                )}
+                {isEditing ? "Actualizar" : "Crear"}
+              </Button>
+            </div>
           </div>
         </div>
       </form>

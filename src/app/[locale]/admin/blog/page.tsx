@@ -46,7 +46,7 @@ export default function BlogPage() {
 
     try {
       const res = await fetch(`/api/blog/posts/${id}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
 
       if (res.ok) {
@@ -59,17 +59,22 @@ export default function BlogPage() {
     }
   };
 
-  const filteredPosts = posts.filter((post) =>
-    post.blog_titulo.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    post.blog_slug.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredPosts = posts.filter(
+    (post) =>
+      post.blog_titulo.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.blog_slug.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'publicado': return 'bg-green-500';
-      case 'borrador': return 'bg-yellow-500';
-      case 'archivado': return 'bg-gray-500';
-      default: return 'bg-gray-500';
+      case "publicado":
+        return "bg-green-500";
+      case "borrador":
+        return "bg-yellow-500";
+      case "archivado":
+        return "bg-gray-500";
+      default:
+        return "bg-gray-500";
     }
   };
 
@@ -77,8 +82,12 @@ export default function BlogPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Artículos de Blog</h1>
-          <p className="text-muted-foreground">Gestiona el contenido de tu blog.</p>
+          <h1 className="text-3xl font-bold tracking-tight">
+            Artículos de Blog
+          </h1>
+          <p className="text-muted-foreground">
+            Gestiona el contenido de tu blog.
+          </p>
         </div>
         <Link href="/admin/blog/new">
           <Button>
@@ -92,7 +101,7 @@ export default function BlogPage() {
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Buscar por título..."
-            className="pl-9"
+            className="pl-9 bg-background"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -115,27 +124,54 @@ export default function BlogPage() {
               <table className="w-full caption-bottom text-sm">
                 <thead className="[&_tr]:border-b">
                   <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">ID</th>
-                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Título</th>
-                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Categoría</th>
-                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Autor</th>
-                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Estado</th>
-                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Fecha</th>
-                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Acciones</th>
+                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                      ID
+                    </th>
+                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                      Título
+                    </th>
+                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                      Categoría
+                    </th>
+                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                      Autor
+                    </th>
+                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                      Estado
+                    </th>
+                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                      Fecha
+                    </th>
+                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                      Acciones
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="[&_tr:last-child]:border-0">
                   {filteredPosts.map((post) => (
-                    <tr key={post.blog_id} className="border-b transition-colors hover:bg-muted/50">
-                      <td className="p-4 align-middle font-medium">{post.blog_id}</td>
+                    <tr
+                      key={post.blog_id}
+                      className="border-b transition-colors hover:bg-muted/50"
+                    >
+                      <td className="p-4 align-middle font-medium">
+                        {post.blog_id}
+                      </td>
                       <td className="p-4 align-middle">
                         <div className="flex flex-col">
-                          <span className="font-medium">{post.blog_titulo}</span>
-                          <span className="text-xs text-muted-foreground">{post.blog_slug}</span>
+                          <span className="font-medium">
+                            {post.blog_titulo}
+                          </span>
+                          <span className="text-xs text-muted-foreground">
+                            {post.blog_slug}
+                          </span>
                         </div>
                       </td>
-                      <td className="p-4 align-middle">{post.cat_nombre || '-'}</td>
-                      <td className="p-4 align-middle">{post.usu_nombre || '-'}</td>
+                      <td className="p-4 align-middle">
+                        {post.cat_nombre || "-"}
+                      </td>
+                      <td className="p-4 align-middle">
+                        {post.usu_nombre || "-"}
+                      </td>
                       <td className="p-4 align-middle">
                         <Badge className={getStatusColor(post.blog_estado)}>
                           {post.blog_estado}
@@ -150,7 +186,12 @@ export default function BlogPage() {
                             <Edit className="h-4 w-4" />
                           </Button>
                         </Link>
-                        <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive" onClick={() => handleDeleteClick(post.blog_id)}>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="text-destructive hover:text-destructive"
+                          onClick={() => handleDeleteClick(post.blog_id)}
+                        >
                           <Trash2 className="h-4 w-4" />
                         </Button>
                       </td>

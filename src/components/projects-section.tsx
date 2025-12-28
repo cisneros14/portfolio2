@@ -1,5 +1,7 @@
 "use client";
 
+import * as React from "react";
+
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Sparkles, ArrowRight, Component } from "lucide-react";
@@ -16,32 +18,7 @@ import Image from "next/image";
 import { ContactDialog } from "@/components/contact-dialog";
 
 // Proyectos: generar datos traducibles usando las claves de i18n
-const getProjectsData = (t: any) => [
-  {
-    title: t("projects_data.easyClosers.title"),
-    subtitle: t("projects_data.easyClosers.subtitle"),
-    href: "https://micky-next.vercel.app",
-    image: "easyClosers.png",
-  },
-  {
-    title: t("projects_data.holysin.title"),
-    subtitle: t("projects_data.holysin.subtitle"),
-    href: "https://github.com/cisneros14/portfolio2",
-    image: "holySin.png",
-  },
-  {
-    title: t("projects_data.dash_ecommerce.title"),
-    subtitle: t("projects_data.dash_ecommerce.subtitle"),
-    href: "https://cisnerosdash.vercel.app/",
-    image: "dash.png",
-  },
-  {
-    title: t("projects_data.cainec.title"),
-    subtitle: t("projects_data.cainec.subtitle"),
-    href: "https://palevioletred-gerbil-452167.hostingersite.com/",
-    image: "cainec.png",
-  },
-];
+// Removed hardcoded data
 
 function ProjectCard({
   title,
@@ -70,7 +47,7 @@ function ProjectCard({
           <div className="relative aspect-video w-full overflow-hidden bg-muted">
             {image ? (
               <Image
-                src={image.startsWith("/") ? image : `/${image}`}
+                src={image}
                 alt={title}
                 fill
                 className="object-cover transition-transform duration-500 hover:scale-105"
@@ -101,6 +78,24 @@ export function ProjectsSection({
   t: any;
   itemVariants: any;
 }) {
+  const [projects, setProjects] = React.useState<any[]>([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    fetch("/api/projects")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setProjects(data);
+        }
+      })
+      .catch((err) => console.error(err))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) return null; // Or a skeleton loader
+  if (projects.length === 0) return null;
+
   return (
     <div id="projects" className="scroll-mt-24">
       <div className="text-center mb-10 sm:mb-12 lg:mb-16">
@@ -135,13 +130,18 @@ export function ProjectsSection({
           className="w-full"
         >
           <CarouselContent className="-ml-2 md:-ml-4">
-            {getProjectsData(t).map((project) => (
+            {projects.map((project) => (
               <CarouselItem
-                key={project.title}
+                key={project.pro_id}
                 className="pl-2 md:pl-4 sm:basis-1/2 lg:basis-1/3"
               >
                 <div className="h-full p-1">
-                  <ProjectCard {...project} />
+                  <ProjectCard
+                    title={project.pro_titulo}
+                    subtitle={project.pro_subtitulo}
+                    image={project.pro_imagen}
+                    href={project.pro_link}
+                  />
                 </div>
               </CarouselItem>
             ))}

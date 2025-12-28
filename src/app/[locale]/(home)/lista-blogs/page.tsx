@@ -17,6 +17,8 @@ import {
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
+import { BlogCTA } from "@/components/blog-cta";
+import { ContactDialog } from "@/components/contact-dialog";
 
 interface BlogPost {
   blog_id: number;
@@ -26,7 +28,7 @@ interface BlogPost {
   blog_imagen_portada: string;
   blog_estado: string;
   blog_creado_en: string;
-  cat_id: number;
+  blog_cat_id: number;
   cat_nombre: string;
   usu_nombre: string;
 }
@@ -99,7 +101,7 @@ export default function BlogListingPage() {
       post.blog_titulo.toLowerCase().includes(searchQuery.toLowerCase()) ||
       post.blog_extracto?.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory
-      ? post.cat_id === selectedCategory
+      ? post.blog_cat_id === selectedCategory
       : true;
 
     return matchesSearch && matchesCategory;
@@ -124,14 +126,14 @@ export default function BlogListingPage() {
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder={t("blog_search_placeholder")}
-                className="pl-9"
+                className="pl-9 bg-background"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-            <div className="flex border rounded-md">
+            <div className="border rounded-md hidden md:flex">
               <Button
-                variant={viewMode === "grid" ? "secondary" : "ghost"}
+                variant={viewMode === "grid" ? "default" : "ghost"}
                 size="icon"
                 onClick={() => setViewMode("grid")}
                 className="rounded-r-none"
@@ -139,7 +141,7 @@ export default function BlogListingPage() {
                 <LayoutGrid className="h-4 w-4" />
               </Button>
               <Button
-                variant={viewMode === "list" ? "secondary" : "ghost"}
+                variant={viewMode === "list" ? "default" : "ghost"}
                 size="icon"
                 onClick={() => setViewMode("list")}
                 className="rounded-l-none"
@@ -256,10 +258,13 @@ export default function BlogListingPage() {
             ))}
           </div>
         )}
+        <div className="mt-16 hidden md:block">
+          <BlogCTA />
+        </div>
       </div>
 
       {/* Sidebar */}
-      <aside className="w-full lg:w-80 space-y-8 sticky top-24 self-start">
+      <aside className="w-full lg:w-80 space-y-8 self-start">
         <Card>
           <CardHeader>
             <CardTitle>{t("blog_categories_title")}</CardTitle>
@@ -295,16 +300,26 @@ export default function BlogListingPage() {
           </CardContent>
         </Card>
 
+        <div className="mt-16 md:hidden">
+          <BlogCTA />
+        </div>
+
         {/* Optional: Recent Posts or other widgets could go here */}
-        <Card className="bg-primary/5 border-none">
+        <Card className="bg-background">
           <CardContent className="p-6">
             <h3 className="font-bold text-lg mb-2">{t("blog_help_title")}</h3>
             <p className="text-sm text-muted-foreground mb-4">
               {t("blog_help_description")}
             </p>
-            <Link href="/#contact">
-              <Button className="w-full">{t("blog_contact_button")}</Button>
-            </Link>
+            <ContactDialog
+              triggerSize="lg"
+              triggerClassName="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-primary/25"
+            >
+              <span className="flex items-center gap-2">
+                {t("blog_contact_button")}
+                <ArrowRight className="w-5 h-5" />
+              </span>
+            </ContactDialog>
           </CardContent>
         </Card>
       </aside>

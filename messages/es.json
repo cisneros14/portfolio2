@@ -263,5 +263,9 @@
   "nav_whatsapp": "WhatsApp",
   "nav_switch_language": "Cambiar idioma",
   "nav_toggle_theme": "Cambiar tema",
-  "nav_open_menu": "Abrir menú principal"
+  "nav_open_menu": "Abrir menú principal",
+  "blog_cta_badge": "¿Listo para Escalar?",
+  "blog_cta_title": "Transforma tus Ideas en Software Potente",
+  "blog_cta_description": "Desarrollamos soluciones de software a medida que impulsan el crecimiento y la eficiencia. Hablemos sobre cómo podemos ayudar a tu negocio a prosperar en la era digital.",
+  "blog_cta_button": "Inicia tu Proyecto"
 }

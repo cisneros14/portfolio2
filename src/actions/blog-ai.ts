@@ -52,7 +52,7 @@ export async function generateBlogContent(categoryId: string): Promise<Generated
       - Topic must be a currently trending or popular topic within "${categoryName}".
       - DO NOT use any of these recent titles: ${recentTitles}.
       - The content must be in Spanish.
-      - Use double line breaks (<br><br>) ONLY between paragraphs (<p>). Do NOT add them after headings (<h1>, <h2>, <h3>).
+      - Use standard HTML tags (<p>, <h2>, <h3>, <ul>, <li>). Do NOT use <br> tags for spacing.
       - Return ONLY valid JSON.
       
       Required Output Format (JSON):

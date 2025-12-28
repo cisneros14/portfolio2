@@ -11,6 +11,7 @@ import {
   Megaphone,
   BookOpen,
   User,
+  Component,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -28,6 +29,11 @@ const sidebarItems = [
     title: "Dashboard",
     href: "/admin",
     icon: LayoutDashboard,
+  },
+  {
+    title: "Proyectos",
+    href: "/admin/projects",
+    icon: Component,
   },
 ];
 

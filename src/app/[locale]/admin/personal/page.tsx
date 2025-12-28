@@ -27,7 +27,7 @@ interface User {
   usu_nombre: string;
   usu_correo: string;
   usu_rol: number;
-  usu_estado: 'activo' | 'inactivo' | 'bloqueado';
+  usu_estado: "activo" | "inactivo" | "bloqueado";
   usu_creado_en: string;
 }
 
@@ -35,7 +35,7 @@ export default function PersonalPage() {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  
+
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
@@ -94,7 +94,7 @@ export default function PersonalPage() {
 
     try {
       const res = await fetch(`/api/users/${id}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
 
       if (res.ok) {
@@ -119,7 +119,9 @@ export default function PersonalPage() {
     }
 
     try {
-      const url = editingUser ? `/api/users/${editingUser.usu_id}` : "/api/users";
+      const url = editingUser
+        ? `/api/users/${editingUser.usu_id}`
+        : "/api/users";
       const method = editingUser ? "PUT" : "POST";
 
       const res = await fetch(url, {
@@ -142,9 +144,10 @@ export default function PersonalPage() {
     }
   };
 
-  const filteredUsers = users.filter((user) =>
-    user.usu_nombre.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    user.usu_correo.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredUsers = users.filter(
+    (user) =>
+      user.usu_nombre.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.usu_correo.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -152,7 +155,9 @@ export default function PersonalPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Personal</h1>
-          <p className="text-muted-foreground">Gestiona los usuarios y sus permisos.</p>
+          <p className="text-muted-foreground">
+            Gestiona los usuarios y sus permisos.
+          </p>
         </div>
         <Button onClick={handleCreateClick}>
           <Plus className="mr-2 h-4 w-4" /> Nuevo Usuario
@@ -164,7 +169,7 @@ export default function PersonalPage() {
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Buscar por nombre o correo..."
-            className="pl-9"
+            className="pl-9 bg-background"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -187,31 +192,57 @@ export default function PersonalPage() {
               <table className="w-full caption-bottom text-sm">
                 <thead className="[&_tr]:border-b">
                   <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">ID</th>
-                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Nombre</th>
-                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Correo</th>
-                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Rol</th>
-                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Estado</th>
-                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Creado</th>
-                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Acciones</th>
+                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                      ID
+                    </th>
+                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                      Nombre
+                    </th>
+                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                      Correo
+                    </th>
+                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                      Rol
+                    </th>
+                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                      Estado
+                    </th>
+                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                      Creado
+                    </th>
+                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                      Acciones
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="[&_tr:last-child]:border-0">
                   {filteredUsers.map((user) => (
-                    <tr key={user.usu_id} className="border-b transition-colors hover:bg-muted/50">
-                      <td className="p-4 align-middle font-medium">{user.usu_id}</td>
+                    <tr
+                      key={user.usu_id}
+                      className="border-b transition-colors hover:bg-muted/50"
+                    >
+                      <td className="p-4 align-middle font-medium">
+                        {user.usu_id}
+                      </td>
                       <td className="p-4 align-middle">{user.usu_nombre}</td>
                       <td className="p-4 align-middle">{user.usu_correo}</td>
                       <td className="p-4 align-middle">
                         <Badge variant="outline">
-                          {user.usu_rol === 1 ? "Administrador" : "Agente/Editor"}
+                          {user.usu_rol === 1
+                            ? "Administrador"
+                            : "Agente/Editor"}
                         </Badge>
                       </td>
                       <td className="p-4 align-middle">
-                        <Badge className={
-                          user.usu_estado === 'activo' ? 'bg-green-500' : 
-                          user.usu_estado === 'inactivo' ? 'bg-yellow-500' : 'bg-red-500'
-                        }>
+                        <Badge
+                          className={
+                            user.usu_estado === "activo"
+                              ? "bg-green-500"
+                              : user.usu_estado === "inactivo"
+                              ? "bg-yellow-500"
+                              : "bg-red-500"
+                          }
+                        >
                           {user.usu_estado}
                         </Badge>
                       </td>
@@ -219,10 +250,19 @@ export default function PersonalPage() {
                         {new Date(user.usu_creado_en).toLocaleDateString()}
                       </td>
                       <td className="p-4 align-middle flex gap-2">
-                        <Button variant="ghost" size="icon" onClick={() => handleEditClick(user)}>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => handleEditClick(user)}
+                        >
                           <Edit className="h-4 w-4" />
                         </Button>
-                        <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive" onClick={() => handleDeleteClick(user.usu_id)}>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="text-destructive hover:text-destructive"
+                          onClick={() => handleDeleteClick(user.usu_id)}
+                        >
                           <Trash2 className="h-4 w-4" />
                         </Button>
                       </td>
@@ -238,7 +278,9 @@ export default function PersonalPage() {
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>{editingUser ? "Editar Usuario" : "Nuevo Usuario"}</DialogTitle>
+            <DialogTitle>
+              {editingUser ? "Editar Usuario" : "Nuevo Usuario"}
+            </DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="space-y-2">
@@ -246,7 +288,9 @@ export default function PersonalPage() {
               <Input
                 id="name"
                 value={formData.usu_nombre}
-                onChange={(e) => setFormData({ ...formData, usu_nombre: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, usu_nombre: e.target.value })
+                }
               />
             </div>
             <div className="space-y-2">
@@ -255,23 +299,31 @@ export default function PersonalPage() {
                 id="email"
                 type="email"
                 value={formData.usu_correo}
-                onChange={(e) => setFormData({ ...formData, usu_correo: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, usu_correo: e.target.value })
+                }
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Contraseña {editingUser && "(Dejar en blanco para mantener)"}</Label>
+              <Label htmlFor="password">
+                Contraseña {editingUser && "(Dejar en blanco para mantener)"}
+              </Label>
               <Input
                 id="password"
                 type="password"
                 value={formData.usu_password}
-                onChange={(e) => setFormData({ ...formData, usu_password: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, usu_password: e.target.value })
+                }
               />
             </div>
             <div className="space-y-2">
               <Label htmlFor="role">Rol</Label>
               <Select
                 value={formData.usu_rol}
-                onValueChange={(val) => setFormData({ ...formData, usu_rol: val })}
+                onValueChange={(val) =>
+                  setFormData({ ...formData, usu_rol: val })
+                }
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Seleccionar rol" />
@@ -286,7 +338,9 @@ export default function PersonalPage() {
               <Label htmlFor="status">Estado</Label>
               <Select
                 value={formData.usu_estado}
-                onValueChange={(val) => setFormData({ ...formData, usu_estado: val })}
+                onValueChange={(val) =>
+                  setFormData({ ...formData, usu_estado: val })
+                }
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Seleccionar estado" />
@@ -300,7 +354,9 @@ export default function PersonalPage() {
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsModalOpen(false)}>Cancelar</Button>
+            <Button variant="outline" onClick={() => setIsModalOpen(false)}>
+              Cancelar
+            </Button>
             <Button onClick={handleSave}>Guardar</Button>
           </DialogFooter>
         </DialogContent>

@@ -56,7 +56,7 @@ These serve as the fallback; there is no separate default.css file. */
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.15 0.05 260);
 
-  --primary: oklch(0.5 0.25 290); /* Vivid Violet */
+  --primary: #8652ff;
   --primary-foreground: oklch(0.985 0 0);
 
   --secondary: oklch(0.7 0.15 220); /* Electric Cyan */
@@ -65,7 +65,7 @@ These serve as the fallback; there is no separate default.css file. */
   --muted: oklch(0.96 0.01 260);
   --muted-foreground: oklch(0.45 0.05 260);
 
-  --accent: oklch(0.6 0.2 340); /* Hot Pink/Magenta */
+  --accent: #8652ff;
   --accent-foreground: oklch(0.985 0 0);
 
   --destructive: oklch(0.6 0.25 25); /* Red */
@@ -73,9 +73,9 @@ These serve as the fallback; there is no separate default.css file. */
 
   --border: oklch(0.92 0.02 260);
   --input: oklch(0.92 0.02 260);
-  --ring: oklch(0.5 0.25 290); /* Matches Primary */
+  --ring: #8652ff;
 
-  --chart-1: oklch(0.5 0.25 290); /* Violet */
+  --chart-1: #8652ff;
   --chart-2: oklch(0.7 0.15 220); /* Cyan */
   --chart-3: oklch(0.6 0.2 340); /* Pink */
   --chart-4: oklch(0.75 0.15 60); /* Orange/Gold */
@@ -83,12 +83,12 @@ These serve as the fallback; there is no separate default.css file. */
 
   --sidebar: oklch(0.985 0.01 260);
   --sidebar-foreground: oklch(0.15 0.05 260);
-  --sidebar-primary: oklch(0.5 0.25 290);
+  --sidebar-primary: #8652ff;
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.96 0.01 260);
   --sidebar-accent-foreground: oklch(0.15 0.05 260);
   --sidebar-border: oklch(0.92 0.02 260);
-  --sidebar-ring: oklch(0.5 0.25 290);
+  --sidebar-ring: #8652ff;
 }
 
 .dark {
@@ -102,7 +102,7 @@ These serve as the fallback; there is no separate default.css file. */
   --popover: oklch(0.15 0.05 260);
   --popover-foreground: oklch(0.98 0.02 260);
 
-  --primary: oklch(0.6 0.25 290); /* Brighter Violet for dark mode */
+  --primary: #8652ff;
   --primary-foreground: oklch(0.985 0 0);
 
   --secondary: oklch(0.7 0.15 220); /* Electric Cyan */
@@ -111,7 +111,7 @@ These serve as the fallback; there is no separate default.css file. */
   --muted: oklch(0.2 0.05 260);
   --muted-foreground: oklch(0.8 0.05 260);
 
-  --accent: oklch(0.6 0.2 340); /* Hot Pink/Magenta */
+  --accent: #8652ff;
   --accent-foreground: oklch(0.985 0 0);
 
   --destructive: oklch(0.6 0.25 25);
@@ -119,9 +119,9 @@ These serve as the fallback; there is no separate default.css file. */
 
   --border: oklch(0.25 0.05 260);
   --input: oklch(0.25 0.05 260);
-  --ring: oklch(0.6 0.25 290);
+  --ring: #8652ff;
 
-  --chart-1: oklch(0.6 0.25 290);
+  --chart-1: #8652ff;
   --chart-2: oklch(0.7 0.15 220);
   --chart-3: oklch(0.6 0.2 340);
   --chart-4: oklch(0.75 0.15 60);
@@ -129,12 +129,12 @@ These serve as the fallback; there is no separate default.css file. */
 
   --sidebar: oklch(0.15 0.05 260);
   --sidebar-foreground: oklch(0.98 0.02 260);
-  --sidebar-primary: oklch(0.6 0.25 290);
+  --sidebar-primary: #8652ff;
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.2 0.05 260);
   --sidebar-accent-foreground: oklch(0.98 0.02 260);
   --sidebar-border: oklch(0.25 0.05 260);
-  --sidebar-ring: oklch(0.6 0.25 290);
+  --sidebar-ring: #8652ff;
 }
 
 @layer base {

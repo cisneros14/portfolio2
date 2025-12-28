@@ -263,5 +263,9 @@
   "nav_whatsapp": "WhatsApp",
   "nav_switch_language": "Switch Language",
   "nav_toggle_theme": "Toggle Theme",
-  "nav_open_menu": "Open main menu"
+  "nav_open_menu": "Open main menu",
+  "blog_cta_badge": "Ready to Scale?",
+  "blog_cta_title": "Transform Your Ideas into Powerful Software",
+  "blog_cta_description": "We build custom software solutions that drive growth and efficiency. Let's discuss how we can help your business thrive in the digital age.",
+  "blog_cta_button": "Start Your Project"
 }
