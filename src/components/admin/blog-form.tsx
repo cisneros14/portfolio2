@@ -121,10 +121,17 @@ export const BlogForm = forwardRef<BlogFormHandle, BlogFormProps>(
       if (!file) return;
 
       setUploading(true);
-      const formData = new FormData();
-      formData.append("file", file);
 
       try {
+        // Import dynamically or use the imported utility
+        const { compressImage } = await import("@/lib/image-utils");
+
+        // Compress if larger than 2MB
+        const compressedFile = await compressImage(file, 2);
+
+        const formData = new FormData();
+        formData.append("file", compressedFile);
+
         // Dynamically import the server action to avoid build issues if it's not ready
         const { uploadImage } = await import("@/actions/upload-image");
         const result = await uploadImage(formData);
