@@ -12,6 +12,7 @@ import {
   BookOpen,
   User,
   Component,
+  Search,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -181,6 +182,67 @@ function SidebarContent({
                   )}
                 >
                   Posts Redes
+                </Link>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="arbitraje" className="border-none">
+            <AccordionTrigger className="px-3 py-2.5 hover:no-underline hover:bg-muted rounded-md text-sm font-medium text-muted-foreground hover:text-foreground">
+              <div className="flex items-center gap-3">
+                <Search className="h-5 w-5" />
+                Arbitraje
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className="pb-0">
+              <div className="pl-10 space-y-1 mt-1">
+                <Link
+                  href="/admin/arbitrage/niches"
+                  onClick={() => setOpen?.(false)}
+                  className={cn(
+                    "block px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                    pathname === "/admin/arbitrage/niches"
+                      ? "bg-primary/10 text-primary"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                  )}
+                >
+                  Nichos
+                </Link>
+                <Link
+                  href="/admin/arbitrage/locations"
+                  onClick={() => setOpen?.(false)}
+                  className={cn(
+                    "block px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                    pathname === "/admin/arbitrage/locations"
+                      ? "bg-primary/10 text-primary"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                  )}
+                >
+                  Regiones
+                </Link>
+                <Link
+                  href="/admin/arbitrage/leads"
+                  onClick={() => setOpen?.(false)}
+                  className={cn(
+                    "block px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                    pathname === "/admin/arbitrage/leads"
+                      ? "bg-primary/10 text-primary"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                  )}
+                >
+                  Leads
+                </Link>
+                <Link
+                  href="/admin/arbitrage/scraper"
+                  onClick={() => setOpen?.(false)}
+                  className={cn(
+                    "block px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                    pathname === "/admin/arbitrage/scraper"
+                      ? "bg-primary/10 text-primary"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                  )}
+                >
+                  Scraper
                 </Link>
               </div>
             </AccordionContent>
