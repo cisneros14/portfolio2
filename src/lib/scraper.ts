@@ -1,5 +1,6 @@
-import { chromium } from 'playwright';
 import { pool } from '@/lib/db';
+import chromium from '@sparticuz/chromium';
+import playwright from 'playwright-core';
 
 interface ScrapeResult {
   businessName: string;
@@ -15,15 +16,34 @@ interface ScrapeResult {
 export async function scrapeGoogleMaps(query: string, maxResults: number = 20) {
   console.log(`Starting scraper for: ${query} (Max: ${maxResults})`);
   
-  const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext({
-    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-  });
-  const page = await context.newPage();
+  let browser;
   
-  const scrapedLeads: ScrapeResult[] = [];
-
   try {
+    // Conditional launch logic
+    if (process.env.NODE_ENV === 'production') {
+      // Production (Vercel)
+      // @sparticuz/chromium provides the path to the chromium binary
+      browser = await playwright.chromium.launch({
+        args: chromium.args,
+        defaultViewport: chromium.defaultViewport,
+        executablePath: await chromium.executablePath(),
+        headless: chromium.headless === 'new' ? true : chromium.headless as boolean, // Handle potential type mismatch
+      });
+    } else {
+      // Local Development
+      // Dynamically import standard playwright to avoid bundling it in production if possible,
+      // or just use it since it's in dependencies.
+      const { chromium: localChromium } = await import('playwright');
+      browser = await localChromium.launch({ headless: true });
+    }
+
+    const context = await browser.newContext({
+      userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+    });
+    const page = await context.newPage();
+  
+    const scrapedLeads: ScrapeResult[] = [];
+
     await page.goto('https://www.google.com/maps');
 
     // Handle cookies if present (simple attempt)
@@ -46,7 +66,6 @@ export async function scrapeGoogleMaps(query: string, maxResults: number = 20) {
         await searchInput.press('Enter');
     } catch (e) {
         console.error('Could not find search box:', e);
-        // Fallback to keyboard if focused (rare but possible) or just throw
         throw new Error('Could not find search input field on Google Maps.');
     }
 
@@ -210,6 +229,8 @@ export async function scrapeGoogleMaps(query: string, maxResults: number = 20) {
     console.error('Scraper error:', error);
     throw error;
   } finally {
-    await browser.close();
+    if (browser) {
+        await browser.close();
+    }
   }
 }
