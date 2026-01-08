@@ -193,7 +193,7 @@ export async function scrapeGoogleMaps(query: string, maxResults: number = 20) {
                     const phoneBtn = page.locator('button[data-item-id^="phone"]');
                     if (await phoneBtn.count() > 0) {
                         const phoneText = await phoneBtn.getAttribute('aria-label');
-                        if (phoneText) phone = phoneText.replace('Phone: ', '').trim();
+                        if (phoneText) phone = phoneText.replace(/(Phone|Teléfono):/i, '').trim();
                     }
                 } catch (e) {}
 

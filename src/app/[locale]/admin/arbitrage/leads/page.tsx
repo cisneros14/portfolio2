@@ -12,7 +12,23 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { Search, ExternalLink } from "lucide-react";
+import {
+  Search,
+  ExternalLink,
+  ChevronLeft,
+  ChevronRight,
+  Eye,
+  Archive,
+} from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
 
 interface Lead {
   id: number;
@@ -39,6 +55,7 @@ const STATUS_OPTIONS = [
   { value: "CLOSED_WON", label: "Ganados" },
   { value: "CLOSED_LOST", label: "Perdidos" },
   { value: "BAD_DATA", label: "Datos Erróneos" },
+  { value: "ARCHIVED", label: "Archivado" },
 ];
 
 export default function LeadsPage() {
@@ -48,6 +65,16 @@ export default function LeadsPage() {
   const [statusFilter, setStatusFilter] = useState("ALL");
   const [websiteFilter, setWebsiteFilter] = useState("ALL");
   const [minReviews, setMinReviews] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [showArchived, setShowArchived] = useState(false);
+  const itemsPerPage = 15;
+
+  // Dialog State
+  const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [editStatus, setEditStatus] = useState("");
+  const [editPhone, setEditPhone] = useState("");
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     fetchLeads();
@@ -74,6 +101,14 @@ export default function LeadsPage() {
       (lead.phone_number && lead.phone_number.toLowerCase().includes(query)) ||
       lead.id.toString().includes(query) ||
       (lead.batch_id && lead.batch_id.toString().includes(query));
+
+    // Archiving Logic
+    if (showArchived) {
+      if (lead.status !== "ARCHIVED") return false;
+    } else {
+      if (lead.status === "ARCHIVED") return false;
+    }
+
     const matchesStatus =
       statusFilter === "ALL" || lead.status === statusFilter;
 
@@ -91,31 +126,59 @@ export default function LeadsPage() {
     return matchesSearch && matchesStatus && matchesWebsite && matchesReviews;
   });
 
-  const handleStatusChange = async (id: number, newStatus: string) => {
-    // Optimistic update
-    setLeads(
-      leads.map((lead) =>
-        lead.id === id ? { ...lead, status: newStatus } : lead
-      )
-    );
+  const totalPages = Math.ceil(filteredLeads.length / itemsPerPage);
+  const paginatedLeads = filteredLeads.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  // Reset page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, statusFilter, websiteFilter, minReviews]);
+
+  const handleOpenDialog = (lead: Lead) => {
+    setSelectedLead(lead);
+    setEditStatus(lead.status);
+    setEditPhone(lead.phone_number || "");
+    setIsDialogOpen(true);
+  };
+
+  const handleSaveChanges = async () => {
+    if (!selectedLead) return;
+    setSaving(true);
 
     try {
-      const res = await fetch(`/api/arbitrage/leads/${id}`, {
+      const res = await fetch(`/api/arbitrage/leads/${selectedLead.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ status: newStatus }),
+        body: JSON.stringify({
+          status: editStatus,
+          phone_number: editPhone,
+        }),
       });
 
       if (!res.ok) {
-        throw new Error("Failed to update status");
+        throw new Error("Failed to update lead");
       }
+
+      // Update local state
+      setLeads(
+        leads.map((l) =>
+          l.id === selectedLead.id
+            ? { ...l, status: editStatus, phone_number: editPhone }
+            : l
+        )
+      );
+
+      setIsDialogOpen(false);
     } catch (error) {
-      console.error("Error updating status:", error);
-      // Revert on error
-      fetchLeads();
-      alert("Error al actualizar el estado");
+      console.error("Error updating lead:", error);
+      alert("Error al actualizar el lead");
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -133,8 +196,17 @@ export default function LeadsPage() {
         return <Badge className="bg-green-500">Ganado</Badge>;
       case "CLOSED_LOST":
         return <Badge variant="destructive">Perdido</Badge>;
+      case "ARCHIVED":
+        return (
+          <Badge
+            variant="outline"
+            className="bg-gray-200 text-gray-800 hover:bg-gray-200"
+          >
+            Archivado
+          </Badge>
+        );
       default:
-        return <Badge variant="outline">{status}</Badge>;
+        return <Badge variant="outline">{status || "Desconocido"}</Badge>;
     }
   };
 
@@ -150,6 +222,14 @@ export default function LeadsPage() {
             ventas.
           </p>
         </div>
+        <Button
+          variant={showArchived ? "default" : "outline"}
+          onClick={() => setShowArchived(!showArchived)}
+          className="gap-2"
+        >
+          <Archive className="h-4 w-4" />
+          {showArchived ? "Ocultar Archivados" : "Archivados"}
+        </Button>
       </div>
 
       <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4">
@@ -223,12 +303,12 @@ export default function LeadsPage() {
                       Estado
                     </th>
                     <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
-                      Maps
+                      Acciones
                     </th>
                   </tr>
                 </thead>
                 <tbody className="[&_tr:last-child]:border-0">
-                  {filteredLeads.map((lead) => (
+                  {paginatedLeads.map((lead) => (
                     <tr
                       key={lead.id}
                       className="border-b transition-colors hover:bg-muted/50"
@@ -260,36 +340,22 @@ export default function LeadsPage() {
                         {lead.phone_number || "-"}
                       </td>
                       <td className="p-4 align-middle">
-                        <Select
-                          value={lead.status}
-                          onValueChange={(val) =>
-                            handleStatusChange(lead.id, val)
-                          }
-                        >
-                          <SelectTrigger className="w-[140px] h-8">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {STATUS_OPTIONS.filter(
-                              (o) => o.value !== "ALL"
-                            ).map((option) => (
-                              <SelectItem
-                                key={option.value}
-                                value={option.value}
-                              >
-                                {option.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
+                        {getStatusBadge(lead.status)}
                       </td>
-                      <td className="p-4 align-middle">
+                      <td className="p-4 align-middle flex items-center gap-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleOpenDialog(lead)}
+                        >
+                          <Eye className="h-4 w-4" />
+                        </Button>
                         {lead.google_maps_url && (
                           <a
                             href={lead.google_maps_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-muted-foreground hover:text-foreground"
+                            className="text-muted-foreground hover:text-foreground p-2"
                           >
                             <ExternalLink className="h-4 w-4" />
                           </a>
@@ -303,6 +369,151 @@ export default function LeadsPage() {
           )}
         </CardContent>
       </Card>
+
+      {/* Pagination Controls */}
+      {filteredLeads.length > 0 && (
+        <div className="flex items-center justify-between">
+          <div className="text-sm text-muted-foreground">
+            Mostrando{" "}
+            {Math.min(
+              (currentPage - 1) * itemsPerPage + 1,
+              filteredLeads.length
+            )}{" "}
+            a {Math.min(currentPage * itemsPerPage, filteredLeads.length)} de{" "}
+            {filteredLeads.length} leads
+          </div>
+          <div className="flex items-center space-x-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+            >
+              <ChevronLeft className="h-4 w-4 mr-1" />
+              Anterior
+            </Button>
+            <div className="text-sm font-medium">
+              Página {currentPage} de {totalPages}
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+            >
+              Siguiente
+              <ChevronRight className="h-4 w-4 ml-1" />
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* Lead Details Dialog */}
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Detalles del Lead</DialogTitle>
+            <DialogDescription>
+              Información completa del negocio. Puedes editar el estado y
+              teléfono.
+            </DialogDescription>
+          </DialogHeader>
+
+          {selectedLead && (
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label className="text-right font-bold">Negocio</Label>
+                <div className="col-span-3">{selectedLead.business_name}</div>
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label className="text-right font-bold">Dirección</Label>
+                <div className="col-span-3 text-sm text-muted-foreground">
+                  {selectedLead.address || "-"}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="phone" className="text-right font-bold">
+                  Teléfono
+                </Label>
+                <Input
+                  id="phone"
+                  value={editPhone}
+                  onChange={(e) => setEditPhone(e.target.value)}
+                  className="col-span-3"
+                />
+              </div>
+
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="status" className="text-right font-bold">
+                  Estado
+                </Label>
+                <Select value={editStatus} onValueChange={setEditStatus}>
+                  <SelectTrigger className="col-span-3">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="z-[10002]">
+                    {STATUS_OPTIONS.filter((o) => o.value !== "ALL").map(
+                      (option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      )
+                    )}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label className="text-right font-bold">Web</Label>
+                <div className="col-span-3">
+                  {selectedLead.website_url ? (
+                    <a
+                      href={selectedLead.website_url}
+                      target="_blank"
+                      className="text-blue-500 hover:underline flex items-center gap-1"
+                    >
+                      {selectedLead.website_url}{" "}
+                      <ExternalLink className="h-3 w-3" />
+                    </a>
+                  ) : (
+                    "No tiene"
+                  )}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label className="text-right font-bold">Rating</Label>
+                <div className="col-span-3 flex items-center gap-2">
+                  <span className="font-medium">
+                    {selectedLead.rating || "-"}
+                  </span>
+                  <span className="text-muted-foreground">
+                    ({selectedLead.review_count || 0} reviews)
+                  </span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label className="text-right font-bold">Google ID</Label>
+                <div className="col-span-3 text-xs text-muted-foreground break-all">
+                  {/* @ts-ignore */}
+                  {selectedLead.google_id || "-"}
+                </div>
+              </div>
+            </div>
+          )}
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
+              Cancelar
+            </Button>
+            <Button onClick={handleSaveChanges} disabled={saving}>
+              {saving ? "Guardando..." : "Guardar Cambios"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
