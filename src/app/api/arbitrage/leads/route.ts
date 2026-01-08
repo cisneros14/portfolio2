@@ -46,7 +46,7 @@ export async function POST(request: Request) {
       [
         batch_id || null, business_name, address, phone_number,
         google_maps_url, rating, review_count,
-        has_website || false, website_url, status || 'NEW',
+        has_website || 'UNKNOWN', website_url, status || 'NEW',
         body.google_id || null
       ]
     );

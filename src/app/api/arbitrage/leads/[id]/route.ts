@@ -12,8 +12,8 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     }
 
     await pool.query(
-      'UPDATE leads SET status = ?, internal_notes = ? WHERE id = ?',
-      [status, internal_notes || null, id]
+      'UPDATE leads SET status = ?, internal_notes = ?, phone_number = ?, has_website = ?, website_url = ? WHERE id = ?',
+      [status, internal_notes || null, body.phone_number || null, body.has_website || null, body.website_url || null, id]
     );
 
     return NextResponse.json({ message: 'Lead updated successfully' });

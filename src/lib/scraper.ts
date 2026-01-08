@@ -301,7 +301,7 @@ export async function scrapeGoogleMaps(query: string, maxResults: number = 20) {
                     lead.googleMapsUrl,
                     lead.rating,
                     lead.reviews,
-                    lead.website ? true : false,
+                    lead.website ? 'YES' : 'NO',
                     lead.website,
                     'NEW',
                     lead.googleId

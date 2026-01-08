@@ -39,7 +39,7 @@ interface Lead {
   google_maps_url: string;
   rating: string;
   review_count: number;
-  has_website: number; // 0 or 1
+  has_website: string; // 'YES', 'NO', 'OUTDATED', 'UNKNOWN'
   website_url: string;
   status: string;
   created_at: string;
@@ -74,6 +74,8 @@ export default function LeadsPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editStatus, setEditStatus] = useState("");
   const [editPhone, setEditPhone] = useState("");
+  const [editWebsiteStatus, setEditWebsiteStatus] = useState("");
+  const [editWebsiteUrl, setEditWebsiteUrl] = useState("");
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -113,11 +115,7 @@ export default function LeadsPage() {
       statusFilter === "ALL" || lead.status === statusFilter;
 
     const matchesWebsite =
-      websiteFilter === "ALL"
-        ? true
-        : websiteFilter === "YES"
-        ? lead.has_website === 1
-        : lead.has_website === 0;
+      websiteFilter === "ALL" ? true : lead.has_website === websiteFilter;
 
     const matchesReviews =
       minReviews === "" ||
@@ -141,6 +139,8 @@ export default function LeadsPage() {
     setSelectedLead(lead);
     setEditStatus(lead.status);
     setEditPhone(lead.phone_number || "");
+    setEditWebsiteStatus(lead.has_website || "UNKNOWN");
+    setEditWebsiteUrl(lead.website_url || "");
     setIsDialogOpen(true);
   };
 
@@ -157,6 +157,8 @@ export default function LeadsPage() {
         body: JSON.stringify({
           status: editStatus,
           phone_number: editPhone,
+          has_website: editWebsiteStatus,
+          website_url: editWebsiteUrl,
         }),
       });
 
@@ -168,7 +170,13 @@ export default function LeadsPage() {
       setLeads(
         leads.map((l) =>
           l.id === selectedLead.id
-            ? { ...l, status: editStatus, phone_number: editPhone }
+            ? {
+                ...l,
+                status: editStatus,
+                phone_number: editPhone,
+                has_website: editWebsiteStatus,
+                website_url: editWebsiteUrl,
+              }
             : l
         )
       );
@@ -264,6 +272,8 @@ export default function LeadsPage() {
             <SelectItem value="ALL">Todos</SelectItem>
             <SelectItem value="YES">Con Web</SelectItem>
             <SelectItem value="NO">Sin Web</SelectItem>
+            <SelectItem value="OUTDATED">Desactualizado</SelectItem>
+            <SelectItem value="UNKNOWN">Desconocido</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -323,17 +333,27 @@ export default function LeadsPage() {
                         {lead.business_name}
                       </td>
                       <td className="p-4 align-middle">
-                        {lead.has_website ? (
+                        {lead.has_website === "YES" ? (
                           <a
                             href={lead.website_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-blue-500 hover:underline flex items-center gap-1"
+                            className="text-green-600 hover:underline flex items-center gap-1 font-medium"
                           >
                             Si <ExternalLink className="h-3 w-3" />
                           </a>
+                        ) : lead.has_website === "NO" ? (
+                          <span className="text-red-500 font-medium">
+                            NO TIENE
+                          </span>
+                        ) : lead.has_website === "OUTDATED" ? (
+                          <span className="text-yellow-600 font-medium">
+                            Desactualizado
+                          </span>
                         ) : (
-                          <span className="text-red-500">NO TIENE</span>
+                          <span className="text-muted-foreground">
+                            Desconocido
+                          </span>
                         )}
                       </td>
                       <td className="p-4 align-middle">
@@ -427,8 +447,20 @@ export default function LeadsPage() {
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label className="text-right font-bold">Dirección</Label>
-                <div className="col-span-3 text-sm text-muted-foreground">
-                  {selectedLead.address || "-"}
+                <div className="col-span-3 text-sm text-muted-foreground flex items-center gap-2">
+                  {selectedLead.google_maps_url ? (
+                    <a
+                      href={selectedLead.google_maps_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:underline text-blue-600 flex items-center gap-1"
+                    >
+                      {selectedLead.address || "-"}{" "}
+                      <ExternalLink className="h-3 w-3" />
+                    </a>
+                  ) : (
+                    selectedLead.address || "-"
+                  )}
                 </div>
               </div>
 
@@ -466,18 +498,39 @@ export default function LeadsPage() {
 
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label className="text-right font-bold">Web</Label>
-                <div className="col-span-3">
-                  {selectedLead.website_url ? (
+                <div className="col-span-3 flex flex-col gap-2">
+                  <Select
+                    value={editWebsiteStatus}
+                    onValueChange={setEditWebsiteStatus}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="z-[10002]">
+                      <SelectItem value="YES">Tiene Web</SelectItem>
+                      <SelectItem value="NO">No Tiene</SelectItem>
+                      <SelectItem value="OUTDATED">Desactualizado</SelectItem>
+                      <SelectItem value="UNKNOWN">Desconocido</SelectItem>
+                    </SelectContent>
+                  </Select>
+
+                  {editWebsiteStatus === "YES" && (
+                    <Input
+                      placeholder="https://ejemplo.com"
+                      value={editWebsiteUrl}
+                      onChange={(e) => setEditWebsiteUrl(e.target.value)}
+                    />
+                  )}
+
+                  {selectedLead.website_url && editWebsiteStatus !== "YES" && (
                     <a
                       href={selectedLead.website_url}
                       target="_blank"
-                      className="text-blue-500 hover:underline flex items-center gap-1"
+                      className="text-blue-500 hover:underline flex items-center gap-1 text-sm"
                     >
                       {selectedLead.website_url}{" "}
                       <ExternalLink className="h-3 w-3" />
                     </a>
-                  ) : (
-                    "No tiene"
                   )}
                 </div>
               </div>
@@ -497,7 +550,7 @@ export default function LeadsPage() {
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label className="text-right font-bold">Google ID</Label>
                 <div className="col-span-3 text-xs text-muted-foreground break-all">
-                  {/* @ts-ignore */}
+                  {/* @ts-expect-error: google_id is not in Lead interface */}
                   {selectedLead.google_id || "-"}
                 </div>
               </div>
