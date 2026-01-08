@@ -26,7 +26,7 @@ export async function scrapeGoogleMaps(query: string, maxResults: number = 20) {
       browser = await playwright.chromium.launch({
         args: chromium.args,
         executablePath: await chromium.executablePath(),
-        headless: chromium.headless === 'new' ? true : chromium.headless as boolean, // Handle potential type mismatch
+        headless: true,
       });
     } else {
       // Local Development
@@ -159,7 +159,7 @@ export async function scrapeGoogleMaps(query: string, maxResults: number = 20) {
             } catch (e) {}
 
             // Google ID (data-item-id)
-            let googleId = await card.getAttribute('data-item-id');
+            const googleId = await card.getAttribute('data-item-id');
 
             scrapedLeads.push({
                 businessName: name,
