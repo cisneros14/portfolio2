@@ -24,11 +24,20 @@ export async function scrapeGoogleMaps(query: string, maxResults: number = 20) {
       // Production (Vercel)
       // @sparticuz/chromium-min requires a remote binary
       browser = await playwright.chromium.launch({
-        args: chromium.args,
+        args: [
+            ...chromium.args,
+            "--no-sandbox",
+            "--disable-setuid-sandbox",
+            "--disable-dev-shm-usage",
+            "--disable-gpu",
+            "--no-first-run",
+            "--no-zygote",
+            "--single-process", // Critical for Vercel
+        ],
         executablePath: await chromium.executablePath(
           "https://github.com/Sparticuz/chromium/releases/download/v131.0.1/chromium-v131.0.1-pack.tar"
         ),
-        headless: true, // chromium.headless might be undefined in types, use boolean
+        headless: true,
       });
     } else {
       // Local Development
