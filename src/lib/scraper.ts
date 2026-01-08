@@ -31,13 +31,11 @@ export async function scrapeGoogleMaps(query: string, maxResults: number = 20) {
     } else {
       // Local Development
       const { chromium: localChromium } = await import('playwright');
-      // DEBUG: Headless false to see what's happening
-      browser = await localChromium.launch({ headless: false });
+      browser = await localChromium.launch({ headless: true });
     }
 
     const context = await browser.newContext({
-      userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-      viewport: { width: 1280, height: 720 }
+      userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
     });
     const page = await context.newPage();
   
@@ -46,14 +44,11 @@ export async function scrapeGoogleMaps(query: string, maxResults: number = 20) {
 
     console.log('Navigating to Google Maps...');
     await page.goto('https://www.google.com/maps?hl=es'); // Force Spanish
-    await page.waitForTimeout(2000);
-    await page.screenshot({ path: 'debug-step-1-loaded.png' });
-
+    
     // Handle cookies if present (robust attempt)
     try {
         const acceptBtn = page.getByRole('button', { name: /((accept|aceptar|consent).*(all|todo)|agreed)/i });
         if (await acceptBtn.count() > 0 && await acceptBtn.first().isVisible()) {
-            console.log('Clicking cookie button...');
             await acceptBtn.first().click();
             await page.waitForTimeout(1000);
         }
@@ -69,11 +64,8 @@ export async function scrapeGoogleMaps(query: string, maxResults: number = 20) {
         await searchInput.waitFor({ state: 'visible', timeout: 10000 });
         await searchInput.fill(query);
         await searchInput.press('Enter');
-        await page.waitForTimeout(3000); // Wait for search to trigger
-        await page.screenshot({ path: 'debug-step-2-searched.png' });
     } catch (e) {
         console.error('Could not find search box:', e);
-        await page.screenshot({ path: 'debug-error-search.png' });
         throw new Error('Could not find search input field on Google Maps.');
     }
 
@@ -84,7 +76,6 @@ export async function scrapeGoogleMaps(query: string, maxResults: number = 20) {
         console.log('Feed found!');
     } catch(e) {
         console.log("Feed selector not found, trying to find results directly...");
-        await page.screenshot({ path: 'debug-error-no-feed.png' });
     }
 
     const feed = page.locator('div[role="feed"]');
