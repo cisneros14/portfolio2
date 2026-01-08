@@ -25,7 +25,6 @@ export async function scrapeGoogleMaps(query: string, maxResults: number = 20) {
       // @sparticuz/chromium provides the path to the chromium binary
       browser = await playwright.chromium.launch({
         args: chromium.args,
-        defaultViewport: chromium.defaultViewport,
         executablePath: await chromium.executablePath(),
         headless: chromium.headless === 'new' ? true : chromium.headless as boolean, // Handle potential type mismatch
       });
