@@ -13,6 +13,7 @@ const nextConfig: NextConfig = {
       bodySizeLimit: '5mb',
     },
   },
+  serverExternalPackages: ['@sparticuz/chromium-min'],
 
 
   // Configuración de imágenes

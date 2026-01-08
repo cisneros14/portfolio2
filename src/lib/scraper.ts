@@ -1,5 +1,5 @@
 import { pool } from '@/lib/db';
-import chromium from '@sparticuz/chromium';
+import chromium from '@sparticuz/chromium-min';
 import playwright from 'playwright-core';
 
 interface ScrapeResult {
