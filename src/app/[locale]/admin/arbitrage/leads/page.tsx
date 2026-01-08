@@ -16,6 +16,7 @@ import { Search, ExternalLink } from "lucide-react";
 
 interface Lead {
   id: number;
+  batch_id: number | null;
   business_name: string;
   address: string;
   phone_number: string;
@@ -67,9 +68,12 @@ export default function LeadsPage() {
   };
 
   const filteredLeads = leads.filter((lead) => {
-    const matchesSearch = lead.business_name
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
+    const query = searchQuery.toLowerCase();
+    const matchesSearch =
+      lead.business_name.toLowerCase().includes(query) ||
+      (lead.phone_number && lead.phone_number.toLowerCase().includes(query)) ||
+      lead.id.toString().includes(query) ||
+      (lead.batch_id && lead.batch_id.toString().includes(query));
     const matchesStatus =
       statusFilter === "ALL" || lead.status === statusFilter;
 
@@ -152,7 +156,7 @@ export default function LeadsPage() {
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Buscar por nombre..."
+            placeholder="Buscar por nombre, tel, ID, lote..."
             className="pl-9 bg-background"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -160,7 +164,7 @@ export default function LeadsPage() {
         </div>
 
         <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-[160px]">
+          <SelectTrigger className="w-[160px] bg-background">
             <SelectValue placeholder="Estado" />
           </SelectTrigger>
           <SelectContent>
@@ -173,7 +177,7 @@ export default function LeadsPage() {
         </Select>
 
         <Select value={websiteFilter} onValueChange={setWebsiteFilter}>
-          <SelectTrigger className="w-[160px]">
+          <SelectTrigger className="w-[160px] bg-background">
             <SelectValue placeholder="Sitio Web" />
           </SelectTrigger>
           <SelectContent>
@@ -204,6 +208,9 @@ export default function LeadsPage() {
                       ID
                     </th>
                     <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                      Lote
+                    </th>
+                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
                       Negocio
                     </th>
                     <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
@@ -229,6 +236,9 @@ export default function LeadsPage() {
                       <td className="p-4 align-middle font-medium text-muted-foreground">
                         #{lead.id}
                       </td>
+                      <td className="p-4 align-middle font-medium text-muted-foreground">
+                        {lead.batch_id ? `#${lead.batch_id}` : "-"}
+                      </td>
                       <td className="p-4 align-middle font-medium">
                         {lead.business_name}
                       </td>
@@ -243,9 +253,7 @@ export default function LeadsPage() {
                             Si <ExternalLink className="h-3 w-3" />
                           </a>
                         ) : (
-                          <span className="text-red-500 font-bold">
-                            NO TIENE
-                          </span>
+                          <span className="text-red-500">NO TIENE</span>
                         )}
                       </td>
                       <td className="p-4 align-middle">

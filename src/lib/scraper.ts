@@ -30,150 +30,239 @@ export async function scrapeGoogleMaps(query: string, maxResults: number = 20) {
       });
     } else {
       // Local Development
-      // Dynamically import standard playwright to avoid bundling it in production if possible,
-      // or just use it since it's in dependencies.
       const { chromium: localChromium } = await import('playwright');
-      browser = await localChromium.launch({ headless: true });
+      // DEBUG: Headless false to see what's happening
+      browser = await localChromium.launch({ headless: false });
     }
 
     const context = await browser.newContext({
-      userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+      userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+      viewport: { width: 1280, height: 720 }
     });
     const page = await context.newPage();
   
     const scrapedLeads: ScrapeResult[] = [];
+    const seenGoogleIds = new Set<string>();
 
-    await page.goto('https://www.google.com/maps');
+    console.log('Navigating to Google Maps...');
+    await page.goto('https://www.google.com/maps?hl=es'); // Force Spanish
+    await page.waitForTimeout(2000);
+    await page.screenshot({ path: 'debug-step-1-loaded.png' });
 
-    // Handle cookies if present (simple attempt)
+    // Handle cookies if present (robust attempt)
     try {
-        const acceptBtn = page.getByRole('button', { name: 'Accept all' });
-        if (await acceptBtn.isVisible()) {
-            await acceptBtn.click();
+        const acceptBtn = page.getByRole('button', { name: /((accept|aceptar|consent).*(all|todo)|agreed)/i });
+        if (await acceptBtn.count() > 0 && await acceptBtn.first().isVisible()) {
+            console.log('Clicking cookie button...');
+            await acceptBtn.first().click();
+            await page.waitForTimeout(1000);
         }
     } catch (e) {
         // Ignore cookie errors
     }
 
     // Search
-    // Try multiple selectors for the search box to handle different locales/versions
+    console.log(`Searching for: ${query}`);
     const searchInput = page.locator('#searchboxinput').or(page.locator('input[name="q"]'));
     
     try {
         await searchInput.waitFor({ state: 'visible', timeout: 10000 });
         await searchInput.fill(query);
         await searchInput.press('Enter');
+        await page.waitForTimeout(3000); // Wait for search to trigger
+        await page.screenshot({ path: 'debug-step-2-searched.png' });
     } catch (e) {
         console.error('Could not find search box:', e);
+        await page.screenshot({ path: 'debug-error-search.png' });
         throw new Error('Could not find search input field on Google Maps.');
     }
 
     // Wait for results
-    await page.waitForSelector('div[role="feed"]', { timeout: 15000 });
-
-    // Scroll loop
-    const feed = page.locator('div[role="feed"]');
-    let previousCount = 0;
-    let retries = 0;
-
-    while (scrapedLeads.length < maxResults) {
-        // Scroll
-        await feed.evaluate((el) => el.scrollTop = el.scrollHeight);
-        await page.waitForTimeout(2000);
-
-        const cards = page.locator('div.Nv2PK');
-        const count = await cards.count();
-
-        if (count === previousCount) {
-            retries++;
-            if (retries > 3) break;
-        } else {
-            retries = 0;
-        }
-        previousCount = count;
-        
-        if (count >= maxResults) break;
+    console.log('Waiting for results feed...');
+    try {
+        await page.waitForSelector('div[role="feed"]', { timeout: 15000 });
+        console.log('Feed found!');
+    } catch(e) {
+        console.log("Feed selector not found, trying to find results directly...");
+        await page.screenshot({ path: 'debug-error-no-feed.png' });
     }
 
-    // Extract Data
-    const cards = await page.locator('div.Nv2PK').all();
-    const limit = Math.min(cards.length, maxResults);
+    const feed = page.locator('div[role="feed"]');
+    let processedCards = 0;
+    let consecutiveNoNewLeads = 0;
 
-    for (let i = 0; i < limit; i++) {
-        const card = cards[i];
-        try {
-            // Click to load details
-            await card.click();
-            await page.waitForTimeout(1000);
+    // Main Loop: Scroll -> Extract -> Repeat until maxResults met
+    while (scrapedLeads.length < maxResults) {
+        // Try multiple selectors for cards
+        let cards = await page.locator('div.Nv2PK').all();
+        if (cards.length === 0) {
+             cards = await page.locator('div[role="article"]').all();
+        }
+        if (cards.length === 0) {
+             // Fallback: look for links to places
+             const links = await page.locator('a[href*="/maps/place/"]').all();
+             // Get parents (approximate card) - this is a bit hacky but a good fallback
+             // We'll just use the link itself as the interaction point if needed, 
+             // but for now let's stick to the article role which is standard.
+             if (links.length > 0) console.log("Found links but no card containers. Layout might have changed.");
+        }
 
-            let name = await card.getAttribute('aria-label') || 'Unknown';
-            // Try to get better name from H1
+        const currentTotalCards = cards.length;
+        
+        console.log(`Found ${currentTotalCards} cards total. Processed so far: ${processedCards}. Leads found: ${scrapedLeads.length}`);
+
+        // Process new cards only
+        for (let i = processedCards; i < currentTotalCards; i++) {
+            // Check if we have enough leads mid-loop
+            if (scrapedLeads.length >= maxResults) break;
+
+            const card = cards[i];
             try {
-                const h1 = page.locator('h1.DUwDvf').first();
-                if (await h1.isVisible()) {
-                    name = await h1.innerText();
+                // Scroll card into view to ensure it's interactive
+                await card.scrollIntoViewIfNeeded();
+                
+                // Click to load details (with random delay)
+                await card.click();
+                await page.waitForTimeout(500 + Math.random() * 500); // 500-1000ms delay
+
+                let name = await card.getAttribute('aria-label') || 'Unknown';
+                
+                // Google ID (data-item-id) - Check EARLY
+                let googleId = await card.getAttribute('data-item-id');
+                
+                // Fallback: Check anchor tag for data-item-id or use href
+                if (!googleId) {
+                    const link = card.locator('a').first();
+                    if (await link.count() > 0) {
+                        googleId = await link.getAttribute('data-item-id');
+                        if (!googleId) {
+                            const href = await link.getAttribute('href');
+                            if (href) {
+                                // Extract something unique from URL or just use the whole URL
+                                googleId = href; 
+                            }
+                        }
+                    }
                 }
-            } catch (e) {}
 
-            // Address
-            let address = null;
-            try {
-                const addrBtn = page.locator('button[data-item-id="address"]');
-                if (await addrBtn.count() > 0) {
-                    const addrText = await addrBtn.getAttribute('aria-label');
-                    if (addrText) address = addrText.replace('Address: ', '').trim();
+                if (!googleId || seenGoogleIds.has(googleId)) {
+                    console.log(`Skipping duplicate or missing ID. Name: ${name}, ID: ${googleId}`);
+                    continue;
                 }
-            } catch (e) {}
 
-            // Phone
-            let phone = null;
-            try {
-                const phoneBtn = page.locator('button[data-item-id^="phone"]');
-                if (await phoneBtn.count() > 0) {
-                    const phoneText = await phoneBtn.getAttribute('aria-label');
-                    if (phoneText) phone = phoneText.replace('Phone: ', '').trim();
+                // Website - Check EARLY to avoid expensive processing if it has one
+                let website = null;
+                try {
+                    const webLink = page.locator('a[data-item-id="authority"]');
+                    if (await webLink.count() > 0) {
+                        website = await webLink.getAttribute('href');
+                    }
+                } catch (e) {}
+
+                // FILTER: Skip if website exists
+                if (website) {
+                    console.log(`Skipping ${name} - Has website: ${website}`);
+                    continue;
                 }
-            } catch (e) {}
 
-            // Website
-            let website = null;
-            try {
-                const webLink = page.locator('a[data-item-id="authority"]');
-                if (await webLink.count() > 0) {
-                    website = await webLink.getAttribute('href');
-                }
-            } catch (e) {}
+                // If we got here, it's a valid lead! Extract the rest.
+                
+                // Try to get better name from H1
+                try {
+                    const h1 = page.locator('h1.DUwDvf').first();
+                    if (await h1.isVisible()) {
+                        name = await h1.innerText();
+                    }
+                } catch (e) {}
 
-            // Rating & Reviews
-            let rating = null;
-            let reviews = null;
-            try {
-                const ratingDiv = page.locator('div.F7nice').first();
-                if (await ratingDiv.isVisible()) {
-                    const text = await ratingDiv.innerText();
-                    const ratingMatch = text.match(/(\d\.\d)/);
-                    const reviewsMatch = text.match(/\((\d+)\)/);
-                    if (ratingMatch) rating = parseFloat(ratingMatch[1]);
-                    if (reviewsMatch) reviews = parseInt(reviewsMatch[1]);
-                }
-            } catch (e) {}
+                // Address
+                let address = null;
+                try {
+                    const addrBtn = page.locator('button[data-item-id="address"]');
+                    if (await addrBtn.count() > 0) {
+                        const addrText = await addrBtn.getAttribute('aria-label');
+                        if (addrText) address = addrText.replace('Address: ', '').trim();
+                    }
+                } catch (e) {}
 
-            // Google ID (data-item-id)
-            const googleId = await card.getAttribute('data-item-id');
+                // Phone
+                let phone = null;
+                try {
+                    const phoneBtn = page.locator('button[data-item-id^="phone"]');
+                    if (await phoneBtn.count() > 0) {
+                        const phoneText = await phoneBtn.getAttribute('aria-label');
+                        if (phoneText) phone = phoneText.replace('Phone: ', '').trim();
+                    }
+                } catch (e) {}
 
-            scrapedLeads.push({
-                businessName: name,
-                address,
-                phone,
-                website,
-                rating,
-                reviews,
-                googleMapsUrl: page.url(),
-                googleId
-            });
+                // Rating & Reviews
+                let rating = null;
+                let reviews = null;
+                try {
+                    const ratingDiv = page.locator('div.F7nice').first();
+                    if (await ratingDiv.isVisible()) {
+                        const text = await ratingDiv.innerText();
+                        const ratingMatch = text.match(/(\d\.\d)/);
+                        const reviewsMatch = text.match(/\((\d+)\)/);
+                        if (ratingMatch) rating = parseFloat(ratingMatch[1]);
+                        if (reviewsMatch) reviews = parseInt(reviewsMatch[1]);
+                    }
+                } catch (e) {}
 
-        } catch (e) {
-            console.error(`Error scraping card ${i}:`, e);
+                seenGoogleIds.add(googleId);
+                scrapedLeads.push({
+                    businessName: name,
+                    address,
+                    phone,
+                    website,
+                    rating,
+                    reviews,
+                    googleMapsUrl: page.url(),
+                    googleId: googleId! // Assert non-null as we checked it above
+                });
+                console.log(`✅ Added lead: ${name}`);
+
+            } catch (e) {
+                console.error(`Error scraping card ${i}:`, e);
+            }
+        }
+
+        processedCards = currentTotalCards;
+
+        // Scroll to load more - IMPROVED
+        console.log('Scrolling to load more results...');
+        
+        // Method 1: Scroll to last card
+        if (cards.length > 0) {
+            const lastCard = cards[cards.length - 1];
+            await lastCard.scrollIntoViewIfNeeded();
+        }
+
+        // Method 2: Scroll feed container
+        await feed.evaluate((el) => el.scrollTop = el.scrollHeight);
+        
+        await page.waitForTimeout(2000 + Math.random() * 1000);
+
+        // Check if we are stuck (no new cards loaded)
+        const newTotalCards = await page.locator('div.Nv2PK').count();
+        if (newTotalCards === currentTotalCards) {
+            consecutiveNoNewLeads++;
+            console.log(`No new cards loaded. Retry ${consecutiveNoNewLeads}/10`);
+            
+            // Method 3: Force keyboard scroll if stuck
+            if (consecutiveNoNewLeads > 2) {
+                 console.log('Trying keyboard scroll...');
+                 await feed.focus();
+                 await page.keyboard.press('PageDown');
+                 await page.waitForTimeout(1000);
+            }
+
+            if (consecutiveNoNewLeads >= 10) {
+                console.log("Max retries reached (10), stopping search.");
+                break;
+            }
+        } else {
+            consecutiveNoNewLeads = 0;
         }
     }
 
