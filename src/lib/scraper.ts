@@ -22,11 +22,13 @@ export async function scrapeGoogleMaps(query: string, maxResults: number = 20) {
     // Conditional launch logic
     if (process.env.NODE_ENV === 'production') {
       // Production (Vercel)
-      // @sparticuz/chromium provides the path to the chromium binary
+      // @sparticuz/chromium-min requires a remote binary
       browser = await playwright.chromium.launch({
         args: chromium.args,
-        executablePath: await chromium.executablePath(),
-        headless: true,
+        executablePath: await chromium.executablePath(
+          "https://github.com/Sparticuz/chromium/releases/download/v131.0.1/chromium-v131.0.1-pack.tar"
+        ),
+        headless: true, // chromium.headless might be undefined in types, use boolean
       });
     } else {
       // Local Development
