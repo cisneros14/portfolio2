@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { pool } from '@/lib/db';
-import { generateBlogContent } from '@/actions/blog-ai';
+import { generateBlogContent, generateImageWithGemini } from '@/actions/blog-ai';
 import { saveBlogPost } from '@/actions/blog';
 
 // Set max duration for the function to avoid timeouts (Vercel specific)
@@ -9,8 +9,6 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request) {
   try {
-    // Optional: add auth check here if needed (e.g., check for CRON_SECRET)
-    
     // 1. Find 1 category with the least amount of posts
     const query = `
       SELECT c.cat_id, c.cat_nombre, COUNT(b.blog_id) as post_count
@@ -38,15 +36,45 @@ export async function GET(request: Request) {
       const content = await generateBlogContent(catId);
       
       if (content) {
-        // Generate Image URL using Pollinations
-        // Prompt needs to be URL encoded
-        // Use a default seed to ensure consistency if testing same prompt, or random for variety. 
-        // Pollinations caches by prompt, adding a random seed ensures fresh generation if needed, but simple prompt is fine.
-        let imageUrl = '';
+        // Generate Image using Gemini (Google Imagen)
+        let permanentImageUrl = '';
+        
         if (content.image_prompt) {
-           const encodedPrompt = encodeURIComponent(content.image_prompt);
-           // Add 'nologo=true' to remove watermark if possible (Pollinations specific parameter)
-           imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1280&height=720&nologo=true&model=flux`;
+           try {
+             console.log('Generating image with Gemini for prompt:', content.image_prompt);
+             const imageBuffer = await generateImageWithGemini(content.image_prompt);
+
+             if (imageBuffer) {
+                // Upload to Cloudinary
+                const cloudinary = (await import('@/lib/cloudinary')).default;
+                
+                const uploadResult = await new Promise<{ secure_url: string }>((resolve, reject) => {
+                    cloudinary.uploader.upload_stream(
+                    {
+                        folder: 'blog-images-ai',
+                    },
+                    (error, result) => {
+                        if (error) {
+                            reject(error);
+                            return;
+                        }
+                        if (result) {
+                            resolve({ secure_url: result.secure_url });
+                        } else {
+                            reject(new Error("Upload failed: No result returned"));
+                        }
+                    }
+                    ).end(imageBuffer);
+                });
+                
+                permanentImageUrl = uploadResult.secure_url;
+                console.log('Image uploaded to Cloudinary:', permanentImageUrl);
+             } else {
+                console.error('Gemini returned no image buffer');
+             }
+           } catch (uploadError) {
+             console.error('Failed to generate/upload AI image:', uploadError);
+           }
         }
 
         // 3. Save the blog post
@@ -58,8 +86,8 @@ export async function GET(request: Request) {
           content: content.content,
           keywords: content.keywords,
           description: content.description,
-          status: 'published', // Automatically publish
-          imageUrl: imageUrl, 
+          status: 'published',
+          imageUrl: permanentImageUrl, 
         });
         
         results.push({

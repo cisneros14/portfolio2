@@ -108,3 +108,46 @@ export async function generateBlogContent(categoryId: string): Promise<Generated
     return null;
   }
 }
+
+export async function generateImageWithGemini(prompt: string): Promise<Buffer | null> {
+  try {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) throw new Error('GEMINI_API_KEY is not set');
+
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-001:predict?key=${apiKey}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        instances: [{ prompt: prompt }],
+        parameters: {
+          aspectRatio: "16:9",
+          sampleCount: 1,
+          personGeneration: "allow_adult", // or "allow_all" depending on policy, "allow_adult" is standard for stock photos
+          safetyFilterLevel: "block_medium_and_above"
+        }
+      })
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Gemini Image API Error:', errorText);
+      return null;
+    }
+
+    const data = await response.json();
+    const base64Image = data.predictions?.[0]?.bytesBase64Encoded;
+
+    if (!base64Image) {
+      console.error('No image data in Gemini response');
+      return null;
+    }
+
+    return Buffer.from(base64Image, 'base64');
+
+  } catch (error) {
+    console.error('Error in generateImageWithGemini:', error);
+    return null;
+  }
+}
