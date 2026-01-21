@@ -14,6 +14,7 @@ interface GeneratedContent {
   content: string;
   keywords: string;
   description: string;
+  image_prompt: string;
 }
 
 export async function getBlogCategories(): Promise<Category[]> {
@@ -62,7 +63,8 @@ export async function generateBlogContent(categoryId: string): Promise<Generated
         "extract": "Short summary (max 150 chars) for blog card",
         "content": "Full HTML content. Use <h2>, <h3>, <p>, <ul>, <li> tags. Make it long and detailed (approx 800+ words).",
         "keywords": "comma, separated, seo, keywords (max 10)",
-        "description": "Meta description for Google (max 160 chars)"
+        "description": "Meta description for Google (max 160 chars)",
+        "image_prompt": "A detailed, visual description of an image that represents this article, in English. Optimized for AI image generators. Max 100 words."
       }
     `;
 

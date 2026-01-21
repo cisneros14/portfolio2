@@ -38,6 +38,17 @@ export async function GET(request: Request) {
       const content = await generateBlogContent(catId);
       
       if (content) {
+        // Generate Image URL using Pollinations
+        // Prompt needs to be URL encoded
+        // Use a default seed to ensure consistency if testing same prompt, or random for variety. 
+        // Pollinations caches by prompt, adding a random seed ensures fresh generation if needed, but simple prompt is fine.
+        let imageUrl = '';
+        if (content.image_prompt) {
+           const encodedPrompt = encodeURIComponent(content.image_prompt);
+           // Add 'nologo=true' to remove watermark if possible (Pollinations specific parameter)
+           imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1280&height=720&nologo=true&model=flux`;
+        }
+
         // 3. Save the blog post
         const saveResult = await saveBlogPost({
           title: content.title,
@@ -48,7 +59,7 @@ export async function GET(request: Request) {
           keywords: content.keywords,
           description: content.description,
           status: 'published', // Automatically publish
-          imageUrl: '', // Optional: could integrate image generation here later
+          imageUrl: imageUrl, 
         });
         
         results.push({
