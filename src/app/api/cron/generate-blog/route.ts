@@ -38,6 +38,7 @@ export async function GET(request: Request) {
       if (content) {
         // Generate Image using Gemini (Google Imagen)
         let permanentImageUrl = '';
+        let imageStatus = 'skipped';
         
         if (content.image_prompt) {
            try {
@@ -68,11 +69,14 @@ export async function GET(request: Request) {
                 });
                 
                 permanentImageUrl = uploadResult.secure_url;
+                imageStatus = 'uploaded: ' + permanentImageUrl;
                 console.log('Image uploaded to Cloudinary:', permanentImageUrl);
              } else {
+                imageStatus = 'gemini_error: no buffer';
                 console.error('Gemini returned no image buffer');
              }
-           } catch (uploadError) {
+           } catch (uploadError: any) {
+             imageStatus = 'upload_error: ' + uploadError.message;
              console.error('Failed to generate/upload AI image:', uploadError);
            }
         }
@@ -92,6 +96,7 @@ export async function GET(request: Request) {
         
         results.push({
           category: cat.cat_nombre,
+          imageStatus: imageStatus,
           success: saveResult.success,
           message: saveResult.message || saveResult.error
         });
