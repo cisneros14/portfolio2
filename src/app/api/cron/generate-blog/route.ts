@@ -42,10 +42,17 @@ export async function GET(request: Request) {
         
         if (content.image_prompt) {
            try {
-             console.log('Generating image with Gemini for prompt:', content.image_prompt);
-             const imageBuffer = await generateImageWithGemini(content.image_prompt);
-
-             if (imageBuffer) {
+             // Fallback to Pollinations as Imagen 3 is not available in the user's API list
+             // We use the Gemini-generated prompt to get a high quality image
+             const encodedPrompt = encodeURIComponent(content.image_prompt);
+             const tempImageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1280&height=720&nologo=true&model=flux`;
+             
+             // Download image to buffer
+             const imgResponse = await fetch(tempImageUrl);
+             if (imgResponse.ok) {
+                const arrayBuffer = await imgResponse.arrayBuffer();
+                const buffer = Buffer.from(arrayBuffer);
+                
                 // Upload to Cloudinary
                 const cloudinary = (await import('@/lib/cloudinary')).default;
                 
@@ -65,16 +72,16 @@ export async function GET(request: Request) {
                             reject(new Error("Upload failed: No result returned"));
                         }
                     }
-                    ).end(imageBuffer);
+                    ).end(buffer);
                 });
                 
                 permanentImageUrl = uploadResult.secure_url;
                 imageStatus = 'uploaded: ' + permanentImageUrl;
                 console.log('Image uploaded to Cloudinary:', permanentImageUrl);
              } else {
-                imageStatus = 'gemini_error: no buffer';
-                console.error('Gemini returned no image buffer');
+                imageStatus = 'pollinations_error: fetch failed';
              }
+
            } catch (uploadError: any) {
              imageStatus = 'upload_error: ' + uploadError.message;
              console.error('Failed to generate/upload AI image:', uploadError);
