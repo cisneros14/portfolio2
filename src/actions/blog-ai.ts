@@ -72,8 +72,9 @@ export async function generateBlogContent(categoryId: string): Promise<Generated
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) throw new Error('GEMINI_API_KEY is not set');
 
-    // Use gemini-2.0-flash as it is available in the user's list
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+    // Use gemini-flash-latest as it maps to the current stable Flash model available to the key (likely free tier)
+    // Previous attempts with specific versions failed (404 or 429), so we use the alias.
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
