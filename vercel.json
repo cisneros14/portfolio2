@@ -1,0 +1,16 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/generate-blog",
+      "schedule": "0 12 * * *"
+    },
+    {
+      "path": "/api/cron/generate-blog",
+      "schedule": "5 12 * * *"
+    },
+    {
+      "path": "/api/cron/generate-blog",
+      "schedule": "10 12 * * *"
+    }
+  ]
+}
