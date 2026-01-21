@@ -72,8 +72,8 @@ export async function generateBlogContent(categoryId: string): Promise<Generated
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) throw new Error('GEMINI_API_KEY is not set');
 
-    // Use gemini-1.5-flash for speed and reliability
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+    // Use gemini-1.5-flash-001 (specific version) to avoid 404 on alias
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-001:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
