@@ -72,7 +72,8 @@ export async function generateBlogContent(categoryId: string): Promise<Generated
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) throw new Error('GEMINI_API_KEY is not set');
 
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+    // Use gemini-1.5-flash for speed and reliability
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -105,7 +106,7 @@ export async function generateBlogContent(categoryId: string): Promise<Generated
 
   } catch (error) {
     console.error('Error generating blog content:', error);
-    return null;
+    throw error; // Propagate error to be caught by the route
   }
 }
 
