@@ -147,7 +147,7 @@ export async function generatePostImage(topic: string): Promise<Buffer> {
   } catch (error) {
     console.error('Error generando imagen directa, probando endpoint alternativo (Gemini GenerateContent)...', error);
     // Intento de fallback a generateContent si predict falla (depende de la cuenta/región)
-    imageBuffer = await fallbackImageGeneration(imagePrompt);
+    imageBuffer = await fallbackImageGeneration(imagePrompt, error);
   }
 
   // Superponer Logo
@@ -195,7 +195,7 @@ export async function generatePostImage(topic: string): Promise<Buffer> {
   }
 }
 
-async function fallbackImageGeneration(prompt: string): Promise<Buffer> {
+async function fallbackImageGeneration(prompt: string, originalError?: any): Promise<Buffer> {
    // Fallback simple: Si falla Imagen, retornamos un error o una imagen placeholder
    // Realmente no hay un fallback fácil de "texto a imagen" en Gemini si no es el modelo específico.
    // Podríamos intentar el modelo experimental 'gemini-2.0-flash-exp-image-generation'
@@ -205,5 +205,6 @@ async function fallbackImageGeneration(prompt: string): Promise<Buffer> {
     Nota: El formato para gemini-2.0-flash-exp-image-generation podría ser diferente 
     o simplemente devolver un link. Asumimos fallo si el principal falla.
    */
-   throw new Error("No se pudo generar la imagen con el método principal.");
+   const technicalDetails = originalError ? ` (Error técnico: ${originalError.message || JSON.stringify(originalError)})` : '';
+   throw new Error(`No se pudo generar la imagen con el método principal.${technicalDetails}`);
 }
