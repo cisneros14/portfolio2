@@ -104,7 +104,7 @@ function SidebarContent({
               "flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors",
               pathname === item.href
                 ? "bg-primary/10 text-primary"
-                : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                : "text-muted-foreground hover:bg-muted hover:text-foreground",
             )}
           >
             <item.icon className="h-5 w-5" />
@@ -129,7 +129,7 @@ function SidebarContent({
                     "block px-3 py-2 rounded-md text-sm font-medium transition-colors",
                     pathname === "/admin/leads"
                       ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground",
                   )}
                 >
                   Leads
@@ -141,7 +141,7 @@ function SidebarContent({
                     "block px-3 py-2 rounded-md text-sm font-medium transition-colors",
                     pathname === "/admin/personal"
                       ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground",
                   )}
                 >
                   Personal Admin
@@ -153,7 +153,7 @@ function SidebarContent({
                     "block px-3 py-2 rounded-md text-sm font-medium transition-colors",
                     pathname === "/admin/messages"
                       ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground",
                   )}
                 >
                   Mensajes
@@ -178,10 +178,22 @@ function SidebarContent({
                     "block px-3 py-2 rounded-md text-sm font-medium transition-colors",
                     pathname === "/admin/posts"
                       ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground",
                   )}
                 >
                   Posts Redes
+                </Link>
+                <Link
+                  href="/admin/ideas"
+                  onClick={() => setOpen?.(false)}
+                  className={cn(
+                    "block px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                    pathname === "/admin/ideas"
+                      ? "bg-primary/10 text-primary"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                  )}
+                >
+                  Ideas FB
                 </Link>
               </div>
             </AccordionContent>
@@ -203,7 +215,7 @@ function SidebarContent({
                     "block px-3 py-2 rounded-md text-sm font-medium transition-colors",
                     pathname === "/admin/arbitrage/niches"
                       ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground",
                   )}
                 >
                   Nichos
@@ -215,7 +227,7 @@ function SidebarContent({
                     "block px-3 py-2 rounded-md text-sm font-medium transition-colors",
                     pathname === "/admin/arbitrage/locations"
                       ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground",
                   )}
                 >
                   Regiones
@@ -227,7 +239,7 @@ function SidebarContent({
                     "block px-3 py-2 rounded-md text-sm font-medium transition-colors",
                     pathname === "/admin/arbitrage/leads"
                       ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground",
                   )}
                 >
                   Leads
@@ -239,7 +251,7 @@ function SidebarContent({
                     "block px-3 py-2 rounded-md text-sm font-medium transition-colors",
                     pathname === "/admin/arbitrage/scraper"
                       ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground",
                   )}
                 >
                   Scraper
@@ -265,7 +277,7 @@ function SidebarContent({
                     pathname === "/admin/blog" ||
                       pathname.startsWith("/admin/blog/")
                       ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground",
                   )}
                 >
                   Entradas Blog
@@ -277,7 +289,7 @@ function SidebarContent({
                     "block px-3 py-2 rounded-md text-sm font-medium transition-colors",
                     pathname === "/admin/categoria_blog"
                       ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground",
                   )}
                 >
                   Categorías Blog
@@ -294,7 +306,7 @@ function SidebarContent({
             "flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors",
             pathname === "/admin/perfil"
               ? "bg-primary/10 text-primary"
-              : "text-muted-foreground hover:bg-muted hover:text-foreground"
+              : "text-muted-foreground hover:bg-muted hover:text-foreground",
           )}
         >
           <User className="h-5 w-5" />
