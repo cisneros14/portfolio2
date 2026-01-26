@@ -148,8 +148,8 @@ const imagePrompt = `
   // Opción A: Modelo Gemini con capacidad de imagen
   // const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp-image-generation:generateContent?key=${GEMINI_API_KEY}`;
   
-  // Opción B: Endpoint Imagen 4 Standard (Excelente calidad, costo más equilibrado que Ultra)
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key=${GEMINI_API_KEY}`;
+  // Opción B: Endpoint Imagen 4 Ultra (Mejor adherencia a prompts complejos para evitar texto no deseado)
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-ultra-generate-001:predict?key=${GEMINI_API_KEY}`;
 
   let imageBuffer: Buffer;
 
@@ -163,7 +163,10 @@ const imagePrompt = `
         instances: [{ prompt: imagePrompt }],
         parameters: {
             sampleCount: 1,
-            aspectRatio: "1:1" // o "4:5"
+            aspectRatio: "1:1",
+            includeSafetyAttributes: true,
+            // Reforzamos la adherencia negativa para evitar texto
+            negativePrompt: "text, letters, words, alphabet, numbers, watermark, signature, footer"
         }
       })
     });
