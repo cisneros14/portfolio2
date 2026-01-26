@@ -99,26 +99,46 @@ export async function generatePostImage(topic: string): Promise<Buffer> {
 
   // Prompt para imagen: minimalista, profesional, relacionada al tema
 const imagePrompt = `
+  Analyze the following abstract topic and create a flat vector illustration representing it: "${topic}".
+
   // --- 1. VISUAL CONCEPTUALIZATION (CRITICAL STEP) ---
   // Before rendering styles, translate the abstract "${topic}" into concrete visual metaphors.
-  // - Identify 2-3 tangible geometric objects or universal symbols representing this specific concept.
-  // - Arrange these objects in a balanced, centered, minimalist composition.
+  // INSTRUCTIONS:
+  // - Identify 2 main tangible objects or universal symbols that best represent this specific concept.
+  // - (e.g., If topic is "Speed", think stopwatch + lightning bolt. If "Growth", think plant sprout + upward arrow).
+  // - Arrange these specific objects in a creative, centered composition.
+  // - The image MUST clearly communicate the essence of the topic through these objects.
 
-  // --- 2. STRICT STYLE GUIDELINES ---
-  - Style: Clean Vector Illustration, Flat Design.
-  - Vibe: Premium, Tech-forward, Sophisticated.
+  // --- 2. STRICT STYLE GUIDELINES (DO NOT DEVIATE) ---
 
-  // --- 3. COLOR PALETTE (The #8750fc Rule) ---
-  - PRIMARY COLOR: #8750fc (Vivid Electric Purple). The main objects MUST use this specific shade.
-  - Background: Pure white (#FFFFFF) for maximum contrast.
-  - Details: Simple white lines or circles inside the purple shapes.
-  - Outlines: Thin, precise dark charcoal (#2D2D2D) strokes for definition.
+  // CORE AESTHETIC:
+  - Style: Modern Flat Design Illustration. Minimalist Vector Art.
+  - Realism Level: Zero. Do not try to make it look real with textures or depth.
+  - Lighting: Completely flat. No shadows, no gradients, no 3D effects.
 
-  // --- 4. COMPOSITION & CLEANLINESS ---
-  - The entire illustration must be centered.
-  - The backgrounds and edges must be completely empty and devoid of any secondary elements.
-  - Focus purely on shapes and colors.
-  - Leave the bottom-right corner as empty white space.
+  // STRICT COLOR PALETTE (The #8750fc Rule):
+  // Use ONLY these colors.
+  - DOMINANT COLOR: #8750fc (Vivid Electric Purple). The main metaphor objects MUST be this color.
+  - Background Color: Pure White (#FFFFFF) or extremely light gray (#F8F9FA) for maximum contrast.
+  - Detail/Contrast Color: White (for details inside the purple objects).
+  - Outlines: Dark Charcoal (#2D2D2D) for clear definition of the shapes.
+  - RESTRICTION: Do NOT use other colors like reds, greens, or yellows.
+
+  // "SIGNATURE" VISUAL DETAILS:
+  - Outlines: Use confident, constant-width dark outlines around the main objects.
+  - Shapes: Construct the visual metaphors using simple geometric primitives (circles, rounded rectangles) rather than complex organic drawings.
+  - Background Elements: Add subtle, small floating geometric shapes (dots, crosses) in #8750fc around the main subject to make it dynamic.
+
+  // COMPOSITION:
+  - Center the main illustration.
+  - CRITICAL: Leave the bottom-right corner completely empty (clean white space) for logo insertion later.
+
+  // --- 3. NEGATIVE CONSTRAINTS (ABSOLUTELY FORBIDDEN) ---
+  // The final output must be perfectly clean.
+  - NO text, numbers, or letters anywhere in the image.
+  - NO footers, headers, or fine print.
+  - NO artist signatures, fake branding, watermarks, or copyright symbols in ANY corner or edge.
+  - The entire border area of the image must be clean background.
 `;
 
   // Intento 1: Usar endpoint de Imagen 3 (si está disponible para la API Key)
