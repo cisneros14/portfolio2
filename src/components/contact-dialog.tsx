@@ -19,11 +19,11 @@ import { useTranslations } from "next-intl";
 
 // Datos de contacto - personaliza estos valores
 const CONTACT_DATA = {
-  whatsapp: "+1234567890", // Formato internacional sin espacios
-  phone: "+1234567890",
-  email: "contacto@ejemplo.com",
-  facebook: "https://facebook.com/tupagina",
-  instagram: "https://instagram.com/tuusuario",
+  whatsapp: "+5939595776",
+  phone: "+5939595776",
+  email: "cisnerosgranda14@gmail.com",
+  facebook: "https://www.facebook.com/people/Agility-Desarrollo-Software/61576776316507/",
+  instagram: "https://www.instagram.com/agility_software?igsh=bWY1dWppNjEyajIx",
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -50,7 +50,7 @@ const getContactChannels = (t: any) => [
     icon: Mail,
     href: `mailto:${CONTACT_DATA.email}`,
     color: "from-purple-500 to-pink-600",
-    description: "info@agilityecuador.com",
+    description: "cisnerosgranda14@gmail.com",
   },
   {
     id: "facebook",
