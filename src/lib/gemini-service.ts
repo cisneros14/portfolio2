@@ -131,8 +131,14 @@ const imagePrompt = `
 
   // COMPOSITION:
   - Center the main illustration.
-  - CRITICAL: Leave the bottom-right corner completely empty (clean white space) for logo insertion.
-  - No text inside the illustration.
+  - CRITICAL: Leave the bottom-right corner completely empty (clean white space) for logo insertion later.
+
+  // --- 3. NEGATIVE CONSTRAINTS (ABSOLUTELY FORBIDDEN) ---
+  // The final output must be perfectly clean.
+  - NO text, numbers, or letters anywhere in the image.
+  - NO footers, headers, or fine print.
+  - NO artist signatures, fake branding, watermarks, or copyright symbols in ANY corner or edge.
+  - The entire border area of the image must be clean background.
 `;
 
   // Intento 1: Usar endpoint de Imagen 3 (si está disponible para la API Key)
