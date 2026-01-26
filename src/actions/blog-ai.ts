@@ -111,23 +111,29 @@ export async function generateBlogContent(categoryId: string): Promise<Generated
   }
 }
 
-export async function generateImageWithGemini(prompt: string): Promise<Buffer | null> {
+export async function generateImageWithGemini(topic: string): Promise<Buffer | null> {
   try {
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) throw new Error('GEMINI_API_KEY is not set');
 
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-001:predict?key=${apiKey}`, {
+    const imagePrompt = `A professional flat vector illustration representing the concept: "${topic}".
+      Style: Modern Flat Design, Minimalist Vector Art. 
+      Graphics: Two centered minimalist icons or universal symbols that clearly communicate "${topic}".
+      Colors: Use only electric purple (hex #8750fc) and solid white.
+      Background: Solid pure white.
+      Constraint: No text, no letters, no words, no numbers. Pure visual icons only. Perfectly clean and professional composition.`;
+
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key=${apiKey}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        instances: [{ prompt: prompt }],
+        instances: [{ prompt: imagePrompt }],
         parameters: {
           aspectRatio: "16:9",
           sampleCount: 1,
-          personGeneration: "allow_adult", // or "allow_all" depending on policy, "allow_adult" is standard for stock photos
-          safetyFilterLevel: "block_medium_and_above"
+          includeSafetyAttributes: true
         }
       })
     });

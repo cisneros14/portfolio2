@@ -40,19 +40,12 @@ export async function GET(request: Request) {
         let permanentImageUrl = '';
         let imageStatus = 'skipped';
         
-        if (content.image_prompt) {
+        if (content.title) {
            try {
-             // Fallback to Pollinations as Imagen 3 is not available in the user's API list
-             // We use the Gemini-generated prompt to get a high quality image
-             const encodedPrompt = encodeURIComponent(content.image_prompt);
-             const tempImageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1280&height=720&nologo=true&model=flux`;
+             // Generate Image using the standardized Imagen 4.0 service
+             const buffer = await generateImageWithGemini(content.title);
              
-             // Download image to buffer
-             const imgResponse = await fetch(tempImageUrl);
-             if (imgResponse.ok) {
-                const arrayBuffer = await imgResponse.arrayBuffer();
-                const buffer = Buffer.from(arrayBuffer);
-                
+             if (buffer) {
                 // Upload to Cloudinary
                 const cloudinary = (await import('@/lib/cloudinary')).default;
                 
@@ -79,7 +72,7 @@ export async function GET(request: Request) {
                 imageStatus = 'uploaded: ' + permanentImageUrl;
                 console.log('Image uploaded to Cloudinary:', permanentImageUrl);
              } else {
-                imageStatus = 'pollinations_error: fetch failed';
+                imageStatus = 'gemini_error: image generation returned null';
              }
 
            } catch (uploadError: any) {
