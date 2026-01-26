@@ -14,7 +14,7 @@
     },
     {
       "path": "/api/cron/facebook-post",
-      "schedule": "0 15 * * *"
+      "schedule": "0 15 */2 * *"
     }
   ]
 }
