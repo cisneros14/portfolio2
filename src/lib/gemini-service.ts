@@ -110,8 +110,8 @@ export async function generatePostImage(topic: string): Promise<Buffer> {
   // Opción A: Modelo Gemini con capacidad de imagen
   // const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp-image-generation:generateContent?key=${GEMINI_API_KEY}`;
   
-  // Opción B: Endpoint Imagen 4 (La versión más actual y estable detectada)
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key=${GEMINI_API_KEY}`;
+  // Opción B: Endpoint Imagen 4 Ultra (El modelo más potente para fotorealismo en 2026)
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-ultra-generate-001:predict?key=${GEMINI_API_KEY}`;
 
   let imageBuffer: Buffer;
 
