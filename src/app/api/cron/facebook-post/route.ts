@@ -7,14 +7,16 @@ import { RowDataPacket } from 'mysql2/promise';
 export const maxDuration = 300; // 5 minutos timeout para generación de imágenes
 
 export async function GET(request: Request) {
-  // Verificación de seguridad simple (opcional pero recomendada)
   const authHeader = request.headers.get('authorization');
-  if (process.env.CRON_SECRET && authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    // Permitemos también acceso si es localhost para pruebas, o si no hay secreto configurado (riesgoso)
-    const url = new URL(request.url);
-    if (!url.searchParams.get('dry_run') && process.env.NODE_ENV !== 'development') {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+  const url = new URL(request.url);
+  const token = url.searchParams.get('token');
+  const isAuth = (process.env.CRON_SECRET && authHeader === `Bearer ${process.env.CRON_SECRET}`) || 
+                 (process.env.CRON_SECRET && token === process.env.CRON_SECRET) ||
+                 (url.searchParams.get('dry_run')) ||
+                 (process.env.NODE_ENV === 'development');
+
+  if (!isAuth) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
