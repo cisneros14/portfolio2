@@ -172,16 +172,13 @@ export async function generatePostImage(topic: string): Promise<Buffer> {
 
         // Componer: Esquina inferior derecha con margen
         const margin = Math.round(width * 0.05);
+        const logoMetadata = await sharp(logoBuffer).metadata();
+        const finalLogoHeight = logoMetadata.height || logoWidth;
 
         const compositeImage = await sharp(imageBuffer)
             .composite([{
                 input: logoBuffer,
-                gravity: 'southeast',
-                top: height - logoWidth - margin, // Esto puede fallar si gravity se usa junto con top/left. 
-                // Mejor usar gravity con blend o offsets, pero 'southeast' ya posiciona abajo derecha.
-                // Ajustemos usando 'top' y 'left' calculados manualmente para ser seguros,
-                // O solo 'gravity: southeast' y un padding transparente en el logo, pero más fácil:
-                top: height - (await sharp(logoBuffer).metadata()).height! - margin,
+                top: height - finalLogoHeight - margin,
                 left: width - logoWidth - margin
             }])
             .toBuffer();

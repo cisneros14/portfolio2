@@ -4,18 +4,27 @@ import { pool } from '@/lib/db';
 import { RowDataPacket, ResultSetHeader } from 'mysql2/promise';
 import { revalidatePath } from 'next/cache';
 
-export async function getIdeas() {
+export interface Idea {
+  post_id: number;
+  post_idea: string;
+  post_publicado: boolean;
+  post_fecha_publicacion: string | null;
+  created_at: string;
+}
+
+export async function getIdeas(): Promise<Idea[]> {
   try {
     const [rows] = await pool.query<RowDataPacket[]>(
       'SELECT * FROM tbl_ideas_post ORDER BY created_at DESC'
     );
     // Serializar fechas para pasar al cliente
     return rows.map(row => ({
-      ...row,
-      created_at: row.created_at.toISOString(),
-      post_fecha_publicacion: row.post_fecha_publicacion ? row.post_fecha_publicacion.toISOString() : null,
-      post_publicado: Boolean(row.post_publicado) // Asegurar booleano
-    }));
+      post_id: Number(row.post_id),
+      post_idea: String(row.post_idea || ''),
+      post_publicado: Boolean(row.post_publicado),
+      post_fecha_publicacion: row.post_fecha_publicacion ? new Date(row.post_fecha_publicacion).toISOString() : null,
+      created_at: new Date(row.created_at).toISOString(),
+    })) as Idea[];
   } catch (error) {
     console.error('Error fetching ideas:', error);
     return [];

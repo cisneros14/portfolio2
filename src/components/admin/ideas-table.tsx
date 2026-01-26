@@ -7,13 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Trash2, CheckCircle, Clock } from "lucide-react";
 import { useState } from "react";
 
-interface Idea {
-  post_id: number;
-  post_idea: string;
-  post_publicado: boolean;
-  post_fecha_publicacion: string | null;
-  created_at: string;
-}
+import { Idea } from "@/app/actions/facebook-actions";
 
 export function IdeasTable({ ideas }: { ideas: Idea[] }) {
   const [deleting, setDeleting] = useState<number | null>(null);
