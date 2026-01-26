@@ -99,32 +99,40 @@ export async function generatePostImage(topic: string): Promise<Buffer> {
 
   // Prompt para imagen: minimalista, profesional, relacionada al tema
 const imagePrompt = `
-  Create a flat vector illustration representing the concept: "${topic}".
+  Analyze the following abstract topic and create a flat vector illustration representing it: "${topic}".
 
-  // --- STRICT STYLE GUIDELINES (DO NOT DEVIATE) ---
+  // --- 1. VISUAL CONCEPTUALIZATION (CRITICAL STEP) ---
+  // Before rendering styles, translate the abstract "${topic}" into concrete visual metaphors.
+  // INSTRUCTIONS:
+  // - Identify 2 main tangible objects or universal symbols that best represent this specific concept.
+  // - (e.g., If topic is "Speed", think stopwatch + lightning bolt. If "Growth", think plant sprout + upward arrow).
+  // - Arrange these specific objects in a creative, centered composition.
+  // - The image MUST clearly communicate the essence of the topic through these objects.
 
-  // 1. CORE AESTHETIC (The "Look"):
+  // --- 2. STRICT STYLE GUIDELINES (DO NOT DEVIATE) ---
+
+  // CORE AESTHETIC:
   - Style: Modern Flat Design Illustration. Minimalist Vector Art.
-  - Realism Level: Zero. Do not try to make it look real.
-  - Lighting: Completely flat. No shadows, no gradients, no depth, no 3D effects.
-  - Texture: Clean digital, smooth. No noisy or grungy textures.
+  - Realism Level: Zero. Do not try to make it look real with textures or depth.
+  - Lighting: Completely flat. No shadows, no gradients, no 3D effects.
 
-  // 2. LIMITED COLOR PALETTE (Crucial for consistency):
-  // Use ONLY these 4 color roles. Do not introduce new colors.
-  - Background Color: Solid clean light gray (#F5F5F5).
-  - Primary Brand Color (For main objects): Deep Sapphire Blue.
-  - Secondary Accent Color (For highlights/energy): Energetic Teal/Cyan.
-  - Outline/Detail Color: Nearly Black (#222222) for definition.
+  // STRICT COLOR PALETTE (The #8750fc Rule):
+  // Use ONLY these colors.
+  - DOMINANT COLOR: #8750fc (Vivid Electric Purple). The main metaphor objects MUST be this color.
+  - Background Color: Pure White (#FFFFFF) or extremely light gray (#F8F9FA) for maximum contrast.
+  - Detail/Contrast Color: White (for details inside the purple objects).
+  - Outlines: Dark Charcoal (#2D2D2D) for clear definition of the shapes.
+  - RESTRICTION: Do NOT use other colors like reds, greens, or yellows.
 
-  // 3. "SIGNATURE" VISUAL DETAILS (Always include these):
-  - Outlines: Use thick, confident dark outlines for all major subjects.
-  - Shapes: Build everything using simple geometric primitives (circles, rounded rectangles, triangles). Avoid complex organic shapes.
-  - Background Elements: Add subtle, sparse background patterns like small floating dots and 'plus' signs (+) in the Primary Blue color to fill empty space cleanly.
+  // "SIGNATURE" VISUAL DETAILS:
+  - Outlines: Use confident, constant-width dark outlines around the main objects.
+  - Shapes: Construct the visual metaphors using simple geometric primitives (circles, rounded rectangles) rather than complex organic drawings.
+  - Background Elements: Add subtle, small floating geometric shapes (dots, crosses) in #8750fc around the main subject to make it dynamic.
 
-  // 4. COMPOSITION RULES:
-  - The main illustration must be centered.
-  - CRITICAL: Leave the bottom-right corner completely empty (clean negative space) for logo insertion later.
-  - No text inside the illustration itself.
+  // COMPOSITION:
+  - Center the main illustration.
+  - CRITICAL: Leave the bottom-right corner completely empty (clean white space) for logo insertion.
+  - No text inside the illustration.
 `;
 
   // Intento 1: Usar endpoint de Imagen 3 (si está disponible para la API Key)
