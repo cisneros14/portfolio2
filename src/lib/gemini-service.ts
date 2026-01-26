@@ -98,58 +98,15 @@ export async function generatePostImage(topic: string): Promise<Buffer> {
   if (!GEMINI_API_KEY) throw new Error('Falta GEMINI_API_KEY');
 
   // Prompt para imagen: minimalista, profesional, relacionada al tema
-const imagePrompt = `
-  Analyze the following abstract topic and create a flat vector illustration representing it: "${topic}".
+const imagePrompt = `A professional flat vector illustration representing the concept: "${topic}".
+  Style: Modern Flat Design, Minimalist Vector Art. 
+  Graphics: Two centered minimalist icons or universal symbols that clearly communicate "${topic}".
+  Colors: Use only electric purple (hex #8750fc) and solid white.
+  Background: Solid pure white.
+  Constraint: No text, no letters, no words, no numbers. Pure visual icons only. Perfectly clean and professional composition.`;
 
-  // --- 1. VISUAL CONCEPTUALIZATION (CRITICAL STEP) ---
-  // Before rendering styles, translate the abstract "${topic}" into concrete visual metaphors.
-  // INSTRUCTIONS:
-  // - Identify 2 main tangible objects or universal symbols that best represent this specific concept.
-  // - (e.g., If topic is "Speed", think stopwatch + lightning bolt. If "Growth", think plant sprout + upward arrow).
-  // - Arrange these specific objects in a creative, centered composition.
-  // - The image MUST clearly communicate the essence of the topic through these objects.
-
-  // --- 2. STRICT STYLE GUIDELINES (DO NOT DEVIATE) ---
-
-  // CORE AESTHETIC:
-  - Style: Modern Flat Design Illustration. Minimalist Vector Art.
-  - Realism Level: Zero. Do not try to make it look real with textures or depth.
-  - Lighting: Completely flat. No shadows, no gradients, no 3D effects.
-
-  // STRICT COLOR PALETTE (The #8750fc Rule):
-  // Use ONLY these colors.
-  - DOMINANT COLOR: #8750fc (Vivid Electric Purple). The main metaphor objects MUST be this color.
-  - Background Color: Pure White (#FFFFFF) or extremely light gray (#F8F9FA) for maximum contrast.
-  - Detail/Contrast Color: White (for details inside the purple objects).
-  - Outlines: Dark Charcoal (#2D2D2D) for clear definition of the shapes.
-  - RESTRICTION: Do NOT use other colors like reds, greens, or yellows.
-
-  // "SIGNATURE" VISUAL DETAILS:
-  - Outlines: Use confident, constant-width dark outlines around the main objects.
-  - Shapes: Construct the visual metaphors using simple geometric primitives (circles, rounded rectangles) rather than complex organic drawings.
-  - Background Elements: Add subtle, small floating geometric shapes (dots, crosses) in #8750fc around the main subject to make it dynamic.
-
-  // COMPOSITION:
-  - Center the main illustration.
-  - CRITICAL: Leave the bottom-right corner completely empty (clean white space) for logo insertion later.
-
-  // --- 3. NEGATIVE CONSTRAINTS (ABSOLUTELY FORBIDDEN) ---
-  // The final output must be perfectly clean.
-  - NO text, numbers, or letters anywhere in the image.
-  - NO footers, headers, or fine print.
-  - NO artist signatures, fake branding, watermarks, or copyright symbols in ANY corner or edge.
-  - The entire border area of the image must be clean background.
-`;
-
-  // Intento 1: Usar endpoint de Imagen 3 (si está disponible para la API Key)
-  // Nota: El endpoint específico puede variar. Usamos el mapeado común.
-  // Si falla, intentamos usar el modelo gemini-2.0-flash-exp-image-generation detectado
-  
-  // Opción A: Modelo Gemini con capacidad de imagen
-  // const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp-image-generation:generateContent?key=${GEMINI_API_KEY}`;
-  
-  // Opción B: Endpoint Imagen 4 Ultra (Mejor adherencia a prompts complejos para evitar texto no deseado)
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-ultra-generate-001:predict?key=${GEMINI_API_KEY}`;
+  // Opción B: Endpoint Imagen 4 Standard (Más estable para ilustraciones planas que el Ultra)
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key=${GEMINI_API_KEY}`;
 
   let imageBuffer: Buffer;
 
