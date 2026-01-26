@@ -3,6 +3,7 @@
 import * as React from "react";
 
 import { motion } from "framer-motion";
+import Autoplay from "embla-carousel-autoplay"; // Added Autoplay import
 import { Badge } from "@/components/ui/badge";
 import { Sparkles, ArrowRight, Component } from "lucide-react";
 import {
@@ -127,6 +128,12 @@ export function ProjectsSection({
             align: "start",
             loop: true,
           }}
+          plugins={[
+            Autoplay({
+              delay: 4000,
+              stopOnInteraction: false,
+            }),
+          ]}
           className="w-full"
         >
           <CarouselContent className="-ml-2 md:-ml-4">
