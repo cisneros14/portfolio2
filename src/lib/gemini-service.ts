@@ -98,10 +98,34 @@ export async function generatePostImage(topic: string): Promise<Buffer> {
   if (!GEMINI_API_KEY) throw new Error('Falta GEMINI_API_KEY');
 
   // Prompt para imagen: minimalista, profesional, relacionada al tema
-  const imagePrompt = `Create a high quality, professional, photorealistic image for a social media post about: "${topic}". 
-  Style: Modern, clean, professional, slightly cinematic lighting. 
-  Aspect Ratio: 1:1 (Square) or 4:5. 
-  No text on the image.`;
+const imagePrompt = `
+  Create a flat vector illustration representing the concept: "${topic}".
+
+  // --- STRICT STYLE GUIDELINES (DO NOT DEVIATE) ---
+
+  // 1. CORE AESTHETIC (The "Look"):
+  - Style: Modern Flat Design Illustration. Minimalist Vector Art.
+  - Realism Level: Zero. Do not try to make it look real.
+  - Lighting: Completely flat. No shadows, no gradients, no depth, no 3D effects.
+  - Texture: Clean digital, smooth. No noisy or grungy textures.
+
+  // 2. LIMITED COLOR PALETTE (Crucial for consistency):
+  // Use ONLY these 4 color roles. Do not introduce new colors.
+  - Background Color: Solid clean light gray (#F5F5F5).
+  - Primary Brand Color (For main objects): Deep Sapphire Blue.
+  - Secondary Accent Color (For highlights/energy): Energetic Teal/Cyan.
+  - Outline/Detail Color: Nearly Black (#222222) for definition.
+
+  // 3. "SIGNATURE" VISUAL DETAILS (Always include these):
+  - Outlines: Use thick, confident dark outlines for all major subjects.
+  - Shapes: Build everything using simple geometric primitives (circles, rounded rectangles, triangles). Avoid complex organic shapes.
+  - Background Elements: Add subtle, sparse background patterns like small floating dots and 'plus' signs (+) in the Primary Blue color to fill empty space cleanly.
+
+  // 4. COMPOSITION RULES:
+  - The main illustration must be centered.
+  - CRITICAL: Leave the bottom-right corner completely empty (clean negative space) for logo insertion later.
+  - No text inside the illustration itself.
+`;
 
   // Intento 1: Usar endpoint de Imagen 3 (si está disponible para la API Key)
   // Nota: El endpoint específico puede variar. Usamos el mapeado común.
@@ -152,7 +176,7 @@ export async function generatePostImage(topic: string): Promise<Buffer> {
 
   // Superponer Logo
   try {
-    const logoRelPath = 'public/logo7.png'; // Usamos logo7.png como se vio en el dir
+    const logoRelPath = 'public/logoBlanco.png'; // Usamos logoBlanco.png como solicitó el usuario
     const logoPath = path.resolve(process.cwd(), logoRelPath);
     
     if (fs.existsSync(logoPath)) {
