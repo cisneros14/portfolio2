@@ -98,12 +98,13 @@ export async function generatePostImage(topic: string): Promise<Buffer> {
   if (!GEMINI_API_KEY) throw new Error('Falta GEMINI_API_KEY');
 
   // Prompt para imagen: minimalista, profesional, relacionada al tema
-const imagePrompt = `A professional flat vector illustration representing the concept: "${topic}".
-  Style: Modern Flat Design, Minimalist Vector Art. 
-  Graphics: Two centered minimalist icons or universal symbols that clearly communicate "${topic}".
-  Colors: Use only electric purple (hex #8750fc) and solid white.
-  Background: Solid pure white.
-  Constraint: No text, no letters, no words, no numbers. Pure visual icons only. Perfectly clean and professional composition.`;
+  // Prompt mejorado para evitar texto: Enfasis en simbología abstracta y prohibición estricta de elementos tipográficos
+  const imagePrompt = `Create a simple, abstract, flat vector icon representing '${topic}'. 
+      Style: Minimalist, Corporate Memphis, Tech Vector. 
+      Composition: Single central symbolic element. Geometric shapes.
+      Colors: White background, Electric Purple (#8750fc) foreground. 
+      STRICTLY FORBIDDEN: Text, letters, numbers, words, charts, graphs, UI elements, signage. 
+      This must be a pure art illustration, not an infographic.`;
 
   // Opción B: Endpoint Imagen 4 Standard (Más estable para ilustraciones planas que el Ultra)
   const url = `https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key=${GEMINI_API_KEY}`;
