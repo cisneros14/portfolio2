@@ -23,7 +23,7 @@ export interface SEOConfig {
 }
 
 export const AGILITY_CONFIG: SEOConfig = {
-  baseUrl: 'https://agility-ecuador.com',
+  baseUrl: 'https://agilityecuador.com',
   companyName: 'Agility Ecuador',
   defaultLocale: 'es',
   supportedLocales: ['es', 'en'],
@@ -44,8 +44,28 @@ export const AGILITY_CONFIG: SEOConfig = {
   }
 };
 
-// Generar sitemap dinámico para páginas fantasma
-export function generateGhostSitemap(slugs: string[]): string {
+// Rutas estáticas del sitio (Espejo de DOCK_DATA en nav.tsx)
+export const STATIC_ROUTES = [
+  "", // Home
+  "/lista-blogs", // Blog listing
+  // "/#skills" y "/#projects" se omiten ya que son anclas en la home
+];
+
+export interface SitemapURL {
+  loc: string;
+  lastmod: string;
+  changefreq: "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
+  priority: string;
+}
+
+export interface SimpleBlogPost {
+  blog_slug: string;
+  blog_updated_at?: string;
+  blog_creado_en?: string;
+}
+
+// Generar sitemap completo
+export function generateSitemapXml(posts: SimpleBlogPost[] = []): string {
   const baseUrl = AGILITY_CONFIG.baseUrl;
   const locales = AGILITY_CONFIG.supportedLocales;
   
@@ -53,34 +73,45 @@ export function generateGhostSitemap(slugs: string[]): string {
   sitemap += '<?xml-stylesheet type="text/xsl" href="/sitemap-style.xsl"?>\n';
   sitemap += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n';
   
-  // Agregar página principal
-  locales.forEach(locale => {
-    sitemap += '  <url>\n';
-    sitemap += `    <loc>${baseUrl}/${locale}</loc>\n`;
-    sitemap += `    <lastmod>${new Date().toISOString()}</lastmod>\n`;
-    sitemap += '    <changefreq>weekly</changefreq>\n';
-    sitemap += '    <priority>1.0</priority>\n';
-    
-    // Agregar alternativas de idioma
-    locales.forEach(altLocale => {
-      sitemap += `    <xhtml:link rel="alternate" hreflang="${altLocale}" href="${baseUrl}/${altLocale}" />\n`;
+  // 1. Agregar rutas estáticas
+  STATIC_ROUTES.forEach(route => {
+    locales.forEach(locale => {
+      // Para la ruta raíz "", la URL base ya incluye el dominio, añadir locale si es necesario
+      // En este caso asumimos estructura domain.com/es/ruta
+      const urlPath = route ? `${locale}${route}` : `${locale}`;
+      
+      sitemap += '  <url>\n';
+      sitemap += `    <loc>${baseUrl}/${urlPath}</loc>\n`;
+      sitemap += `    <lastmod>${new Date().toISOString()}</lastmod>\n`;
+      sitemap += '    <changefreq>weekly</changefreq>\n';
+      sitemap += `    <priority>${route === "" ? "1.0" : "0.8"}</priority>\n`;
+      
+      // Alternativas de idioma
+      locales.forEach(altLocale => {
+         const altPath = route ? `${altLocale}${route}` : `${altLocale}`;
+         sitemap += `    <xhtml:link rel="alternate" hreflang="${altLocale}" href="${baseUrl}/${altPath}" />\n`;
+      });
+      
+      sitemap += '  </url>\n';
     });
-    
-    sitemap += '  </url>\n';
   });
   
-  // Agregar páginas fantasma
-  slugs.forEach(slug => {
+  // 2. Agregar Blog Posts
+  posts.forEach(post => {
     locales.forEach(locale => {
       sitemap += '  <url>\n';
-      sitemap += `    <loc>${baseUrl}/${locale}/ghost/${slug}</loc>\n`;
-      sitemap += `    <lastmod>${new Date().toISOString()}</lastmod>\n`;
-      sitemap += '    <changefreq>monthly</changefreq>\n';
-      sitemap += '    <priority>0.8</priority>\n';
+      sitemap += `    <loc>${baseUrl}/${locale}/blog/${post.blog_slug}</loc>\n`;
+      // Usar updated_at si existe, sino creado_en, sino fecha actual
+      const dateStr = post.blog_updated_at || post.blog_creado_en || new Date().toISOString();
+      const date = new Date(dateStr).toISOString();
       
-      // Agregar alternativas de idioma
+      sitemap += `    <lastmod>${date}</lastmod>\n`;
+      sitemap += '    <changefreq>monthly</changefreq>\n';
+      sitemap += '    <priority>0.7</priority>\n';
+      
+      // Alternativas de idioma (asumiendo mismo slug por ahora)
       locales.forEach(altLocale => {
-        sitemap += `    <xhtml:link rel="alternate" hreflang="${altLocale}" href="${baseUrl}/${altLocale}/ghost/${slug}" />\n`;
+        sitemap += `    <xhtml:link rel="alternate" hreflang="${altLocale}" href="${baseUrl}/${altLocale}/blog/${post.blog_slug}" />\n`;
       });
       
       sitemap += '  </url>\n';

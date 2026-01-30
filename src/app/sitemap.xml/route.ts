@@ -1,20 +1,30 @@
 import { NextResponse } from 'next/server';
-import { generateGhostSlugs } from '@/lib/ghost-content-generator';
-import { generateGhostSitemap } from '@/lib/seo-utils';
+import { pool } from '@/lib/db';
+import { generateSitemapXml, SimpleBlogPost } from '@/lib/seo-utils';
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export async function GET() {
   try {
-    // Generar slugs para páginas fantasma
-    const slugs = generateGhostSlugs(1000);
+    // 1. Obtener posts publicados de la base de datos
+    // Se seleccionan solo los campos necesarios para el sitemap
+    const [rows] = await pool.query(`
+      SELECT blog_slug, blog_creado_en 
+      FROM tbl_blog 
+      WHERE blog_estado = 'publicado'
+      ORDER BY blog_creado_en DESC
+    `);
     
-    // Generar sitemap XML
-    const sitemap = generateGhostSitemap(slugs);
+    // 2. Generar sitemap XML combinando estáticas y dinámicas
+    const sitemap = generateSitemapXml(rows as SimpleBlogPost[]);
     
     return new NextResponse(sitemap, {
       status: 200,
       headers: {
         'Content-Type': 'application/xml',
-        'Cache-Control': 'public, max-age=3600, s-maxage=3600',
+        // Cache por 1 hora
+        'Cache-Control': 'no-store, no-cache, must-revalidate',
       },
     });
   } catch (error) {
