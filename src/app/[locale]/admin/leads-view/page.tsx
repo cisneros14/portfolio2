@@ -43,8 +43,10 @@ interface Lead {
   business_status: string;
   lead_status: "NUEVO" | "CONTACTADO" | "INTERESADO" | "CLIENTE" | "RECHAZADO";
   search_keyword: string;
+
   city_zone: string | null;
   scrapped_at: string;
+  admin_notes?: string | null;
 }
 
 export default function LeadsViewPage() {
@@ -161,12 +163,20 @@ export default function LeadsViewPage() {
     performScan();
   };
 
-  const updateLeadStatus = async (leadId: number, newStatus: string) => {
+  const updateLeadStatus = async (
+    leadId: number,
+    newStatus: string,
+    notes?: string | null,
+  ) => {
     try {
       const res = await fetch("/api/scraper", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: leadId, status: newStatus }),
+        body: JSON.stringify({
+          id: leadId,
+          status: newStatus,
+          admin_notes: notes,
+        }),
       });
 
       if (res.ok) {
