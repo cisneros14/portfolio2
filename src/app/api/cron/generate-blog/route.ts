@@ -43,10 +43,10 @@ export async function GET(request: Request) {
         let permanentImageUrl = '';
         let imageStatus = 'skipped';
         
-        if (content.title) {
+        if (content?.title) {
            try {
              // Generate Image using the standardized Imagen 4.0 service
-             const buffer = await generateImageWithGemini(content.title);
+             const buffer = await generateImageWithGemini(content.title!);
              
              if (buffer) {
                 // Upload to Cloudinary
@@ -86,13 +86,13 @@ export async function GET(request: Request) {
 
         // 3. Save the blog post
         const saveResult = await saveBlogPost({
-          title: content.title,
-          slug: content.slug,
+          title: content!.title,
+          slug: content!.slug,
           categoryId: catId,
-          extract: content.extract,
-          content: content.content,
-          keywords: content.keywords,
-          description: content.description,
+          extract: content!.extract,
+          content: content!.content,
+          keywords: content!.keywords,
+          description: content!.description,
           status: 'published',
           imageUrl: permanentImageUrl, 
         });
