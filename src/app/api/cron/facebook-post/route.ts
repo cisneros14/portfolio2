@@ -19,6 +19,9 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
+  // PAUSE MANUAL
+  return NextResponse.json({ message: 'Facebook Auto-Post PAUSED by Admin.' });
+
   try {
     // 1. Buscar idea no publicada
     const [rows] = await pool.query<RowDataPacket[]>(

@@ -8,6 +8,9 @@ export const maxDuration = 300; // 5 minutes
 export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request) {
+  // PAUSE MANUAL
+  return NextResponse.json({ message: 'Blog Auto-Generation PAUSED by Admin.' });
+
   try {
     // 1. Find 1 category with the least amount of posts
     const query = `
