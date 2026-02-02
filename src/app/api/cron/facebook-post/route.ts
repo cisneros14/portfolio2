@@ -76,9 +76,9 @@ export async function GET(request: Request) {
         fb_response: fbResponse
     });
 
-  } catch (error: unknown) {
+  } catch (error: any) {
     console.error('Error en Cron Job Facebook:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const errorMessage = error.message || 'Unknown error';
     return NextResponse.json({ 
         success: false, 
         error: errorMessage 
