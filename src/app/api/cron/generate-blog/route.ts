@@ -43,10 +43,12 @@ export async function GET(request: Request) {
         let permanentImageUrl = '';
         let imageStatus = 'skipped';
         
-        if (content?.title) {
+        const blogTitle = content?.title;
+        
+        if (blogTitle) {
            try {
              // Generate Image using the standardized Imagen 4.0 service
-             const buffer = await generateImageWithGemini(content.title!);
+             const buffer = await generateImageWithGemini(blogTitle as string);
              
              if (buffer) {
                 // Upload to Cloudinary
