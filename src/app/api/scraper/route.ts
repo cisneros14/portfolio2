@@ -156,15 +156,143 @@ export async function POST(request: Request) {
   }
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const [rows] = await pool.query<RowDataPacket[]>(
-      'SELECT * FROM leads_sin_web ORDER BY scrapped_at DESC LIMIT 100'
-    );
-    return NextResponse.json(rows);
+    const { searchParams } = new URL(request.url);
+    const q = searchParams.get('q');
+    const status = searchParams.get('status');
+    const dateFrom = searchParams.get('dateFrom');
+    const dateTo = searchParams.get('dateTo');
+    const rating = searchParams.get('rating');
+    const country = searchParams.get('country');
+    const meta = searchParams.get('meta'); // If true, return only metadata (like countries)
+
+    // Helper to identify country from phone
+    const getCountryFromPhoneSQL = () => `
+      CASE 
+        WHEN phone_number LIKE '+593%' OR phone_number LIKE '09%' OR phone_number LIKE '(02)%' OR phone_number LIKE '02%' THEN 'Ecuador'
+        WHEN phone_number LIKE '+1%' OR phone_number REGEXP '^\\\\([0-9]{3}\\\\)' OR phone_number LIKE '1-%' THEN 'USA/Canadá'
+        WHEN phone_number LIKE '+34%' THEN 'España'
+        WHEN phone_number LIKE '+52%' THEN 'México'
+        WHEN phone_number LIKE '+57%' THEN 'Colombia'
+        WHEN phone_number LIKE '+51%' THEN 'Perú'
+        WHEN phone_number LIKE '+54%' THEN 'Argentina'
+        WHEN phone_number LIKE '+56%' THEN 'Chile'
+        WHEN phone_number LIKE '+44%' THEN 'Reino Unido'
+        WHEN phone_number LIKE '+61%' THEN 'Australia'
+        WHEN phone_number LIKE '+64%' THEN 'Nueva Zelanda'
+        ELSE 'Otro'
+      END
+    `;
+
+    // Mode 1: Metadata (Available Countries)
+    if (meta === 'countries') {
+      const query = `
+        SELECT DISTINCT ${getCountryFromPhoneSQL()} as country
+        FROM leads_sin_web
+        WHERE phone_number IS NOT NULL AND phone_number != ''
+        HAVING country != 'Otro'
+        ORDER BY country ASC
+      `;
+      const [rows] = await pool.query<RowDataPacket[]>(query);
+      return NextResponse.json(rows);
+    }
+
+    // Pagination Params
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '15', 10); // user requested 15
+    const offset = (page - 1) * limit;
+
+    // Mode 2: Filtering (Paginated)
+    // Base WHERE clause
+    let whereClause = 'WHERE 1=1';
+    const params: any[] = [];
+
+    // 1. General Search (q)
+    if (q) {
+      whereClause += ` AND (
+        business_name LIKE ? OR 
+        address LIKE ? OR 
+        phone_number LIKE ? OR 
+        search_keyword LIKE ? OR
+        admin_notes LIKE ?
+      )`;
+      const likeQ = `%${q}%`;
+      params.push(likeQ, likeQ, likeQ, likeQ, likeQ);
+    }
+
+    // 2. Status
+    if (status) {
+      whereClause += ' AND lead_status = ?';
+      params.push(status);
+    }
+
+    // 3. Date Range
+    if (dateFrom) {
+      whereClause += ' AND scrapped_at >= ?';
+      params.push(dateFrom); // Assuming format YYYY-MM-DD
+    }
+    if (dateTo) {
+      whereClause += ' AND scrapped_at <= ?';
+      params.push(dateTo + ' 23:59:59');
+    }
+
+    // 4. Rating
+    if (rating) {
+      whereClause += ' AND rating_count >= ?';
+      params.push(Number(rating));
+    }
+
+    // 5. Country
+    if (country) {
+       if (country === 'Ecuador') {
+         whereClause += " AND (phone_number LIKE '+593%' OR phone_number LIKE '09%' OR phone_number LIKE '(02)%' OR phone_number LIKE '02%')";
+       } else if (country === 'USA/Canadá') {
+         whereClause += " AND (phone_number LIKE '+1%' OR phone_number REGEXP '^\\\\([0-9]{3}\\\\)' OR phone_number LIKE '1-%')";
+       } else if (country === 'España') {
+         whereClause += " AND phone_number LIKE '+34%'";
+       } else if (country === 'México') {
+         whereClause += " AND phone_number LIKE '+52%'";
+       } else if (country === 'Colombia') {
+         whereClause += " AND phone_number LIKE '+57%'";
+       } else if (country === 'Perú') {
+         whereClause += " AND phone_number LIKE '+51%'";
+       } else if (country === 'Argentina') {
+         whereClause += " AND phone_number LIKE '+54%'";
+       } else if (country === 'Chile') {
+         whereClause += " AND phone_number LIKE '+56%'";
+       } else if (country === 'Reino Unido') {
+         whereClause += " AND phone_number LIKE '+44%'";
+       } else if (country === 'Australia') {
+         whereClause += " AND phone_number LIKE '+61%'";
+       } else if (country === 'Nueva Zelanda') {
+         whereClause += " AND phone_number LIKE '+64%'";
+       } else {
+         // Generic fallback or 'Otro'
+         whereClause += " AND phone_number NOT LIKE '+593%' AND phone_number NOT LIKE '09%' AND phone_number NOT LIKE '+1%' AND phone_number NOT REGEXP '^\\\\([0-9]{3}\\\\)'"; 
+       }
+    }
+
+    // Query 1: Get Data
+    const dataQuery = `SELECT *, ${getCountryFromPhoneSQL()} as detected_country FROM leads_sin_web ${whereClause} ORDER BY scrapped_at DESC LIMIT ? OFFSET ?`;
+    const dataParams = [...params, limit, offset];
+    const [rows] = await pool.query<RowDataPacket[]>(dataQuery, dataParams);
+
+    // Query 2: Get Total Count
+    const countQuery = `SELECT COUNT(*) as total FROM leads_sin_web ${whereClause}`;
+    const [countRows] = await pool.query<RowDataPacket[]>(countQuery, params);
+    const total = countRows[0]?.total || 0;
+
+    return NextResponse.json({
+        leads: rows,
+        total: total,
+        page: page,
+        limit: limit,
+        totalPages: Math.ceil(total / limit)
+    });
   } catch (error: any) {
     console.error('Database Error:', error);
-    return NextResponse.json({ error: 'Database Error' }, { status: 500 });
+    return NextResponse.json({ error: 'Database Error: ' + error.message }, { status: 500 });
   }
 }
 
