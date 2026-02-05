@@ -275,10 +275,9 @@ export default function LeadsViewPage() {
     performScan();
   };
 
-  const updateLeadStatus = async (
+  const updateLead = async (
     leadId: number,
-    newStatus: string,
-    notes?: string | null,
+    updates: { status?: string; admin_notes?: string; phone_number?: string },
   ) => {
     try {
       const res = await fetch("/api/scraper", {
@@ -286,29 +285,66 @@ export default function LeadsViewPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           id: leadId,
-          status: newStatus,
-          admin_notes: notes,
+          ...updates,
         }),
       });
 
       if (res.ok) {
         // Update local state without refetching EVERYTHING
+        // Update local state without refetching EVERYTHING
         setLeads((prev) =>
-          prev.map((l) =>
-            l.id === leadId ? { ...l, lead_status: newStatus as any } : l,
-          ),
+          prev.map((l) => {
+            if (l.id !== leadId) return l;
+            // Map 'status' to 'lead_status' if present
+            const { status, ...otherUpdates } = updates;
+            const updatedLead = { ...l, ...otherUpdates };
+            if (status) updatedLead.lead_status = status as any;
+            return updatedLead;
+          }),
         );
         if (selectedLead && selectedLead.id === leadId) {
-          setSelectedLead((prev) =>
-            prev ? { ...prev, lead_status: newStatus as any } : null,
-          );
+          setSelectedLead((prev) => {
+            if (!prev) return null;
+            const { status, ...otherUpdates } = updates;
+            const updated = { ...prev, ...otherUpdates };
+            if (status) updated.lead_status = status as any;
+            return updated;
+          });
         }
       } else {
-        alert("Error updating status");
+        const data = await res.json();
+        alert("Error al actualizar: " + (data.error || "Unknown"));
       }
     } catch (error) {
       console.error("Update error:", error);
+      alert("Error de conexión al actualizar");
     }
+  };
+
+  const handleSavePhone = (newPhone: string) => {
+    if (!selectedLead) return;
+    const oldPhone = leads.find((l) => l.id === selectedLead.id)?.phone_number;
+    let newNotes = selectedLead.admin_notes || "";
+
+    // Only append log if the phone number in DB (oldPhone) is different from what we are saving
+    // However, selectedLead.phone_number is already updated in state as user types,
+    // so we need to compare against the 'committed' state in `leads` array or just trust the user intention.
+    // Better: compare against leads list which acts as "server state" until updated.
+
+    if (oldPhone && newPhone !== oldPhone) {
+      const timestamp = new Date().toLocaleString();
+      const log = `\n[${timestamp}] Número reemplazado: ${oldPhone || "N/A"} -> ${newPhone}`;
+      newNotes += log;
+      // Update selectedLead notes immediately so UI shows it
+      setSelectedLead((prev) =>
+        prev ? { ...prev, admin_notes: newNotes } : null,
+      );
+    }
+
+    updateLead(selectedLead.id, {
+      phone_number: newPhone,
+      admin_notes: newNotes,
+    });
   };
 
   const getStatusBadgeVariant = (
@@ -774,7 +810,7 @@ export default function LeadsViewPage() {
                     <Select
                       value={selectedLead.lead_status}
                       onValueChange={(val) =>
-                        updateLeadStatus(selectedLead.id, val)
+                        updateLead(selectedLead.id, { status: val })
                       }
                     >
                       <SelectTrigger>
@@ -844,21 +880,43 @@ export default function LeadsViewPage() {
                   <label className="text-xs font-semibold text-muted-foreground uppercase flex items-center gap-1">
                     <Phone className="w-3 h-3" /> Teléfono
                   </label>
-                  <div className="flex gap-2">
-                    <div className="text-sm font-mono border p-2 rounded-md bg-muted/30 flex-1">
-                      {selectedLead.phone_number || "No disponible"}
-                    </div>
+                  <div className="flex gap-2 items-center">
+                    <Input
+                      value={selectedLead.phone_number || ""}
+                      onChange={(e) =>
+                        setSelectedLead({
+                          ...selectedLead,
+                          phone_number: e.target.value,
+                        })
+                      }
+                      className="font-mono h-9"
+                      placeholder="Sin teléfono"
+                    />
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      title="Guardar Teléfono"
+                      onClick={() =>
+                        handleSavePhone(selectedLead.phone_number || "")
+                      }
+                    >
+                      <span className="sr-only">Guardar</span>
+                      💾
+                    </Button>
+
                     {selectedLead.phone_number && (
                       <Button
                         variant="outline"
+                        size="icon"
                         className="text-green-600 border-green-200 hover:bg-green-50 hover:text-green-700"
+                        title="Abrir WhatsApp"
                         onClick={() => {
                           const url = getWhatsAppUrl(selectedLead.phone_number);
                           if (url) window.open(url, "_blank");
                         }}
                       >
-                        <FaWhatsapp className="mr-2 h-4 w-4" />
-                        Chat
+                        <FaWhatsapp className="h-4 w-4" />
+                        {/* Chat text removed to save space or keep it? Original had Chat text. Let's keep icon only for consistency/space or add text if needed. User asked to edit input. */}
                       </Button>
                     )}
                   </div>
@@ -903,11 +961,9 @@ export default function LeadsViewPage() {
                       size="icon"
                       title="Guardar Nota"
                       onClick={() =>
-                        updateLeadStatus(
-                          selectedLead.id,
-                          selectedLead.lead_status,
-                          selectedLead.admin_notes,
-                        )
+                        updateLead(selectedLead.id, {
+                          admin_notes: selectedLead.admin_notes,
+                        })
                       }
                     >
                       <span className="sr-only">Guardar</span>

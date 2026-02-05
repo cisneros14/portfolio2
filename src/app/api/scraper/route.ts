@@ -298,7 +298,7 @@ export async function GET(request: Request) {
 
 export async function PUT(request: Request) {
   try {
-    const { id, status, admin_notes } = await request.json();
+    const { id, status, admin_notes, phone_number } = await request.json();
 
     if (!id) {
       return NextResponse.json({ error: 'ID is required' }, { status: 400 });
@@ -315,6 +315,11 @@ export async function PUT(request: Request) {
     if (admin_notes !== undefined) {
       updates.push('admin_notes = ?');
       values.push(admin_notes);
+    }
+
+    if (phone_number !== undefined) {
+      updates.push('phone_number = ?');
+      values.push(phone_number);
     }
 
     if (updates.length === 0) {
