@@ -962,7 +962,7 @@ export default function LeadsViewPage() {
                       title="Guardar Nota"
                       onClick={() =>
                         updateLead(selectedLead.id, {
-                          admin_notes: selectedLead.admin_notes,
+                          admin_notes: selectedLead.admin_notes || "",
                         })
                       }
                     >
