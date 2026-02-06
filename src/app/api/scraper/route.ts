@@ -223,8 +223,17 @@ export async function GET(request: Request) {
 
     // 2. Status
     if (status) {
-      whereClause += ' AND lead_status = ?';
-      params.push(status);
+      // If user explicitly asks for "ALL", we might want to show everything including rejected?
+      // But UI sends "ALL" as empty string or checks logic?
+      // In the UI: value="ALL" -> params.append("status", filterStatus) is NOT called if filterStatus === "ALL"
+      // So if status is present, it is a specific status (including RECHAZADO).
+      if (status !== 'ALL') {
+          whereClause += ' AND lead_status = ?';
+          params.push(status);
+      }
+    } else {
+      // Default view: Exclude RECHAZADO
+      whereClause += " AND lead_status != 'RECHAZADO'";
     }
 
     // 3. Date Range
