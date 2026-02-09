@@ -5,36 +5,123 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
   LayoutDashboard,
-  Users,
   LogOut,
   Menu,
   Megaphone,
-  BookOpen,
   User,
-  Component,
-  Search,
+  Settings,
+  Shield,
+  Briefcase,
+  UserPlus,
+  MapPin,
+  Globe,
+  PenTool,
+  Share2,
+  MessageSquare,
+  Box,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { useState } from "react";
 import Image from "next/image";
 
-const sidebarItems = [
+import { LucideIcon } from "lucide-react";
+
+type NavItem = {
+  title: string;
+  href: string;
+  icon?: LucideIcon;
+};
+
+type NavGroup = {
+  title: string;
+  items?: NavItem[]; // If it has items, it's an accordion or group
+  singleItem?: NavItem; // If it's a single detailed link
+};
+
+const navConfig: NavGroup[] = [
   {
-    title: "Dashboard",
-    href: "/admin",
-    icon: LayoutDashboard,
+    title: "General",
+    singleItem: {
+      title: "Panel de Control",
+      href: "/admin",
+      icon: LayoutDashboard,
+    },
   },
   {
-    title: "Proyectos",
-    href: "/admin/projects",
-    icon: Component,
+    title: "Gestión Comercial",
+    items: [
+      {
+        title: "Cartera de Clientes",
+        href: "/admin/clients",
+        icon: Briefcase,
+      },
+      {
+        title: "Prospectos (Leads)",
+        href: "/admin/leads",
+        icon: UserPlus,
+      },
+      {
+        title: "Buscador en Mapa",
+        href: "/admin/leads-view",
+        icon: MapPin,
+      },
+      {
+        title: "Mensajería",
+        href: "/admin/messages",
+        icon: MessageSquare,
+      },
+    ],
+  },
+  {
+    title: "Contenido Digital",
+    items: [
+      {
+        title: "Portafolio",
+        href: "/admin/projects",
+        icon: Box,
+      },
+      {
+        title: "Entradas Blog",
+        href: "/admin/blog",
+        icon: Globe,
+      },
+      {
+        title: "Categorías Blog",
+        href: "/admin/categoria_blog",
+        icon: PenTool,
+      },
+      {
+        title: "Publicaciones Redes",
+        href: "/admin/posts",
+        icon: Share2,
+      },
+      {
+        title: "Banco de Ideas",
+        href: "/admin/ideas",
+        icon: Megaphone,
+      },
+    ],
+  },
+  {
+    title: "Configuración",
+    items: [
+      {
+        title: "Servicios / Plataformas",
+        href: "/admin/platforms",
+        icon: Settings,
+      },
+      {
+        title: "Equipo de Trabajo",
+        href: "/admin/personal",
+        icon: Shield,
+      },
+      {
+        title: "Mi Perfil",
+        href: "/admin/perfil",
+        icon: User,
+      },
+    ],
   },
 ];
 
@@ -77,8 +164,8 @@ function SidebarContent({
   setOpen?: (open: boolean) => void;
 }) {
   return (
-    <div className="flex flex-col h-full">
-      <div className="h-16 flex items-center px-6 border-b">
+    <div className="flex flex-col h-full bg-slate-50/50 dark:bg-background">
+      <div className="h-16 flex items-center px-6 border-b bg-background">
         <Image
           className="w-24 block dark:hidden"
           src="/logo7.png"
@@ -94,188 +181,66 @@ function SidebarContent({
           height={1000}
         />
       </div>
-      <div className="flex-1 py-6 px-3 space-y-1 overflow-y-auto">
-        {sidebarItems.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            onClick={() => setOpen?.(false)}
-            className={cn(
-              "flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors",
-              pathname === item.href
-                ? "bg-primary/10 text-primary"
-                : "text-muted-foreground hover:bg-muted hover:text-foreground",
+
+      <div className="flex-1 py-6 px-3 space-y-6 overflow-y-auto">
+        {navConfig.map((group, idx) => (
+          <div key={idx} className="space-y-2">
+            {!group.singleItem && (
+              <h4 className="px-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                {group.title}
+              </h4>
             )}
-          >
-            <item.icon className="h-5 w-5" />
-            {item.title}
-          </Link>
+
+            {group.singleItem ? (
+              <Link
+                href={group.singleItem.href}
+                onClick={() => setOpen?.(false)}
+                className={cn(
+                  "flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200",
+                  pathname === group.singleItem.href
+                    ? "bg-muted text-foreground font-medium"
+                    : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                )}
+              >
+                {group.singleItem.icon && (
+                  <group.singleItem.icon className="h-4 w-4" />
+                )}
+                {group.singleItem.title}
+              </Link>
+            ) : (
+              <div className="space-y-1">
+                {group.items?.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setOpen?.(false)}
+                    className={cn(
+                      "flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                      pathname === item.href
+                        ? "bg-muted text-foreground font-medium"
+                        : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                    )}
+                  >
+                    {item.icon && <item.icon className="h-4 w-4" />}
+                    {item.title}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         ))}
-
-        <Accordion type="single" collapsible className="w-full">
-          <AccordionItem value="usuarios" className="border-none">
-            <AccordionTrigger className="px-3 py-2.5 hover:no-underline hover:bg-muted rounded-md text-sm font-medium text-muted-foreground hover:text-foreground">
-              <div className="flex items-center gap-3">
-                <Users className="h-5 w-5" />
-                Usuarios
-              </div>
-            </AccordionTrigger>
-            <AccordionContent className="pb-0">
-              <div className="pl-10 space-y-1 mt-1">
-                <Link
-                  href="/admin/leads"
-                  onClick={() => setOpen?.(false)}
-                  className={cn(
-                    "block px-3 py-2 rounded-md text-sm font-medium transition-colors",
-                    pathname === "/admin/leads"
-                      ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground",
-                  )}
-                >
-                  Leads
-                </Link>
-                <Link
-                  href="/admin/personal"
-                  onClick={() => setOpen?.(false)}
-                  className={cn(
-                    "block px-3 py-2 rounded-md text-sm font-medium transition-colors",
-                    pathname === "/admin/personal"
-                      ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground",
-                  )}
-                >
-                  Personal Admin
-                </Link>
-                <Link
-                  href="/admin/messages"
-                  onClick={() => setOpen?.(false)}
-                  className={cn(
-                    "block px-3 py-2 rounded-md text-sm font-medium transition-colors",
-                    pathname === "/admin/messages"
-                      ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground",
-                  )}
-                >
-                  Mensajes
-                </Link>
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-
-          <AccordionItem value="marketing" className="border-none">
-            <AccordionTrigger className="px-3 py-2.5 hover:no-underline hover:bg-muted rounded-md text-sm font-medium text-muted-foreground hover:text-foreground">
-              <div className="flex items-center gap-3">
-                <Megaphone className="h-5 w-5" />
-                Marketing
-              </div>
-            </AccordionTrigger>
-            <AccordionContent className="pb-0">
-              <div className="pl-10 space-y-1 mt-1">
-                <Link
-                  href="/admin/posts"
-                  onClick={() => setOpen?.(false)}
-                  className={cn(
-                    "block px-3 py-2 rounded-md text-sm font-medium transition-colors",
-                    pathname === "/admin/posts"
-                      ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground",
-                  )}
-                >
-                  Posts Redes
-                </Link>
-                <Link
-                  href="/admin/ideas"
-                  onClick={() => setOpen?.(false)}
-                  className={cn(
-                    "block px-3 py-2 rounded-md text-sm font-medium transition-colors",
-                    pathname === "/admin/ideas"
-                      ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground",
-                  )}
-                >
-                  Ideas FB
-                </Link>
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-
-          <Link
-            href="/admin/leads-view"
-            onClick={() => setOpen?.(false)}
-            className={cn(
-              "flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors",
-              pathname === "/admin/leads-view"
-                ? "bg-primary/10 text-primary"
-                : "text-muted-foreground hover:bg-muted hover:text-foreground",
-            )}
-          >
-            <Search className="h-5 w-5" />
-            Scraper G.Maps
-          </Link>
-
-          <AccordionItem value="blog" className="border-none">
-            <AccordionTrigger className="px-3 py-2.5 hover:no-underline hover:bg-muted rounded-md text-sm font-medium text-muted-foreground hover:text-foreground">
-              <div className="flex items-center gap-3">
-                <BookOpen className="h-5 w-5" />
-                Blog
-              </div>
-            </AccordionTrigger>
-            <AccordionContent className="pb-0">
-              <div className="pl-10 space-y-1 mt-1">
-                <Link
-                  href="/admin/blog"
-                  onClick={() => setOpen?.(false)}
-                  className={cn(
-                    "block px-3 py-2 rounded-md text-sm font-medium transition-colors",
-                    pathname === "/admin/blog" ||
-                      pathname.startsWith("/admin/blog/")
-                      ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground",
-                  )}
-                >
-                  Entradas Blog
-                </Link>
-                <Link
-                  href="/admin/categoria_blog"
-                  onClick={() => setOpen?.(false)}
-                  className={cn(
-                    "block px-3 py-2 rounded-md text-sm font-medium transition-colors",
-                    pathname === "/admin/categoria_blog"
-                      ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground",
-                  )}
-                >
-                  Categorías Blog
-                </Link>
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-        <Link
-          key="/admin/perfil"
-          href="/admin/perfil"
-          onClick={() => setOpen?.(false)}
-          className={cn(
-            "flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors",
-            pathname === "/admin/perfil"
-              ? "bg-primary/10 text-primary"
-              : "text-muted-foreground hover:bg-muted hover:text-foreground",
-          )}
-        >
-          <User className="h-5 w-5" />
-          Perfil
-        </Link>
       </div>
-      <div className="p-4 border-t">
+
+      <div className="p-4 border-t bg-background">
         <Button
           variant="ghost"
-          className="w-full justify-start gap-3 text-destructive hover:text-destructive hover:bg-destructive/10"
+          className="w-full justify-start gap-3 text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
           onClick={async () => {
             await fetch("/api/auth/logout", { method: "POST" });
             window.location.href = "/es/login";
           }}
         >
-          <LogOut className="h-5 w-5" />
+          <LogOut className="h-4 w-4" />
           Cerrar Sesión
         </Button>
       </div>
