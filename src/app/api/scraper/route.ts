@@ -94,8 +94,8 @@ export async function POST(request: Request) {
       return true;
     });
 
-    // 3. Insert into Database
-    let insertedCount = 0;
+    let newLeadsCount = 0;
+    let updatedLeadsCount = 0;
     
     // We process sequentially or in parallel? Parallel is fine for DB inserts usually but let's be safe.
     // Using simple loop for clarity.
@@ -114,13 +114,12 @@ export async function POST(request: Request) {
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         ON DUPLICATE KEY UPDATE 
           rating_count = VALUES(rating_count),
-          business_name = VALUES(business_name),
-          phone_number = VALUES(phone_number),
-          address = VALUES(address)
+          scrapped_at = NOW(),
+          search_keyword = VALUES(search_keyword)
       `;
 
       try {
-        await pool.execute(query, [
+        const [result] = await pool.execute<ResultSetHeader>(query, [
           google_place_id, 
           business_name, 
           phone_number, 
@@ -130,7 +129,15 @@ export async function POST(request: Request) {
           business_status, 
           search_keyword
         ]);
-        insertedCount++;
+        
+        // MySQL ON DUPLICATE KEY UPDATE: 1 = Insert, 2 = Update
+        if (result.affectedRows === 1) {
+            newLeadsCount++;
+        } else {
+            // Note: If fields didn't change, affectedRows might be 0 with client flag found_rows=false
+            // but usually for timestamp update it returns 2.
+            if (result.affectedRows > 0) updatedLeadsCount++;
+        }
       } catch (err) {
         console.error(`Error inserting lead ${google_place_id}:`, err);
         // Continue with next one
@@ -141,7 +148,9 @@ export async function POST(request: Request) {
       success: true,
       found: places.length,
       filtered_valid: validLeads.length,
-      inserted: insertedCount,
+      inserted: newLeadsCount + updatedLeadsCount, // Total processed
+      new_leads: newLeadsCount,
+      updated_leads: updatedLeadsCount,
       nextPageToken: nextPageToken,
       rejection_stats: {
         status: rejected_status,

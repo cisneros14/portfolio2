@@ -75,6 +75,8 @@ export default function LeadsViewPage() {
     found?: number;
     filtered_valid?: number;
     inserted?: number;
+    new_leads?: number;
+    updated_leads?: number;
     rejection_stats?: { website: number; status: number; rating: number };
   } | null>(null);
 
@@ -192,7 +194,17 @@ export default function LeadsViewPage() {
     // Page reset is handled by useEffect
   };
 
-  const performScan = async (searchToken?: string, isInitial = true) => {
+  /* 
+    State tracker for recursive "Smart Scan"
+    We need to keep track of how many NEW leads we have found in this session
+    to satisfy the "minimum 5 new" requirement.
+  */
+
+  const performScan = async (
+    searchToken?: string,
+    isInitial = true,
+    accumulatedNewLeads = 0,
+  ) => {
     if (!keyword.trim()) return;
 
     if (isInitial) {
@@ -217,6 +229,8 @@ export default function LeadsViewPage() {
           const currentFound = data.found || 0;
           const currentValid = data.filtered_valid || 0;
           const currentInserted = data.inserted || 0;
+          const currentNew = data.new_leads || 0;
+          const currentUpdated = data.updated_leads || 0;
           const rejStats = data.rejection_stats || {
             website: 0,
             status: 0,
@@ -228,6 +242,8 @@ export default function LeadsViewPage() {
               found: (prev.found || 0) + currentFound,
               filtered_valid: (prev.filtered_valid || 0) + currentValid,
               inserted: (prev.inserted || 0) + currentInserted,
+              new_leads: (prev.new_leads || 0) + currentNew,
+              updated_leads: (prev.updated_leads || 0) + currentUpdated,
               rejection_stats: {
                 website:
                   (prev.rejection_stats?.website || 0) + rejStats.website,
@@ -240,6 +256,8 @@ export default function LeadsViewPage() {
             found: currentFound,
             filtered_valid: currentValid,
             inserted: currentInserted,
+            new_leads: currentNew,
+            updated_leads: currentUpdated,
             rejection_stats: rejStats,
           };
         });
@@ -250,13 +268,25 @@ export default function LeadsViewPage() {
         // Also refresh countries if new ones might have appeared
         if (data.inserted > 0) fetchCountries();
 
-        if (
-          deepScan &&
-          data.nextPageToken &&
-          (isInitial ? 1 : currentScanPage + 1) <= 5
-        ) {
-          setCurrentScanPage((prev) => prev + 1);
-          await performScan(data.nextPageToken, false);
+        const totalNewSoFar = accumulatedNewLeads + (data.new_leads || 0);
+        const scanPage = isInitial ? 1 : currentScanPage + 1;
+        setCurrentScanPage(scanPage);
+
+        // CONTINUATION LOGIC:
+        // If DeepScan is ON, we generally go up to 5 pages fixed (OLD LOGIC).
+        // NEW LOGIC: We want at least 5 NEW leads.
+        // Let's Combine: If Deep Scan is ON, we act as "Smart Scan" -> Keep going until 5 NEW leads OR 10 pages max.
+        // User asked: "quiero que me de leads nuevos, minimo 5 nuevos, seguir buscando automaticamente"
+        // keeping the checkbox as the trigger for this "Auto-Search" feature.
+
+        const shouldContinue =
+          deepScan && data.nextPageToken && totalNewSoFar < 5 && scanPage < 10;
+
+        if (shouldContinue) {
+          // Add a small delay to be nice to API? (Client side delay)
+          setTimeout(() => {
+            performScan(data.nextPageToken, false, totalNewSoFar);
+          }, 1000);
         } else {
           setLoading(false);
         }
@@ -508,7 +538,8 @@ export default function LeadsViewPage() {
             <div className="flex flex-wrap gap-4 font-medium text-base">
               <span className="text-blue-600">Procesados: {stats.found}</span>
               <span className="text-green-600">
-                Guardados (Sin Web): {stats.inserted}
+                Guardados (Nuevos: {stats.new_leads || 0} | Actualizados:{" "}
+                {stats.updated_leads || 0})
               </span>
             </div>
             <div className="flex flex-wrap gap-4 text-muted-foreground text-xs mt-1 border-t pt-2">
