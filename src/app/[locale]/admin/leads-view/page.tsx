@@ -12,6 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 
 import {
@@ -22,6 +23,7 @@ import {
   Phone,
   ChevronLeft,
   ChevronRight,
+  Trash2,
 } from "lucide-react";
 
 import { FaWhatsapp } from "react-icons/fa";
@@ -105,6 +107,122 @@ export default function LeadsViewPage() {
   // Dialog State
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
 
+  // Bulk Selection State
+  const [selectedLeads, setSelectedLeads] = useState<number[]>([]);
+  const [bulkStatus, setBulkStatus] = useState<string>("");
+
+  const toggleSelectAll = () => {
+    if (selectedLeads.length === leads.length) {
+      setSelectedLeads([]);
+    } else {
+      setSelectedLeads(leads.map((l) => l.id));
+    }
+  };
+
+  const toggleSelectOne = (id: number) => {
+    setSelectedLeads((prev) =>
+      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id],
+    );
+  };
+
+  const handleBulkUpdate = async () => {
+    if (!bulkStatus || selectedLeads.length === 0) return;
+    if (
+      !confirm(
+        `¿Estás seguro de actualizar ${selectedLeads.length} leads al estado ${bulkStatus}?`,
+      )
+    )
+      return;
+
+    setLoading(true);
+    try {
+      const res = await fetch("/api/scraper", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ids: selectedLeads,
+          status: bulkStatus,
+        }),
+      });
+
+      if (res.ok) {
+        // Update local state
+        setLeads((prev) =>
+          prev.map((l) =>
+            selectedLeads.includes(l.id)
+              ? { ...l, lead_status: bulkStatus as any }
+              : l,
+          ),
+        );
+        setSelectedLeads([]);
+        setBulkStatus("");
+        alert("Actualización masiva exitosa");
+      } else {
+        const data = await res.json();
+        alert("Error al actualizar: " + (data.error || "Unknown"));
+      }
+    } catch (error) {
+      console.error("Bulk update error:", error);
+      alert("Error de conexión al actualizar");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const deleteLead = async (leadId: number) => {
+    if (!confirm("¿Estás seguro de eliminar este lead?")) return;
+    try {
+      const res = await fetch("/api/scraper", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: leadId }),
+      });
+      if (res.ok) {
+        setLeads((prev) => prev.filter((l) => l.id !== leadId));
+        setTotalCount((prev) => prev - 1);
+        if (selectedLead?.id === leadId) setSelectedLead(null);
+      } else {
+        const data = await res.json();
+        alert("Error al eliminar: " + (data.error || "Unknown"));
+      }
+    } catch (error) {
+      console.error("Delete error:", error);
+      alert("Error de conexión al eliminar");
+    }
+  };
+
+  const handleBulkDelete = async () => {
+    if (selectedLeads.length === 0) return;
+    if (
+      !confirm(
+        `¿Estás seguro de eliminar ${selectedLeads.length} leads? Esta acción no se puede deshacer.`,
+      )
+    )
+      return;
+    setLoading(true);
+    try {
+      const res = await fetch("/api/scraper", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: selectedLeads }),
+      });
+      if (res.ok) {
+        setLeads((prev) => prev.filter((l) => !selectedLeads.includes(l.id)));
+        setTotalCount((prev) => prev - selectedLeads.length);
+        setSelectedLeads([]);
+        alert("Leads eliminados exitosamente");
+      } else {
+        const data = await res.json();
+        alert("Error al eliminar: " + (data.error || "Unknown"));
+      }
+    } catch (error) {
+      console.error("Bulk delete error:", error);
+      alert("Error de conexión al eliminar");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const fetchLeads = useCallback(async () => {
     try {
       const params = new URLSearchParams();
@@ -167,6 +285,7 @@ export default function LeadsViewPage() {
   // Reset page when filters change
   useEffect(() => {
     setCurrentPage(1);
+    setSelectedLeads([]); // Reset selection on filter change
   }, [
     filterQ,
     filterStatus,
@@ -717,18 +836,28 @@ export default function LeadsViewPage() {
           <Table className="min-w-[800px]">
             <TableHeader>
               <TableRow>
+                <TableHead className="w-[50px]">
+                  <Checkbox
+                    checked={
+                      leads.length > 0 && selectedLeads.length === leads.length
+                    }
+                    onCheckedChange={toggleSelectAll}
+                    aria-label="Select all"
+                  />
+                </TableHead>
                 <TableHead>Nombre</TableHead>
                 <TableHead>Teléfono</TableHead>
                 <TableHead>Rating</TableHead>
                 <TableHead>Estado</TableHead>
                 <TableHead>Origen</TableHead>
+                <TableHead className="w-[50px]"></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {leads.length === 0 ? (
                 <TableRow>
                   <TableCell
-                    colSpan={5}
+                    colSpan={7}
                     className="text-center h-24 text-muted-foreground"
                   >
                     No hay leads registrados aún. Intenta buscar algo.
@@ -741,6 +870,13 @@ export default function LeadsViewPage() {
                     className="cursor-pointer hover:bg-muted/50"
                     onClick={() => setSelectedLead(lead)}
                   >
+                    <TableCell onClick={(e) => e.stopPropagation()}>
+                      <Checkbox
+                        checked={selectedLeads.includes(lead.id)}
+                        onCheckedChange={() => toggleSelectOne(lead.id)}
+                        aria-label={`Select lead ${lead.business_name}`}
+                      />
+                    </TableCell>
                     <TableCell className="font-medium max-w-[200px]">
                       <div className="truncate" title={lead.business_name}>
                         {lead.business_name}
@@ -793,6 +929,17 @@ export default function LeadsViewPage() {
                       <span title={lead.search_keyword}>
                         {lead.search_keyword}
                       </span>
+                    </TableCell>
+                    <TableCell onClick={(e) => e.stopPropagation()}>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-7 w-7 text-red-500 hover:text-red-700 hover:bg-red-100"
+                        title="Eliminar lead"
+                        onClick={() => deleteLead(lead.id)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))
@@ -1021,6 +1168,58 @@ export default function LeadsViewPage() {
           )}
         </DialogContent>
       </Dialog>
+
+      {selectedLeads.length > 0 && (
+        <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-popover border shadow-2xl rounded-lg p-4 flex flex-col sm:flex-row items-center gap-4 z-50 animate-in fade-in slide-in-from-bottom-4">
+          <div className="text-sm font-medium whitespace-nowrap">
+            {selectedLeads.length} seleccionados
+          </div>
+          <div className="flex items-center gap-2">
+            <Select value={bulkStatus} onValueChange={setBulkStatus}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Cambiar estado a..." />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="NUEVO">NUEVO</SelectItem>
+                <SelectItem value="CONTACTADO">CONTACTADO</SelectItem>
+                <SelectItem value="INTERESADO">INTERESADO</SelectItem>
+                <SelectItem value="CLIENTE">CLIENTE</SelectItem>
+                <SelectItem value="RECHAZADO">RECHAZADO</SelectItem>
+                <SelectItem value="EN_DESARROLLO">EN_DESARROLLO</SelectItem>
+                <SelectItem value="SIN_WHATSAPP">SIN_WHATSAPP</SelectItem>
+              </SelectContent>
+            </Select>
+            <Button
+              onClick={handleBulkUpdate}
+              disabled={!bulkStatus || loading}
+              size="sm"
+            >
+              {loading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                "Actualizar"
+              )}
+            </Button>
+            <div className="w-px h-6 bg-border"></div>
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={handleBulkDelete}
+              disabled={loading}
+            >
+              <Trash2 className="h-4 w-4 mr-1" />
+              Eliminar
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setSelectedLeads([])}
+            >
+              Cancelar
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

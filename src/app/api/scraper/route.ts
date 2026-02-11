@@ -316,10 +316,10 @@ export async function GET(request: Request) {
 
 export async function PUT(request: Request) {
   try {
-    const { id, status, admin_notes, phone_number } = await request.json();
+    const { id, ids, status, admin_notes, phone_number } = await request.json();
 
-    if (!id) {
-      return NextResponse.json({ error: 'ID is required' }, { status: 400 });
+    if (!id && (!ids || !Array.isArray(ids) || ids.length === 0)) {
+      return NextResponse.json({ error: 'ID(s) are required' }, { status: 400 });
     }
 
     const updates: string[] = [];
@@ -344,14 +344,51 @@ export async function PUT(request: Request) {
        return NextResponse.json({ success: true, message: 'Nothing to update' });
     }
 
-    values.push(id);
-    const query = `UPDATE leads_sin_web SET ${updates.join(', ')} WHERE id = ?`;
+    let query = '';
+
+    if (ids && Array.isArray(ids) && ids.length > 0) {
+        // Bulk update
+        query = `UPDATE leads_sin_web SET ${updates.join(', ')} WHERE id IN (${ids.map(() => '?').join(',')})`;
+        values.push(...ids);
+    } else {
+        // Single update
+        query = `UPDATE leads_sin_web SET ${updates.join(', ')} WHERE id = ?`;
+        values.push(id);
+    }
 
     await pool.execute(query, values);
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, count: ids ? ids.length : 1 });
   } catch (error: any) {
     console.error('Update Error:', error);
     return NextResponse.json({ error: error.message || 'Update Error' }, { status: 500 });
+  }
+}
+
+export async function DELETE(request: Request) {
+  try {
+    const { id, ids } = await request.json();
+
+    if (!id && (!ids || !Array.isArray(ids) || ids.length === 0)) {
+      return NextResponse.json({ error: 'ID(s) are required' }, { status: 400 });
+    }
+
+    let query = '';
+    let values: any[] = [];
+
+    if (ids && Array.isArray(ids) && ids.length > 0) {
+      query = `DELETE FROM leads_sin_web WHERE id IN (${ids.map(() => '?').join(',')})`;
+      values = ids;
+    } else {
+      query = `DELETE FROM leads_sin_web WHERE id = ?`;
+      values = [id];
+    }
+
+    await pool.execute(query, values);
+
+    return NextResponse.json({ success: true, count: ids ? ids.length : 1 });
+  } catch (error: any) {
+    console.error('Delete Error:', error);
+    return NextResponse.json({ error: error.message || 'Delete Error' }, { status: 500 });
   }
 }
