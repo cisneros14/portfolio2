@@ -48,7 +48,7 @@ const DOCK_SOCIAL_DATA = [
   },
   {
     icon: FaWhatsapp,
-    href: "https://wa.me/593939595776",
+    href: "https://wa.me/593983489133",
     labelKey: "nav_whatsapp",
   },
 ];

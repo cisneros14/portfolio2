@@ -8,7 +8,7 @@ export default function WhatsappBtn() {
   const pathname = usePathname();
   const isEnglish = pathname.startsWith("/en");
 
-  const phone = "593939595776"; // solo números, sin +
+  const phone = "593983489133"; // solo números, sin +
   const message = isEnglish
     ? "Hello, I would like more information about..."
     : "Hola, quisiera más información sobre ...";

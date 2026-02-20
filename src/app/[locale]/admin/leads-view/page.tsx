@@ -85,6 +85,7 @@ export default function LeadsViewPage() {
   const [nextPageToken, setNextPageToken] = useState<string | null>(null);
   const [deepScan, setDeepScan] = useState(false);
   const [currentScanPage, setCurrentScanPage] = useState(0);
+  const [scanFinished, setScanFinished] = useState(false);
 
   // Filter State
   const [filterQ, setFilterQ] = useState("");
@@ -330,6 +331,7 @@ export default function LeadsViewPage() {
       setLoading(true);
       setStats(null);
       setCurrentScanPage(1);
+      setScanFinished(false);
     }
 
     try {
@@ -408,6 +410,7 @@ export default function LeadsViewPage() {
           }, 1000);
         } else {
           setLoading(false);
+          setScanFinished(true);
         }
       } else {
         alert("Error: " + (data.error || "Unknown error"));
@@ -641,14 +644,22 @@ export default function LeadsViewPage() {
             </div>
           </div>
 
-          {nextPageToken && !loading && !deepScan && (
-            <Button
-              variant="secondary"
-              onClick={() => performScan(nextPageToken, false)}
-              className="w-full"
-            >
-              Cargar siguientes 20 resultados
-            </Button>
+          {nextPageToken && !loading && (
+            <div className="flex flex-col sm:flex-row items-center gap-3 p-3 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-lg">
+              <div className="flex-1 text-sm text-blue-700 dark:text-blue-300">
+                <span className="font-medium">
+                  Página {currentScanPage} escaneada.
+                </span>{" "}
+                Hay más resultados disponibles de Google.
+              </div>
+              <Button
+                onClick={() => performScan(nextPageToken, false)}
+                className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white"
+              >
+                Siguiente Página
+                <ChevronRight className="ml-1 h-4 w-4" />
+              </Button>
+            </div>
           )}
         </div>
 

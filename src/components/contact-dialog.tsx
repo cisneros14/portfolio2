@@ -19,10 +19,11 @@ import { useTranslations } from "next-intl";
 
 // Datos de contacto - personaliza estos valores
 const CONTACT_DATA = {
-  whatsapp: "+5939595776",
-  phone: "+5939595776",
+  whatsapp: "+593983489133",
+  phone: "+593983489133",
   email: "cisnerosgranda14@gmail.com",
-  facebook: "https://www.facebook.com/people/Agility-Desarrollo-Software/61576776316507/",
+  facebook:
+    "https://www.facebook.com/people/Agility-Desarrollo-Software/61576776316507/",
   instagram: "https://www.instagram.com/agility_software?igsh=bWY1dWppNjEyajIx",
 };
 
@@ -34,7 +35,7 @@ const getContactChannels = (t: any) => [
     icon: FaWhatsapp,
     href: `https://wa.me/${CONTACT_DATA.whatsapp}`,
     color: "from-green-500 to-emerald-600",
-    description: "+593 939 595 776",
+    description: "+593 983 489 133",
   },
   {
     id: "phone",
@@ -42,7 +43,7 @@ const getContactChannels = (t: any) => [
     icon: Phone,
     href: `tel:${CONTACT_DATA.phone}`,
     color: "from-blue-500 to-cyan-600",
-    description: "+593 939 595 776",
+    description: "+593 983 489 133",
   },
   {
     id: "email",
@@ -91,7 +92,7 @@ export function ContactDialog({
           size={triggerSize}
           className={cn(
             "group max-sm:w-full cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300 px-8 py-2 !text-[0.8rem] md:!text-base sm:text-lg rounded-xl h-auto",
-            triggerClassName
+            triggerClassName,
           )}
         >
           {children ? (
