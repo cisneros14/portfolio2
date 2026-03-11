@@ -74,7 +74,7 @@ export async function generateBlogContent(categoryId: string): Promise<Generated
 
     // Use gemini-flash-latest as it maps to the current stable Flash model available to the key (likely free tier)
     // Previous attempts with specific versions failed (404 or 429), so we use the alias.
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`, {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-pro-preview:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

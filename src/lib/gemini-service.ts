@@ -53,7 +53,7 @@ TOPIC: "${topic}"
 * **Output:** Return ONLY the post text. No preamble.`;
 
   // Usamos gemini-2.0-flash por ser rápido y eficiente
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-pro-preview:generateContent?key=${GEMINI_API_KEY}`;
 
   try {
     const response = await fetch(url, {
@@ -144,7 +144,7 @@ export async function generatePostImage(topic: string): Promise<Buffer> {
   } catch (error) {
     console.error('Error generando imagen directa, probando endpoint alternativo (Gemini GenerateContent)...', error);
     // Intento de fallback a generateContent si predict falla (depende de la cuenta/región)
-    imageBuffer = await fallbackImageGeneration(imagePrompt, error);
+    imageBuffer = await fallbackImageGeneration(imagePrompt, error instanceof Error ? error : new Error(String(error)));
   }
 
   // Superponer Logo
@@ -192,7 +192,7 @@ export async function generatePostImage(topic: string): Promise<Buffer> {
   }
 }
 
-async function fallbackImageGeneration(prompt: string, originalError?: any): Promise<Buffer> {
+async function fallbackImageGeneration(prompt: string, originalError?: Error): Promise<Buffer> {
    // Fallback simple: Si falla Imagen, retornamos un error o una imagen placeholder
    // Realmente no hay un fallback fácil de "texto a imagen" en Gemini si no es el modelo específico.
    // Podríamos intentar el modelo experimental 'gemini-2.0-flash-exp-image-generation'

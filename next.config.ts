@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
     // Optimizar imágenes
     optimizePackageImports: ['lucide-react', 'framer-motion'],
     serverActions: {
-      bodySizeLimit: '5mb',
+      bodySizeLimit: '10mb',
     },
   },
   serverExternalPackages: ['@sparticuz/chromium-min', 'sharp'],

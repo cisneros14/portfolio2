@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { generateSiteAction } from "@/actions/site-factory";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,6 +13,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 
@@ -24,6 +31,11 @@ import {
   ChevronLeft,
   ChevronRight,
   Trash2,
+  Globe,
+  Palette,
+  FileText,
+  Image as ImageIcon,
+  CheckCircle,
 } from "lucide-react";
 
 import { FaWhatsapp } from "react-icons/fa";
@@ -55,13 +67,13 @@ interface Lead {
   business_type: string | null;
   business_status: string;
   lead_status:
-    | "NUEVO"
-    | "CONTACTADO"
-    | "INTERESADO"
-    | "CLIENTE"
-    | "RECHAZADO"
-    | "EN_DESARROLLO"
-    | "SIN_WHATSAPP";
+  | "NUEVO"
+  | "CONTACTADO"
+  | "INTERESADO"
+  | "CLIENTE"
+  | "RECHAZADO"
+  | "EN_DESARROLLO"
+  | "SIN_WHATSAPP";
   search_keyword: string;
 
   city_zone: string | null;
@@ -111,6 +123,110 @@ export default function LeadsViewPage() {
   // Bulk Selection State
   const [selectedLeads, setSelectedLeads] = useState<number[]>([]);
   const [bulkStatus, setBulkStatus] = useState<string>("");
+
+  const [rawInfo, setRawInfo] = useState("");
+  const [primaryColor, setPrimaryColor] = useState("#3b82f6");
+  const [secondaryColor, setSecondaryColor] = useState("#1e293b");
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [generationStep, setGenerationStep] = useState<string>("");
+  const [siteGenResult, setSiteGenResult] = useState<{ success: boolean; url?: string; error?: string; branch?: string } | null>(null);
+
+  const logoNavRef = useRef<HTMLInputElement>(null);
+  const logoHeroRef = useRef<HTMLInputElement>(null);
+  const logoAboutRef = useRef<HTMLInputElement>(null);
+  const resultRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (siteGenResult) {
+      resultRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  }, [siteGenResult]);
+
+  const compressImage = async (file: File): Promise<Blob | File> => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target?.result as string;
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const MAX_WIDTH = 1200;
+          const MAX_HEIGHT = 1200;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height *= MAX_WIDTH / width;
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width *= MAX_HEIGHT / height;
+              height = MAX_HEIGHT;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext("2d");
+          ctx?.drawImage(img, 0, 0, width, height);
+
+          canvas.toBlob(
+            (blob) => {
+              if (blob) {
+                resolve(blob);
+              } else {
+                resolve(file);
+              }
+            },
+            "image/jpeg",
+            0.85
+          );
+        };
+      };
+    });
+  };
+
+  const handleGenerateSite = async () => {
+    if (!selectedLead) return;
+    setIsGenerating(true);
+    setSiteGenResult(null);
+
+    const formData = new FormData();
+    formData.append("rawInfo", rawInfo);
+    formData.append("primaryColor", primaryColor);
+    formData.append("secondaryColor", secondaryColor);
+    formData.append("leadName", selectedLead.business_name);
+
+    try {
+      setGenerationStep("Procesando imágenes...");
+      // Compress and append images
+      if (logoNavRef.current?.files?.[0]) {
+        const compressed = await compressImage(logoNavRef.current.files[0]);
+        formData.append("logoNav", compressed, "logo.jpg");
+      }
+      if (logoHeroRef.current?.files?.[0]) {
+        const compressed = await compressImage(logoHeroRef.current.files[0]);
+        formData.append("logoHero", compressed, "logoHero.jpg");
+      }
+      if (logoAboutRef.current?.files?.[0]) {
+        const compressed = await compressImage(logoAboutRef.current.files[0]);
+        formData.append("logoAbout", compressed, "about-image.jpg");
+      }
+
+      setGenerationStep("Generando contenido con IA...");
+      const result = await generateSiteAction(formData);
+      setSiteGenResult(result);
+    } catch (error) {
+      console.error(error);
+      setSiteGenResult({ success: false, error: "Error inesperado en la conexión." });
+    } finally {
+      setIsGenerating(false);
+      setGenerationStep("");
+    }
+  };
 
   const toggleSelectAll = () => {
     if (selectedLeads.length === leads.length) {
@@ -228,7 +344,7 @@ export default function LeadsViewPage() {
     try {
       const params = new URLSearchParams();
       if (filterQ) params.append("q", filterQ);
-      if (filterStatus && filterStatus !== "ALL")
+      if (filterStatus)
         params.append("status", filterStatus);
       if (filterCountry && filterCountry !== "ALL")
         params.append("country", filterCountry);
@@ -990,191 +1106,341 @@ export default function LeadsViewPage() {
                 </DialogDescription>
               </DialogHeader>
 
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-1">
-                    <label className="text-xs font-semibold text-muted-foreground uppercase">
-                      Estado del Lead
-                    </label>
-                    <Select
-                      value={selectedLead.lead_status}
-                      onValueChange={(val) =>
-                        updateLead(selectedLead.id, { status: val })
-                      }
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Estado" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem
-                          value="NUEVO"
-                          className={getStatusBadgeClass("NUEVO")}
-                        >
-                          NUEVO
-                        </SelectItem>
-                        <SelectItem
-                          value="CONTACTADO"
-                          className={getStatusBadgeClass("CONTACTADO")}
-                        >
-                          CONTACTADO
-                        </SelectItem>
-                        <SelectItem
-                          value="INTERESADO"
-                          className={getStatusBadgeClass("INTERESADO")}
-                        >
-                          INTERESADO
-                        </SelectItem>
-                        <SelectItem
-                          value="CLIENTE"
-                          className={getStatusBadgeClass("CLIENTE")}
-                        >
-                          CLIENTE
-                        </SelectItem>
-                        <SelectItem
-                          value="RECHAZADO"
-                          className={getStatusBadgeClass("RECHAZADO")}
-                        >
-                          RECHAZADO
-                        </SelectItem>
-                        <SelectItem
-                          value="EN_DESARROLLO"
-                          className={getStatusBadgeClass("EN_DESARROLLO")}
-                        >
-                          EN_DESARROLLO
-                        </SelectItem>
-                        <SelectItem
-                          value="SIN_WHATSAPP"
-                          className={getStatusBadgeClass("SIN_WHATSAPP")}
-                        >
-                          SIN_WHATSAPP
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
+              <Tabs defaultValue="info" className="w-full">
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="info" className="flex items-center gap-2">
+                    <FileText className="w-4 h-4" /> Info del Lead
+                  </TabsTrigger>
+                  <TabsTrigger value="site" className="flex items-center gap-2">
+                    <Globe className="w-4 h-4" /> Generar Sitio
+                  </TabsTrigger>
+                </TabsList>
 
-                  <div className="space-y-1">
-                    <label className="text-xs font-semibold text-muted-foreground uppercase">
-                      Rating
-                    </label>
-                    <div className="flex items-center gap-2 text-sm border p-2 rounded-md h-9">
-                      <span className="font-bold">
-                        {selectedLead.rating_count}
-                      </span>{" "}
-                      reseñas
+                <TabsContent value="info" className="space-y-4 py-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-1">
+                      <label className="text-xs font-semibold text-muted-foreground uppercase">
+                        Estado del Lead
+                      </label>
+                      <Select
+                        value={selectedLead.lead_status}
+                        onValueChange={(val) =>
+                          updateLead(selectedLead.id, { status: val })
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Estado" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem
+                            value="NUEVO"
+                            className={getStatusBadgeClass("NUEVO")}
+                          >
+                            NUEVO
+                          </SelectItem>
+                          <SelectItem
+                            value="CONTACTADO"
+                            className={getStatusBadgeClass("CONTACTADO")}
+                          >
+                            CONTACTADO
+                          </SelectItem>
+                          <SelectItem
+                            value="INTERESADO"
+                            className={getStatusBadgeClass("INTERESADO")}
+                          >
+                            INTERESADO
+                          </SelectItem>
+                          <SelectItem
+                            value="CLIENTE"
+                            className={getStatusBadgeClass("CLIENTE")}
+                          >
+                            CLIENTE
+                          </SelectItem>
+                          <SelectItem
+                            value="RECHAZADO"
+                            className={getStatusBadgeClass("RECHAZADO")}
+                          >
+                            RECHAZADO
+                          </SelectItem>
+                          <SelectItem
+                            value="EN_DESARROLLO"
+                            className={getStatusBadgeClass("EN_DESARROLLO")}
+                          >
+                            EN_DESARROLLO
+                          </SelectItem>
+                          <SelectItem
+                            value="SIN_WHATSAPP"
+                            className={getStatusBadgeClass("SIN_WHATSAPP")}
+                          >
+                            SIN_WHATSAPP
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="text-xs font-semibold text-muted-foreground uppercase">
+                        Rating
+                      </label>
+                      <div className="flex items-center gap-2 text-sm border p-2 rounded-md h-9">
+                        <span className="font-bold">
+                          {selectedLead.rating_count}
+                        </span>{" "}
+                        reseñas
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="space-y-1">
-                  <label className="text-xs font-semibold text-muted-foreground uppercase flex items-center gap-1">
-                    <Phone className="w-3 h-3" /> Teléfono
-                  </label>
-                  <div className="flex gap-2 items-center">
-                    <Input
-                      value={selectedLead.phone_number || ""}
-                      onChange={(e) =>
-                        setSelectedLead({
-                          ...selectedLead,
-                          phone_number: e.target.value,
-                        })
-                      }
-                      className="font-mono h-9"
-                      placeholder="Sin teléfono"
-                    />
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      title="Guardar Teléfono"
-                      onClick={() =>
-                        handleSavePhone(selectedLead.phone_number || "")
-                      }
-                    >
-                      <span className="sr-only">Guardar</span>
-                      💾
-                    </Button>
-
-                    {selectedLead.phone_number && (
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-muted-foreground uppercase flex items-center gap-1">
+                      <Phone className="w-3 h-3" /> Teléfono
+                    </label>
+                    <div className="flex gap-2 items-center">
+                      <Input
+                        value={selectedLead.phone_number || ""}
+                        onChange={(e) =>
+                          setSelectedLead({
+                            ...selectedLead,
+                            phone_number: e.target.value,
+                          })
+                        }
+                        className="font-mono h-9"
+                        placeholder="Sin teléfono"
+                      />
                       <Button
                         variant="outline"
                         size="icon"
-                        className="text-green-600 border-green-200 hover:bg-green-50 hover:text-green-700"
-                        title="Abrir WhatsApp"
-                        onClick={() => {
-                          const url = getWhatsAppUrl(selectedLead.phone_number);
-                          if (url) window.open(url, "_blank");
-                        }}
+                        title="Guardar Teléfono"
+                        onClick={() =>
+                          handleSavePhone(selectedLead.phone_number || "")
+                        }
                       >
-                        <FaWhatsapp className="h-4 w-4" />
-                        {/* Chat text removed to save space or keep it? Original had Chat text. Let's keep icon only for consistency/space or add text if needed. User asked to edit input. */}
+                        <span className="sr-only">Guardar</span>
+                        💾
                       </Button>
-                    )}
-                  </div>
-                </div>
 
-                <div className="space-y-1">
-                  <label className="text-xs font-semibold text-muted-foreground uppercase flex items-center gap-1">
-                    <MapPin className="w-3 h-3" /> Dirección
-                  </label>
-                  <div className="text-sm border p-2 rounded-md bg-muted/30">
-                    {selectedLead.address || "No disponible"}
+                      {selectedLead.phone_number && (
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="text-green-600 border-green-200 hover:bg-green-50 hover:text-green-700"
+                          title="Abrir WhatsApp"
+                          onClick={() => {
+                            const url = getWhatsAppUrl(
+                              selectedLead.phone_number,
+                            );
+                            if (url) window.open(url, "_blank");
+                          }}
+                        >
+                          <FaWhatsapp className="h-4 w-4" />
+                        </Button>
+                      )}
+                    </div>
                   </div>
-                </div>
 
-                <div className="space-y-1">
-                  <label className="text-xs font-semibold text-muted-foreground uppercase flex items-center gap-1">
-                    <Calendar className="w-3 h-3" /> Keyword Original
-                  </label>
-                  <div className="text-sm border p-2 rounded-md bg-muted/30">
-                    {selectedLead.search_keyword}
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-muted-foreground uppercase flex items-center gap-1">
+                      <MapPin className="w-3 h-3" /> Dirección
+                    </label>
+                    <div className="text-sm border p-2 rounded-md bg-muted/30">
+                      {selectedLead.address || "No disponible"}
+                    </div>
                   </div>
-                </div>
 
-                <div className="space-y-1">
-                  <label className="text-xs font-semibold text-muted-foreground uppercase flex items-center gap-1">
-                    Notas del Administrador
-                  </label>
-                  <div className="flex gap-2">
-                    <Textarea
-                      placeholder="Escribe notas aquí... (guardado en clic)"
-                      value={selectedLead.admin_notes || ""}
-                      onChange={(e) =>
-                        setSelectedLead({
-                          ...selectedLead,
-                          admin_notes: e.target.value,
-                        })
-                      }
-                      className="bg-background text-sm"
-                    />
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      title="Guardar Nota"
-                      onClick={() =>
-                        updateLead(selectedLead.id, {
-                          admin_notes: selectedLead.admin_notes || "",
-                        })
-                      }
-                    >
-                      <span className="sr-only">Guardar</span>
-                      💾
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-muted-foreground uppercase flex items-center gap-1">
+                      <Calendar className="w-3 h-3" /> Keyword Original
+                    </label>
+                    <div className="text-sm border p-2 rounded-md bg-muted/30">
+                      {selectedLead.search_keyword}
+                    </div>
+                  </div>
+
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-muted-foreground uppercase flex items-center gap-1">
+                      Notas del Administrador
+                    </label>
+                    <div className="flex gap-2">
+                      <Textarea
+                        placeholder="Escribe notas aquí... (guardado en clic)"
+                        value={selectedLead.admin_notes || ""}
+                        onChange={(e) =>
+                          setSelectedLead({
+                            ...selectedLead,
+                            admin_notes: e.target.value,
+                          })
+                        }
+                        className="bg-background text-sm"
+                      />
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        title="Guardar Nota"
+                        onClick={() =>
+                          updateLead(selectedLead.id, {
+                            admin_notes: selectedLead.admin_notes || "",
+                          })
+                        }
+                      >
+                        <span className="sr-only">Guardar</span>
+                        💾
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div className="pt-2">
+                    <Button className="w-full" variant="outline" asChild>
+                      <a
+                        href={`https://www.google.com/maps/place/?q=place_id:${selectedLead.google_place_id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <MapPin className="mr-2 h-4 w-4 text-red-500" />
+                        Ver Ficha en Google Maps
+                        <ExternalLink className="ml-2 h-3 w-3 opacity-50" />
+                      </a>
                     </Button>
                   </div>
-                </div>
+                </TabsContent>
 
-                <div className="pt-2">
-                  <Button className="w-full" variant="outline" asChild>
-                    <a
-                      href={`https://www.google.com/maps/place/?q=place_id:${selectedLead.google_place_id}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                <TabsContent value="site" className="space-y-4 py-4">
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <label className="text-sm font-semibold flex items-center gap-2">
+                        <FileText className="w-4 h-4 text-primary" />
+                        Información General (Texto Bruto)
+                      </label>
+                      <Textarea
+                        placeholder="Pega aquí toda la información del negocio, servicios, horarios, etc. La IA se encargará del formato..."
+                        value={rawInfo}
+                        onChange={(e) => setRawInfo(e.target.value)}
+                        className="min-h-[150px] text-sm"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <label className="text-sm font-semibold flex items-center gap-2">
+                          <ImageIcon className="w-4 h-4 text-primary" />
+                          Logo Navegación
+                        </label>
+                        <Input type="file" ref={logoNavRef} className="text-xs" accept="image/*" />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-sm font-semibold flex items-center gap-2">
+                          <ImageIcon className="w-4 h-4 text-primary" />
+                          Logo Hero
+                        </label>
+                        <Input type="file" ref={logoHeroRef} className="text-xs" accept="image/*" />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-sm font-semibold flex items-center gap-2">
+                          <ImageIcon className="w-4 h-4 text-primary" />
+                          Imagen &quot;About&quot; (Historia)
+                        </label>
+                        <Input type="file" ref={logoAboutRef} className="text-xs" accept="image/*" />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <label className="text-sm font-semibold flex items-center gap-2">
+                          <Palette className="w-4 h-4 text-primary" />
+                          Color Primario
+                        </label>
+                        <div className="flex gap-2">
+                          <Input
+                            type="color"
+                            value={primaryColor}
+                            onChange={(e) => setPrimaryColor(e.target.value)}
+                            className="w-12 h-9 p-1"
+                          />
+                          <Input
+                            value={primaryColor}
+                            onChange={(e) => setPrimaryColor(e.target.value)}
+                            className="flex-1 h-9 font-mono text-xs"
+                          />
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-sm font-semibold flex items-center gap-2">
+                          <Palette className="w-4 h-4 text-primary" />
+                          Color Secundario
+                        </label>
+                        <div className="flex gap-2">
+                          <Input
+                            type="color"
+                            value={secondaryColor}
+                            onChange={(e) => setSecondaryColor(e.target.value)}
+                            className="w-12 h-9 p-1"
+                          />
+                          <Input
+                            value={secondaryColor}
+                            onChange={(e) => setSecondaryColor(e.target.value)}
+                            className="flex-1 h-9 font-mono text-xs"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <Button
+                      className="w-full mt-4"
+                      size="lg"
+                      disabled={isGenerating || !rawInfo}
+                      onClick={handleGenerateSite}
                     >
-                      <MapPin className="mr-2 h-4 w-4 text-red-500" />
-                      Ver Ficha en Google Maps
-                      <ExternalLink className="ml-2 h-3 w-3 opacity-50" />
-                    </a>
-                  </Button>
-                </div>
-              </div>
+                      {isGenerating ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          {generationStep || "Generando..."}
+                        </>
+                      ) : (
+                        <>
+                          <Globe className="mr-2 h-4 w-4" />
+                          Generar y Desplegar Sitio
+                        </>
+                      )}
+                    </Button>
+
+                    {siteGenResult && (
+                      <div ref={resultRef} className={`p-4 rounded-lg border flex flex-col items-center gap-3 text-center ${siteGenResult.success ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
+                        {siteGenResult.success ? (
+                          <>
+                            <div className="text-green-800 font-semibold flex items-center gap-2">
+                              <CheckCircle className="w-5 h-5" /> ¡Rama Creada Exitosamente!
+                            </div>
+                            <p className="text-sm text-green-700">El repositorio ha sido actualizado con la nueva configuración y logos.</p>
+                            <Button variant="outline" size="sm" asChild>
+                              <a href={siteGenResult.url} target="_blank" rel="noopener noreferrer">
+                                Ver en GitHub <ExternalLink className="ml-2 w-4 h-4" />
+                              </a>
+                            </Button>
+                          </>
+                        ) : (
+                          <>
+                            <div className="text-red-800 font-semibold">Error en la Generación</div>
+                            <p className="text-sm text-red-700 font-mono mb-2">
+                              {siteGenResult.error?.includes("429") || siteGenResult.error?.toLowerCase().includes("quota")
+                                ? "Límite de la IA alcanzado. Por favor, espera 20-30 segundos y vuelve a intentarlo."
+                                : siteGenResult.error}
+                            </p>
+                            <Button
+                              variant="destructive"
+                              size="sm"
+                              onClick={() => {
+                                setSiteGenResult(null);
+                                handleGenerateSite();
+                              }}
+                            >
+                              Reintentar
+                            </Button>
+                          </>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </TabsContent>
+              </Tabs>
             </>
           )}
         </DialogContent>
